@@ -1,0 +1,787 @@
+
+%%%%%%%%%%%%%%%%%%%%%%% file typeinst.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is the LaTeX source for the instructions to authors using
+% the LaTeX document class 'llncs.cls' for contributions to
+% the Lecture Notes in Computer Sciences series.
+% http://www.springer.com/lncs       Springer Heidelberg 2006/05/04
+%
+% It may be used as a template for your own input - copy it
+% to a new file with a new name and use it as the basis
+% for your article.
+%
+% NB: the document class 'llncs' has its own and detailed documentation, see
+% ftp://ftp.springer.de/data/pubftp/pub/tex/latex/llncs/latex2e/llncsdoc.pdf
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[10pt]{llncs}
+%runningheads
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{url}
+\urldef{\mailsa}\path|{alfred.hofmann, ursula.barth, ingrid.haas, frank.holzwarth,|
+\urldef{\mailsb}\path|anna.kramer, leonie.kunz, christine.reiss, nicole.sator,|
+\urldef{\mailsc}\path|erika.siebert-cole, peter.strasser, lncs}@springer.com|
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+\newcommand{\ra}{{\lfloor n/2\rfloor}}
+\newcommand{\nra}{{\lfloor \frac{n}{2}\rfloor}}
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\newcommand{\argsup}{\operatornamewithlimits{arg\,sup}}
+\begin{document}
+
+\mainmatter  % start of an individual contribution
+
+
+
+
+
+
+
+\title{Generalization Analysis for Multi-Class Classification: Local Rademacher Complexity and Fast Rate}
+\author{}
+\institute{}
+
+\maketitle
+\section{Appendix A}
+To prove Theorem \ref{Lemma-empRad} in the main file, we first introduce the following two lemmas.
+\begin{lemma}
+\label{hatRLlemma}
+Suppose that $\mathcal{L}$ is defined in equation \textbf{(2)},
+then we have
+%Suppose that the hypothesis space $\mathcal{H}_{p,\kappa}$ is defined by
+% \begin{align*}
+%  \left\{ h_\mathbf{w}=\left(\langle \mathbf w_1,\phi(\mathbf x)\rangle,\ldots, \langle\mathbf w_K,\phi(\mathbf x)\rangle\right):
+%   \left\|\mathbf  w \right\|_{2,p}\leq 1
+%   \right\}
+% \end{align*}
+% and
+% \begin{align*}
+%  \mathcal{L}=\left\{\ell_h:=\ell(\rho_h(z)):h\in\mathcal{H}_{p,\kappa}\right\},
+%\end{align*}
+%we have
+\begin{align*}
+  \hat{\mathcal{R}}(\mathcal{L})\leq\frac{\sqrt{2\pi}}{n}\mathbb{E}_{\mathbf g}\sup_{h=(h_1,\ldots,h_K)
+  \in\mathcal{H}_{p,\kappa}}\sum_{i=1}^n\sum_{j=1}^Kg_{(j-1)n+i}h_j(\mathbf x_i),
+\end{align*}
+ where $g_1,\ldots,g_{nK}$ are  independent $N(0,1)$ random variables.
+\end{lemma}
+\begin{proof}
+The empirical Gaussian complexities of $\mathcal{H}_{p,\kappa}$ is denote as
+\begin{align*}
+  \hat{\mathcal{G}}(\mathcal{H}_{p,\kappa})=\mathbb{E}_{\bm g}\left[\sup_{h\in \mathcal{H}_{p,\kappa}}\frac{1}{n}\sum_{i=1}^ng_{i}h(\mathbf x_i)\right],
+\end{align*}
+where $g_1,\ldots, g_n$ are independent $N(0,1)$ random variables.
+For any $\gamma>0$, let  $\rho_{\gamma,h}(\mathbf x,y)$ be
+  \begin{align*}
+    \rho_{\gamma,h}(\mathbf x,y)&=h(\mathbf x,y)-\max_{y'\in\mathcal{Y}}[h(\mathbf x,y')-\gamma1_{y'=y}]\\
+    &=\min_{y'\in\mathcal{Y}}[h(\mathbf x,y)-h(\mathbf x,y')+\gamma1_{y'=y}].
+  \end{align*}
+  It is easy to checked that $\rho_{\gamma,h}(\mathbf x,y)=\min(\rho_h(\mathbf x,y),\gamma)$.
+  For the fixed parameter $\gamma=c_\ell$, we observe that $\rho_{\gamma,h}(\mathbf x,y)=\min(\rho_h(\mathbf x,y),c_\ell)$.
+  If $\rho_h(\mathbf x,y)>c_\ell$,
+  we get
+  \begin{align*}
+    \ell(\rho_{\gamma,h}(\mathbf x,y))=\ell(c_\ell)=0=\ell(\rho_h(\mathbf x,y)).
+  \end{align*}
+  Thus, we have $\rho_{\gamma,h}(\mathbf x,y)=\rho_h(\mathbf x,y)$.
+  Therefore, for any $z=(\mathbf x,y)\in\mathcal{Z}$ we have $\ell(\rho_{\gamma,h}(\mathbf x,y))=\ell(\rho_h(\mathbf x,y))$,
+  and
+  \begin{align*}
+    \mathcal{L}_\gamma:=\{\rho_{\gamma,h}(\mathbf x,y):h\in\mathcal{H}_{p,\kappa}\}=\mathcal{L}.
+  \end{align*}
+  Thus,  $\mathcal{L}_\gamma$ satisfies the following inequality:
+  \begin{align*}
+    &\hat{\mathcal{R}}(\mathcal{L})=\hat{\mathcal{R}}(\mathcal{L}_\gamma)\\&=\frac{1}{n}\mathbb{E}_{\bm \sigma}
+        \sum_{i=1}^n\sigma_i\left(h(\mathbf x_i,y_i)-\max_{y\in\mathcal{Y}}(h(\mathbf x_i,y_i)-\gamma 1_{y=y_i})\right)\\
+    &\leq\frac{1}{n}\mathbb{E}_{\bm \sigma}\sup_{h\in\mathcal{H}_{p,\kappa}}\left[\sum_{i=1}^n\sigma_ih(\mathbf x_i,y_i)\right]+
+    \frac{1}{n}\mathbb{E}_{\bm \sigma}\left[\sup_{h\in\mathcal{H}_{p,\kappa}}\sum_{i=1}^n\sigma_i\max_{y\in Y}(h(\mathbf x_i,y_i)-\gamma 1_{y=y_i})\right]\\
+    &=\hat{\mathcal{R}}(\mathcal{H}_{p,\kappa})+\mathbb{E}_{\bm \sigma}\left[\sup_{h\in\mathcal{H}_{p,\kappa}}\frac{1}{n}\sum_{i=1}^n\sigma_i\max_{y\in Y}(h(\mathbf x_i,y_i)-\gamma 1_{y=y_i})\right]
+   % &\leq \sqrt{\frac{\pi}{2}}\hat{\mathcal{G}}(\mathcal{L})+\\
+   % &~~\frac{1}{n}\sqrt{\frac{\pi}{2}}\underbrace{\mathbb{E}_{\bm g}\left[g_i\max(h_1(\mathbf x_i)-\gamma 1_{y_i=1},\ldots,h_c(\mathbf x_i)-\gamma 1_{y_i=c})\right]}_{:=A_1}.
+  \end{align*}
+  From \cite{ledoux2013probability}, we know that
+  \begin{align*}
+    \hat{\mathcal{R}}(\mathcal{H}_{p,\kappa})\leq \sqrt{\frac{\pi}{2}}\hat{\mathcal{G}}(\mathcal{H}_{p,\kappa}).
+  \end{align*}
+  According to the Lemma 4 of \cite{lei2015multi}, we have
+  \begin{align*}
+    \hat{\mathcal{G}}(\mathcal{H}_{p,\kappa})
+    \leq \frac{1}{n}\mathbb{E}_{\bm g}\sup_{h=(h_1,\ldots,h_K)\in H}\sum_{i=1}^n\sum_{j=1}^Kg_{(j-1)n+i}h_j(\mathbf x_i)
+  \end{align*}
+  Thus, we have
+  \begin{align*}
+    &\hat{\mathcal{R}}(\mathcal{L}) \leq \frac{1}{n}\sqrt{\frac{\pi}{2}}\mathbb{E}_{\bm g}\sup_{h=(h_1,\ldots,h_K)\in H}\sum_{i=1}^n\sum_{j=1}^Kg_{(j-1)n+i}h_j(\mathbf x_i)+\\
+    &~~~~~\frac{1}{n}\sqrt{\frac{\pi}{2}}\underbrace{\mathbb{E}_{\bm g}\left[g_i\max(h_1(\mathbf x_i)-\gamma 1_{y_i=1},\ldots,h_c(\mathbf x_i)-\gamma 1_{y_i=c})\right]}_{:=A_3}.
+  \end{align*}
+ % According to the Lemma 4 of \cite{lei2015multi},
+%  %for all $h=(h_1,\ldots,h_K)$,
+%  \begin{align*}
+%    &\hat{G}\left(\max\{h_1,\ldots,h_c\}:h=(h_1,\ldots,h_K)\right)\\&\leq \frac{1}{n}\mathbb{E}_{\bm g}\sup_{h=(h_1,\ldots,h_K)\in H}\sum_{i=1}^n\sum_{j=1}^Kg_{(j-1)n+i}h_j(\mathbf x_i)
+%  \end{align*}
+In the next, we bound $A_3$:
+  \begin{align*}
+    A_3&\leq\mathbb{E}_{\bm g}\sup_{h=(h_1,\ldots,h_K)\in \mathcal{H}_{p,\kappa}}\sum_{i=1}^n\sum_{j=1}^Kg_{(j-1)n+i}\left(h_j(\mathbf x_i)-\gamma 1_{y_i=c}\right)\\
+       &=\mathbb{E}_{\bm g}\sup_{h=(h_1,\ldots,h_K)\in \mathcal{H}_{p,\kappa}}\sum_{i=1}^n\sum_{j=1}^Kg_{(j-1)n+i}\left(h_j(\mathbf x_i)\right)
+       -\underbrace{\mathbb{E}_{\bm g}\sum_{i=1}^n\sum_{j=1}^Kg_{(j-1)n+i}\gamma 1_{y_i=j}}_{=0}\\
+       &=\mathbb{E}_{\bm g}\sup_{h=(h_1,\ldots,h_K)\in \mathcal{H}_{p,\kappa}}\sum_{i=1}^n\sum_{j=1}^Kg_{(j-1)n+i}\left(h_j(\mathbf x_i)\right).
+  \end{align*}
+  With this inequality, we immediately derive the following bound on $\hat{\mathcal{R}}(\mathcal{L})$:
+  \begin{align*}
+    \hat{\mathcal{R}}(\mathcal{L})\leq \frac{\sqrt{2\pi}}{n}\mathbb{E}_{\mathbf g}\sup_{h=(h_1,\ldots,h_K)
+  \in\mathcal{H}}\sum_{i=1}^n\sum_{j=1}^Kg_{(j-1)n+i}h_j(\mathbf x_i).
+  \end{align*}
+  \end{proof}
+
+\begin{lemma}
+  \label{lemma-3e}
+  Let $g$ be $N(0,1)$ distributed. For any $p>0$, the $p$-th moment of $g$ can be bounded by
+  \begin{align}
+  \label{Eqp}
+    \left[\mathbb{E}|g|^p\right]^{\frac{1}{p}}\leq (2p)^{\frac{1}{2}+\frac{1}{p}}.
+  \end{align}
+\end{lemma}
+\begin{proof}
+  %In the next, we will bound $\left[\mathbb{E}_{g_1}|g_1|^{q^\ast}\right]^{\frac{1}{q^\ast}}$.
+  Let $\Gamma(n)=(n-1)!$ be the Gamma function.
+  The $p$-th moment of a $N(0,1)$ distributed random variable can be exactly expressed via Gamma function \cite{winkelbauer2012moments}:
+  \begin{align*}
+    \left[\mathbb{E}_{g}|g|^{p}\right]^{\frac{1}{p}}&=\frac{2^{\frac{p}{2}}}{\sqrt{\pi}}\Gamma\left(\frac{p+1}{2}\right)
+    %&\leq \frac{2^{\frac{p}{2}}}{\sqrt{\pi}}\Gamma\left(\left\lceil\frac{p+1}{2}\right\rceil\right)
+    \leq \frac{2^{\frac{p}{2}}}{\sqrt{\pi}}\left\lceil\frac{p-1}{2}\right\rceil!.
+    %&\overset{\text{\cite{robbins1955remark}}}{\leq}
+%     \frac{2^{\frac{q^\ast}{2}}}{\sqrt{\pi}}\sqrt{2\pi}\left\lceil\frac{p-1}{2}\right\rceil^{\left\lceil\frac{p-1}{2}\right\rceil!+\frac{1}{2}}
+  \end{align*}
+  According to the Stirling's approximation in \cite{robbins1955remark},
+  we can obtain that
+  \begin{align*}
+    \left[\mathbb{E}_{g}|g|^{p}\right]^{\frac{1}{p}}
+    &\leq \frac{2^{\frac{p}{2}}}{\sqrt{\pi}}\left\lceil\frac{p-1}{2}\right\rceil!\\
+    &\overset{\text{Stirling's approximation}}{\leq} \frac{2^{\frac{p}{2}}}{\sqrt{\pi}}\sqrt{2\pi}\left\lceil\frac{p-1}{2}\right\rceil^{\left\lceil\frac{p-1}{2}\right\rceil!+\frac{1}{2}}\\
+    &\leq (2p)^{\frac{p}{2}+1}.
+  \end{align*}
+\end{proof}
+
+\begin{theorem}
+  \label{Lemma-empRad}
+Suppose that $\mathcal{L}$ is defined in equation \textbf{(2)} in the main file,
+then we have
+  \begin{align*}
+    \hat{\mathcal{R}}(\mathcal{L})\leq \frac{\sqrt{\vartheta}}{\sqrt{n}}\times
+      \left\{
+      \begin{aligned}
+      &\sqrt{e}(4\log K)^{1+\frac{1}{2\log K}}, &&\text{if } p^\ast\geq 2\log K,\\
+      &(2p^\ast)^{1+\frac{1}{p^\ast}}K^{\frac{1}{p^\ast}}, &&\text{otherwise.}
+      \end{aligned}
+      \right.
+  \end{align*}
+\end{theorem}
+\begin{proof}
+From Lemma \ref{hatRLlemma}, we know that
+$\hat{\mathcal{R}}(\mathcal{L})\leq $
+\begin{align}
+\label{eq-middle-mi}
+  \frac{\sqrt{2\pi}}{n}\underbrace{\mathbb{E}_{\mathbf g}\sup_{h=(h_1,\ldots,h_K)
+  \in\mathcal{H}_{p,\kappa}}\sum_{i=1}^n\sum_{j=1}^Kg_{(j-1)n+i}h_j(\mathbf x_i)}_{:=A_1},
+\end{align}
+  where $g_1,\ldots,g_{nK}$ are  independent $N(0,1)$ random variables.
+  In the next, we will bound $A_1$.
+  To this end,
+ we denote by $\|\cdot\|_\ast$ dual norm of $\|\cdot\|$, i.e.,
+$$\|w\|_\ast:=\sup_{\| w'\|\leq 1}\langle w, w'\rangle.$$
+For a convex function $f$, we denote by $f^\ast$ its Fenchel
+conjugate, i.e., $$f^\ast(\nu):=\sup_{w}\left[\langle w,\nu\rangle-f(w)\right].$$
+  From Corollary 4 in \cite{Theodoros2000regularization}, we know that,
+  if $f$ is $\eta$-strongly convex w.r.t $\|\cdot\|$ and $f^\ast(\mathbf 0)=0$, then for any sequence
+  $\nu_1,\ldots,\nu_n$ and for any $\mu$ we have
+  \begin{align*}
+   % \label{lemmab2}
+    \sum_{i=1}^n\langle \nu_i,\mu\rangle -f(\mu) \leq
+    \sum_{i=1}^n\langle \nabla f^\ast(\nu_{i:i-1}),\nu\rangle +\frac{1}{2\eta}\sum_{i=1}^n\|\nu_i\|_\ast^2,
+  \end{align*}
+  where $\nu_{1:i}$ denotes the sum $\sum_{j=1}^i\nu_j$.
+  Let $q$ be any number satisfying $p\leq q\leq 2$.
+  Introduce the function $f_q(\mathbf w)=\frac{1}{2}\|\mathbf w\|_{2,q}^2$.
+  It is easy to verify that
+  \begin{align*}
+    f_q(\mathbf w)=\frac{1}{2}\|\mathbf w\|_{2,q}^2\leq\frac{1}{2}\|\mathbf w\|_{2,p}^2\leq  \frac{1}{2}.
+  \end{align*}
+  Since  $f_q(\mathbf w)$ is $\frac{1}{q^\ast}$-strongly convex w.r.t  $\|\cdot\|_{2,q^\ast}$.
+  Let
+  \begin{align*}
+    &\nu_i= (g_i\phi(\mathbf x_i),g_{n+i}\phi(\mathbf x_i),\ldots, g_{(K-1)n+i}\phi(\mathbf x_i)),\\
+    &\mu=(\mathbf w_1,\ldots,\mathbf w_K),
+  \end{align*}
+  we can  obtain that
+  \begin{align*}
+    &\lambda\sup_{h\in \mathcal{H}_{q,\kappa}}\sum_{i=1}^n\sum_{j=1}^cg_{(j-1)n+i}\langle \mathbf w_j, \phi(\mathbf x_i)\rangle\\
+    &=\sup_{h\in\mathcal{H}_{q,\kappa}}\sum_{i=1}^n\langle(\mathbf w_1,\ldots,\mathbf w_K),\lambda\nu_i\rangle\\
+    &\leq \sup_{h\in\mathcal{H}_{q,\kappa}} f_q(\mathbf w)+\sum_{i=1}^n\langle f^\ast(\nu_{1:i-1}),\lambda\nu_i\rangle\\&~~~~+\sum_{i=1}^n\frac{q^\ast\lambda^2}{2}\|\nu_i\|_{2,q^\ast}^2.
+  \end{align*}
+  Taking expectation on both sides w.r.t. $g_1,\ldots,g_{nK}$,
+  we can obtain that
+  \begin{align*}
+    &\mathbb{E}_{\bm g}\sup_{h\in\mathcal{H}_{q,\kappa}}\sum_{i=1}^n\sum_{j=1}^Kg_{(j-1)n+i}\langle \mathbf w_j, \phi(\mathbf x_i)\rangle\\
+    \nonumber
+    &\leq\frac{1}{2\lambda}+\underbrace{\mathbb{E}_{\bm g}\sum_{i=1}^n\langle f^\ast(\nu_{1:i-1}),\nu_i\rangle}_{=0}+
+    \sum_{i=1}^n\frac{q^\ast\lambda}{2}\|\nu_i\|_{2,q^\ast}^2\\
+    &=\frac{1}{2\lambda}+\frac{q^\ast\lambda}{2}\sum_{i=1}^n\|\nu_i\|_{2,q^\ast}^2.
+    %\frac{q^\ast\lambda}{2}\underbrace{\sum_{i=1}^n\mathbb{E}_{\bm g}\|(g_i\phi(\mathbf x_i),g_{n+i}\phi(\mathbf x_i),\ldots, g_{(K-1)n+i}\phi(\mathbf x_i))\|_{2,q^\ast}^2}_{:=B}.
+  \end{align*}
+  Choosing  $\lambda=\frac{1}{\sqrt{q^\ast\sum_{i=1}^n\|\nu_i\|_{2,q^\ast}^2}}$,
+  the above inequality translates to
+  \begin{align}
+   \label{eq-mid-he}
+  \nonumber
+    &\mathbb{E}_{\bm g}\sup_{h\in\mathcal{H}_{q,\kappa}}\sum_{i=1}^n\sum_{j=1}^Kg_{(j-1)n+i}\langle \mathbf w_j, \phi(\mathbf x_i)\rangle\\
+    \nonumber
+    &\leq \sqrt{q^\ast\sum_{i=1}^n\|\nu_i\|_{2,q^\ast}^2}\\
+    &\leq \sqrt{q^\ast\underbrace{\sum_{i=1}^n\mathbb{E}_{\bm g}\|(g_i\phi(\mathbf x_i),\ldots, g_{(K-1)n+i}\phi(\mathbf x_i))\|_{2,q^\ast}^2}_{:=A_2}}.
+  \end{align}
+  %Let $A_2:=\sum_{i=1}^n\mathbb{E}_{\bm g}\|(g_i\phi(\mathbf x_i),g_{n+i}\phi(\mathbf x_i),\ldots, g_{(K-1)n+i}\phi(\mathbf x_i))\|_{2,q^\ast}^2$.
+  In the next, we bound $A_2$:
+  \begin{align*}
+    A_2&=\sum_{i=1}^n\mathbb{E}_{\bm g}\left[\sum_{j=1}^K\|g_{(j-1)n+i}\phi(\mathbf x_i)\|_2^{q^\ast}\right]^{\frac{2}{q^\ast}}\\
+    &=\sum_{i=1}^n\mathbb{E}_{\bm g}\left[\sum_{j=1}^K|g_{(j-1)n+i}|^{q^\ast}\right]^{\frac{2}{q^\ast}}k(\mathbf x_i,\mathbf x_i)\\
+    &\overset{\text{symmetry}}{=}\mathbb{E}_{\bm g}\left[\sum_{j=1}^K|g_{j}|^{q^\ast}\right]^{\frac{2}{q^\ast}}\sum_{i=1}^nk(\mathbf x_i,\mathbf x_i)\\
+    &\overset{\text{Jensen's Inequality}}{\leq}
+    \left[\mathbb{E}_{\bm g} \sum_{j=1}^K|g_{j}|^{q^\ast}\right]^{\frac{2}{q^\ast}}\sum_{i=1}^nk(\mathbf x_i,\mathbf x_i)\\
+    &=\left[K\mathbb{E}_{g_1}|g_1|^{q^\ast}\right]^{\frac{2}{q^\ast}}\sum_{i=1}^nk(\mathbf x_i,\mathbf x_i)\\
+    &\leq K^{\frac{2}{q^\ast}}\left[\mathbb{E}_{g_1}|g_1|^{q^\ast}\right]^{\frac{2}{q^\ast}}n\vartheta.
+  \end{align*}
+  Substituting the above inequality in \textbf{(10)}, we have
+  \begin{align*}
+    &\mathbb{E}_{\bm g}\sup_{h\in \mathcal{H}_{q,\kappa}}\sum_{i=1}^n\sum_{j=1}^Kg_{(j-1)n+i}\langle \mathbf w_j,\lambda \phi(\mathbf x_i)\rangle\\
+    &\leq  K^{\frac{1}{q^\ast}}\sqrt{q^\ast}\left[\mathbb{E}_{g_1}|g_1|^{q^\ast}\right]^\frac{1}{q^\ast}\sqrt{n\vartheta}.
+  \end{align*}
+  From the trivial inequality $\|\mathbf w\|_{2,p}\geq \|\mathbf w\|_{2,q}$,
+  we know that $\mathcal{H}_{p,\kappa}\subset \mathcal{H}_{q,\kappa}$.
+  Combining the above  equation and \textbf{(9)},
+  we have
+  \begin{align*}
+    \hat{\mathcal{R}}(\mathcal{L})\leq\inf_{p\leq q\leq 2}\frac{\sqrt{2\vartheta\pi}}{\sqrt{n}} K^{\frac{1}{q^\ast}}\sqrt{q^\ast}
+    \left[\mathbb{E}_{g_1}|g_1|^{q^\ast}\right]^\frac{1}{q^\ast}.
+  \end{align*}
+  It can be directly checked that the function $t\rightarrow \sqrt{t}c^{1/t}$ is decreasing along the interval $(0,2\log K)$
+  and increasing along the interval $(2\log K,\infty)$.
+  Therefore, if $p^\ast\geq 2\log K$,
+  \begin{align}
+  \label{eq-hai}
+    \nonumber\hat{\mathcal{R}}(\mathcal{L})&\leq \frac{\sqrt{2\vartheta\pi}}{\sqrt{n}} K^{\frac{1}{2\log K }}\sqrt{2\log K}
+     \left[\mathbb{E}_{g_1}|g_1|^{2\log K}\right]^\frac{1}{2\log K}\\
+     \nonumber &\overset{\text{Lemma \ref{lemma-3e}}}\leq \frac{\sqrt{2\vartheta\pi}}{\sqrt{n}} K^{\frac{1}{2\log K }}\sqrt{2\log K}(4\log K)^{\frac{1}{2}+\frac{1}{\log K}}\\
+     &\leq \frac{\sqrt{e\vartheta\pi}}{\sqrt{n}}(\log 4K)^{1+\frac{1}{2\log K}}.
+  \end{align}
+  If $0<p^\ast\leq 2\log K$,
+  we have
+  \begin{align}
+  \label{eq-haihello}
+    \nonumber \hat{\mathcal{R}}(\mathcal{L})&\leq \frac{\sqrt{2\vartheta\pi}}{\sqrt{n}} K^{\frac{1}{p^\ast}}\sqrt{p^\ast}
+    \left[\mathbb{E}_{g_1}|g_1|^{p^\ast}\right]^\frac{1}{p^\ast}\\
+    &\overset{\text{Lemma \ref{lemma-3e}}}\leq \frac{\sqrt{\vartheta\pi}}{\sqrt{n}} K^{\frac{1}{p^\ast}}(2p^\ast)^{1+\frac{1}{p^\ast}}.
+  \end{align}
+  Combining \eqref{eq-hai} and \eqref{eq-haihello} completes the proof.
+\end{proof}
+
+\section{Appendix B}
+To prove Theorem \ref{the-fixedpoint} in the main file, we first introduce the following two lemmas (the proofs are given in the supplementary material).
+\begin{lemma}
+\label{the-ori-bound}
+   Let $\bar{\mathcal{L}}$ be the normalized loss space
+  \begin{align}
+    \label{eq-ell-r}
+    \bar{\mathcal{L}}=\left\{
+        \frac{r}{\max(L(\ell_h^2),r)}\ell_h\Big| \ell_h\in \mathcal{L}
+    \right\}.
+  \end{align}
+   Suppose that $\forall k>1$,
+   \begin{align*}
+     \hat{U}_n({\bar{\mathcal{L}}})
+     :=\sup_{\bar{\ell}_h\in\bar{\mathcal{L}}}\left\{L(\bar{\ell}_h)-\hat{L}(\bar{\ell}_h)\right\}
+     \leq \frac{r}{Mk}.
+   \end{align*}
+   Then, $\forall h\in\mathcal{H}_{p,\kappa}$, we have
+   \begin{align*}
+     L(\ell_h)&\leq \max\left\{
+        \left(\frac{k}{k-1}\hat{L}(\ell_h)
+        \right),
+        \left(\hat{L}(\ell_h)+\frac{r}{Mk}
+        \right)
+     \right\}.
+   \end{align*}
+\end{lemma}
+\begin{proof}
+  Note that, $\forall \bar{\ell}_h\in{\bar{\mathcal{L}}}$:
+  \begin{align}
+    \label{eq-proof-lr-hatlr}
+    L(\bar{\ell}_h)\leq \hat{L}_{n}(\bar{\ell}_h)
+    +\hat{U}_n({\bar{\mathcal{L}}})\leq \hat{L}_n(\bar{\ell}_h)+\frac{r}{Mk}.
+  \end{align}
+  Let us consider the two cases:
+  \begin{itemize}
+    \item[1)] $L(\ell_h^2)\leq r$, $\ell_h\in\mathcal{L}$.
+    \item[2)] $L(\ell_h^2)>r$, $\ell_h\in\mathcal{L}$.
+  \end{itemize}
+  In the first case $\bar{\ell}_h=\ell_h$,
+  by \eqref{eq-proof-lr-hatlr},
+  we have
+  \begin{align}
+    \label{eq-Lell-bound}
+    L(\ell_h)=L(\bar{\ell}_h)\leq \hat{L}_n(\bar{\ell}_h)+\frac{r}{Mk}
+    =\hat{L}(\ell_h)+\frac{r}{Mk}.
+  \end{align}
+  In the second case, $\bar{\ell}_h=\frac{r}{L(\ell_h^2)}\ell_h$,
+  then
+  \begin{align}
+    \label{eq-Lell-plus-hatl}
+    \begin{aligned}
+    L(\ell_h)-\hat{L}(\ell_h)
+    \leq \hat{U}_n(\mathcal{L})
+    =\frac{L(\ell_h^2)}{r}\hat{U}_n(\bar{\mathcal{L}})
+    \leq\frac{M\cdot L(\ell_h)}{r}\frac{r}{Mk}=\frac{L(\ell_h)}{k}.
+    \end{aligned}
+  \end{align}
+  %Note that $L(\ell_h)\equiv L(\ell_f)$ and $\hat{L}(\ell_h)\equiv\hat{L}_n(\ell_f)$.
+  By combining the results of Eqs \eqref{eq-Lell-bound} and \eqref{eq-Lell-plus-hatl},
+  the proof is over.
+\end{proof}
+
+\begin{lemma}
+\label{lem-lrs-subset-lr}
+  Suppose that $\bar{\mathcal{L}}$ is defined in Equation \textbf{(13)},
+  and $\mathcal{L}^r$ is defined in Equation \textbf{(3)},
+  then
+  \begin{align*}
+    \bar{\mathcal{L}}\subseteq \mathcal{L}^r.
+  \end{align*}
+\end{lemma}
+\begin{proof}
+  Let us consider $\mathcal{L}^r$ in the two cases:
+  \begin{itemize}
+    \item[1)] $L(\ell_h^2)\leq r$, $\ell_h\in\mathcal{L}$.
+    \item[2)] $L(\ell_h^2)>r$, $\ell_h\in\mathcal{L}$.
+  \end{itemize}
+  In the first case, $\bar{\ell}_h=\ell_h$ and then:
+  \begin{align*}
+    L(\ell_h^2)=L(\bar{\ell}_h^2)\leq r.
+  \end{align*}
+  In the second case, $L(\ell_h^2)>r$, so we have that
+  \begin{align*}
+    \bar{\ell}_h=
+    \left[\frac{r}{L(\ell_h^2)}\right]\ell_h, \frac{r}{L(\ell_h^2)}\leq 1,
+  \end{align*}
+  and the following bound holds:
+  \begin{align*}
+    L(\bar{\ell}_h^2)= \left[\frac{r}{L(\ell_h^2)}
+    \right]^2L(\ell_h^2)\leq \left[\frac{r}{L(\ell_h^2)}
+    \right]L(\ell_h^2)= r.
+  \end{align*}
+  Thus, the lemma is proved.
+\end{proof}
+
+\begin{theorem}
+\label{the-fixedpoint}
+Let us consider a sub-root function $\psi(r)$, with fixed point $r^\ast$,
+and suppose that $\forall r>r^\ast$,
+  \begin{align}
+  \label{Randpsi}
+    \mathcal{R}(\mathcal{L}^r)\leq \psi(r).
+  \end{align}
+  Then, $\forall h\in\mathcal{H}_{p,\kappa}$ and $\forall k>\max(1,\frac{\sqrt{2}}{2M})$, with probability
+  $1-\delta$, we have,
+  \begin{align*}
+   L(\ell_h)&\leq \max\left\{
+        \frac{k}{k-1}\hat{L}(\ell_h),
+       \hat{L}(\ell_h)+c_Mr^\ast+\frac{c_{\delta}}{n}
+     \right\},
+\end{align*}
+where $c_M=18Mk, c_{\delta}=\frac{(12k+14)\log(1/\delta)}{3}$
+\end{theorem}
+\begin{proof}
+  From the Theorem 2.1 of \cite{Bartlett2005lrc},
+  we have
+  \begin{align*}
+    \hat{U}(\bar{\mathcal{L}})&=\sup_{\bar{\ell}_h\in\bar{\mathcal{L}}}\left\{L(\bar{\ell}_h)-\hat{L}(\bar{\ell}_h)\right\}\\
+    &\leq \inf_{\alpha>0}\Big(2(1+\alpha)\mathcal{R}(\bar{\mathcal{L}})+
+    \sqrt{\frac{2r\log(1/\delta)}{n}}\\&~~~~~+M\left(\frac{1}{3}+\frac{1}{\alpha}\right)\frac{\log(1/\delta)}{n}\Big)\\
+    &\overset{\text{Lemma }\ref{lem-lrs-subset-lr}}{\leq}
+    \inf_{\alpha>0}\Big(2(1+\alpha)\mathcal{R}(\mathcal{L}^r)+
+    \sqrt{\frac{2r\log(1/\delta)}{n}}\\&~~~~~+M\left(\frac{1}{3}+\frac{1}{\alpha}\right)\frac{\log(1/\delta)}{n}\Big)\\
+    &\overset{\eqref{Randpsi}, \text{ set $\alpha=\frac{1}{2}$}}{\leq} 3\psi(r)+\sqrt{\frac{2r\log(1/\delta)}{n}}+\frac{7M\log(1/\delta)}{3n}\\
+    &\overset{\text{sub-root}}{\leq} 3\sqrt{rr^\ast}+\sqrt{\frac{2r\log(1/\delta)}{n}}+\frac{7M\log(1/\delta)}{3n}.
+  \end{align*}
+  The next step of the proof consists in showing that $r$ can be chosen,
+  such that $\hat{U}(\bar{\mathcal{L}})\leq \frac{r}{Mk}$ and $r\geq r^\ast$,
+  so that we can exploit Lemma \ref{the-ori-bound}
+  and conclude the proof.
+  For this purpose,
+we set
+\begin{align*}
+  A=3\sqrt{r^\ast}+\sqrt{\frac{2\log(1/\delta)}{n}},
+  B= \frac{7M\log(1/\delta)}{3n}.
+\end{align*}
+Thus, we have to find the solution of
+\begin{align*}
+  A\sqrt{r}+B=\frac{r}{Mk},
+\end{align*}
+which is
+\begin{align}
+\label{eq-solution-of-r}
+  r=\frac{\left[
+  \left(
+    \frac{2B}{kM}+A^2
+    \right)+
+    \sqrt{\left(
+    \frac{2B}{kM}+A^2
+    \right)^2-\frac{4B^2}{M^2k^2}}
+  \right]}
+  {\frac{2}{M^2k^2}}.
+\end{align}
+Since $k\geq \max(1,\frac{\sqrt{2}}{2M})$,
+$k^2M^2\geq \frac{1}{2}$.
+Therefore, from \eqref{eq-solution-of-r}, we have
+\begin{align*}
+  r\geq A^2M^2k^2\geq \frac{A^2}{2}= r^\ast,
+  r\leq A^2M^2k^2+2BMk.
+\end{align*}
+Thus, we have
+\begin{align*}
+ \frac{r}{Mk}&\leq A^2Mk+2B \\
+ &=\Big(3\sqrt{r^\ast}+\sqrt{{2\log(1/\delta)}/{n}}\Big)^2Mk+\frac{14M\log(1/\delta)}{3n}.
+\end{align*}
+Note that, $\forall a,b>0$, $(a+b)^2\leq 2a^2+2b^2$,
+so we have that
+\begin{align*}
+  \frac{r}{Mk}&\leq 18Mkr^\ast+\frac{(12k+14)\log(1/\delta)}{3n}
+\end{align*}
+By substituting the above inequality
+ into Lemma \ref{the-ori-bound},
+the proof is over.
+  %Note that $\sqrt{ab}\leq \frac{a}{2}+\frac{b}{2}$,
+%  we get
+%  \begin{align*}
+%    \hat{U}(\bar{\mathcal{L}})\leq
+%  \end{align*}
+\end{proof}
+
+\section{Appendix C}
+\begin{lemma}
+  \label{lem-sub-root-Rademacher}
+  $
+    \psi(r)=\mathcal{R}(\mathcal{L}^r)
+  $
+  is a sub-root function.
+\end{lemma}
+\begin{proof}
+  In order to prove this lemma, we can show the following:
+    1) $\psi_n(r)$ is positive;
+    2) $\psi_n(r)$ is non-decrasing;
+    3) $\psi_n(r)/\sqrt{r}$ is non-increasing.
+
+  By the definition of $\mathcal{R}(\mathcal{L}^r)$,
+  it is easy to verity that $\mathcal{R}(\mathcal{L}^r)$ is positive.
+
+  Concerning the second property, we have that, for $0\leq r_1\leq r_2$:
+  $
+    \mathcal{L}^{r_1}\subseteq \mathcal{L}^{r_2},
+  $
+  therefore
+  \begin{align*}
+    \psi(r_1)&=\mathbb{E}_{\mathcal{S},\bm \sigma}
+      \left[\sup_{\ell_h\in\mathcal{L}^{r_1}}\frac{2}{n}
+      \sum_{i=1}^{n}\sigma_i\ell_h(z_i)
+          \right]\\
+    &\leq \mathbb{E}_{\mathcal{S},\bm \sigma}
+      \left[\sup_{\ell_h\in\mathcal{L}^{r_2}}\frac{2}{n}
+      \sum_{i=1}^{n}\sigma_i\ell_h(z_i)
+          \right]=\psi(r_2).
+  \end{align*}
+  Finally, concerning the third property,
+  for $0\leq r_1\leq r_2$,
+  let
+  \begin{align*}
+    \ell_{h^{r_2}}
+    =\argsup_{\ell_h\in\mathcal{L}^{r_2}}
+    \mathbb{E}_{\mathcal{S},\bm \sigma}
+      \left[\sup_{\ell_h\in\mathcal{L}^{r_2}}\frac{2}{n}
+      \sum_{i=1}^{n}\sigma_i\ell_h(z_i)
+          \right].
+  \end{align*}
+  Note that, since $\frac{r_1}{r_2}\leq 1$,
+  we have that $\sqrt{\frac{r_1}{r_2}}\ell_{h^{r_2}}\in \mathcal{L}^{r_2}$.
+  Consequently:
+  $
+    L\left[
+    \left(\sqrt{\frac{r_1}{r_2}}\ell_{h^{r_2}}\right)\right]^2
+    =\frac{r_1}{r_2}L\left[(\ell_{h^{r_2}})^2\right]\leq r_1.
+  $
+  Thus, we have that:
+  \begin{align*}
+    \psi(r_1)&=\mathbb{E}_{\mathcal{S},\bm \sigma}
+      \left[\sup_{\ell_h\in\mathcal{L}^{r_1}}\frac{2}{n}
+      \sum_{i=1}^{n}\sigma_i\ell_h(z_i)
+          \right]\\
+    &\geq \mathbb{E}_{\mathcal{S},\bm \sigma}\left[
+    \frac{2}{n}
+      \sum_{i=1}^{n}
+      \sigma_i\sqrt{\frac{r_1}{r_2}}\ell_{h^{r_2}}(z_i)\right]
+  \\
+    &=\sqrt{\frac{r_1}{r_2}}\mathbb{E}_{\mathcal{S},\bm \sigma}
+      \left[\sup_{\ell_h\in\mathcal{L}^{r_2}}\frac{2}{n}
+      \sum_{i=1}^{n}\sigma_i\ell_h(z_i)
+          \right]
+    =\sqrt{\frac{r_1}{r_2}}\psi(r_2),
+  \end{align*}
+  which allows proving the claim since
+  $
+    \frac{\psi(r_2)}{\sqrt{r_2}}
+    \leq \frac{\psi(r_1)}{\sqrt{r_1}}.
+  $
+\end{proof}
+\section{Appendix D}
+\begin{lemma}
+For $\ell_1$-regularization, there is a scalar minimization problem
+  \begin{align*}
+    \min\limits_{\mathbf{w} \in \mathbf{R}} \mathbf{\eta}_t\mathbf{w}+\mathbf{\lambda}_t|\mathbf{w}|+\frac{\mathbf{\gamma}_t}{2}\mathbf{w}^2,
+  \end{align*}
+And an optimal solution $\mathbf{w}^\ast$ can be summarized as
+  \begin{align*}
+    \mathbf{w}^\ast=\left\{
+        \begin{aligned}
+        &\mathbf{0}  &if |\mathbf{\eta}_t| \leq \mathbf{\lambda}_t,\\
+        &-\frac{1}{\mathbf{\gamma}_t}(\mathbf{\eta}_t-\mathbf{\lambda}_t sgn(\mathbf{\eta}_t)) &\textrm{otherwise}.
+        \end{aligned}
+    \right.
+  \end{align*}
+\end{lemma}
+\begin{proof}
+The minimization problem is an unconstrained nonsmooth optimization problem. Its optimality condition(Rockafellar, 1970, Section 27) states that $\mathbf{w}^\ast$ is an optimal solution if and only if there exists $\xi \in \partial|\mathbf{w}^\ast|$ such that
+\begin{align*}
+    \mathbf{\eta}_t+\mathbf{\lambda}_t\xi+\mathbf{\gamma}_t\mathbf{w}^\ast=0.
+\end{align*}
+There are more discussions in Appendix A of (Xiao, 2003). Finally, we can get the closed-form for $\ell_1$-regularization.
+\end{proof}
+
+\begin{lemma}
+  \label{inverse-mapping}
+  Let $p \in (1,2]$ and $q=p/(p-1)$, and define the mapping $\upsilon:\Omega \to \Omega^\ast$ with
+  \begin{align*}
+    \nu_i(\mathbf{w})=\nabla_i\Big(\frac{1}{2}\|\mathbf{w}\|_p^2\Big)=\frac{sng(\mathbf{w}_i)|\mathbf{w}_i|^{p-1}}{\|\mathbf{w}\|_p^{p-2}}, i=1,\ldots,n,
+  \end{align*}
+and the inverse mapping $\upsilon^{-1}:\Omega^\ast \to \Omega$ with
+  \begin{align*}
+    \nu_i(\mathbf{\zeta}^{-1})=\nabla_i\Big(\frac{1}{2}\|\mathbf{\zeta}\|_q^2\Big)=\frac{sng(\mathbf{\zeta}_i)|\mathbf{\zeta}_i|^{q-1}}{\|\mathbf{\zeta}\|_q^{q-2}}, i=1,\ldots,n,
+  \end{align*}
+\end{lemma}
+These mapping are often called {\em link functions} in machine learning(e.g., Gentile, 2003).
+
+%\subsection*{Proof of the Lemma 5}
+%\begin{proof}
+%  In order to prove the lemma, the following properties mush apply:
+%  \begin{itemize}
+%    \item[1)] $\psi_n(r)$ is positive
+%    \item[2)] $\psi_n(r)$ is non-decrasing
+%    \item[3)] $\psi_n(r)/\sqrt{r}$ is non-increasing
+%  \end{itemize}
+%  By the definition of $R_n(\mathcal{L}^r)$,
+%  it is easy to verity that $R_n(\mathcal{L}^r)$ is positive.
+%
+%  Concerning the second property, we have that, for $0\leq r_1\leq r_2$:
+%  $
+%    \mathcal{L}^{r_1}\subseteq \mathcal{L}^{r_2},
+%  $
+%  therefore
+%  \begin{align*}
+%    \psi_n(r_1)&=\mathbb{E}_{\mathcal{S},\bm \sigma}
+%      \left[\sup_{\ell_h\in\mathcal{L}^{r_1}}\left|\frac{2}{n}
+%      \sum_{i=1}^{n}\sigma_i\ell_h(z_i)\right|
+%          \right]\\
+%    &\leq \mathbb{E}_{\mathcal{S},\bm \sigma}
+%      \left[\sup_{\ell_h\in\mathcal{L}^{r_2}}\left|\frac{2}{n}
+%      \sum_{i=1}^{n}\sigma_i\ell_h(z_i)\right|
+%          \right]
+%    \\&=\psi_n(r_2).
+%  \end{align*}
+%  Finally, concerning the third property,
+%  for $0\leq r_1\leq r_2$,
+%  let
+%  \begin{align*}
+%    \ell_{h^{r_2}}
+%    =\argsup_{\ell_h\in\mathcal{L}^{r_2}}
+%    \mathbb{E}_{S,\bm \sigma}
+%      \left[\sup_{\ell_h\in\mathcal{L}^{r_2}}\left|\frac{2}{n}
+%      \sum_{i=1}^{n}\sigma_i\ell_h(z_i)\right|
+%          \right].
+%  \end{align*}
+%  Note that, since $\frac{r_1}{r_2}\leq 1$,
+%  we have that $\sqrt{\frac{r_1}{r_2}}\ell_{h^{r_2}}\in \mathcal{L}^{r_2}$.
+%  Consequently:
+%  \begin{align*}
+%    L\left[
+%    \left(\sqrt{\frac{r_1}{r_2}}\ell_{h^{r_2}}\right)\right]^2
+%    =\frac{r_1}{r_2}L\left[(\ell_{h^{r_2}})^2\right]\leq r_1.
+%  \end{align*}
+%  Thus, we have that:
+%  \begin{align*}
+%    \psi_n(r_1)&=\mathbb{E}_{S,\bm \sigma}
+%      \left[\sup_{\ell_h\in\mathcal{L}^{r_1}}\left|\frac{2}{n}
+%      \sum_{i=1}^{n}\sigma_i\ell_h(z_i)\right|
+%          \right]\\
+%    &\geq \mathbb{E}_{S,\bm \sigma}\left[\left|
+%    \frac{2}{n}
+%      \sum_{i=1}^{n}
+%      \sigma_i\sqrt{\frac{r_1}{r_2}}\ell(h^{r_2},z_i,z_{n+i})\right|\right]
+%  \\
+%    &=\sqrt{\frac{r_1}{r_2}}\mathbb{E}_{S,\bm \sigma}
+%      \left[\sup_{\ell_h\in\mathcal{L}^{r_2}}\left|\frac{2}{n}
+%      \sum_{i=1}^{n}\sigma_i\ell_h(z_i)\right|
+%          \right]\\
+%    &=\sqrt{\frac{r_1}{r_2}}\psi_n(r_2),
+%  \end{align*}
+%  which allows proving the claim since
+%  \begin{align*}
+%    \frac{\psi_n(r_2)}{\sqrt{r_2}}
+%    \leq \frac{\psi_n(r_1)}{\sqrt{r_1}}.
+%  \end{align*}
+%\end{proof}
+%
+%\section*{Appendix B}
+%
+%
+%
+%\begin{lemma}
+%\label{RLrbound}
+%  For a non-negative $L$-smooth loss $\ell$,
+%  with probability $1-\delta$,
+%  we have
+%  \begin{align*}
+%    \mathcal{R}(\mathcal{L}^r)\leq 42\sqrt{6Lr}\log^{\frac{3}{2}}(64n)\hat{\mathcal{R}}(\mathcal{L})+\frac{2\log(1/\delta)}{n}.
+%  \end{align*}
+%\end{lemma}
+%\begin{proof}
+%  According to the Lemma 3.6 of \cite{oneto2013improved},
+%  with $1-\delta$, we get
+%  \begin{align*}
+%    \mathcal{R}(\mathcal{L}^r)\leq \hat{\mathcal{R}}(\mathcal{L}^r)+\sqrt{\frac{2\log(1/\delta)\mathcal{R}(\mathcal{L}^r)}{n}}.
+%  \end{align*}
+%  Note that $\sqrt{ab}\leq \frac{a}{2}+\frac{b}{2}$.
+%  Thus, we can obtain that
+%  \begin{align*}
+%    \mathcal{R}(\mathcal{L}^r)\leq \hat{\mathcal{R}}(\mathcal{L}^r)+\frac{\mathcal{R}(\mathcal{L}^r)}{2}+\frac{\log(1/\delta)}{n}.
+%  \end{align*}
+%  So, we get
+%  \begin{align}
+%  \label{eqRhatR}
+%    \mathcal{R}(\mathcal{L}^r)\leq 2\hat{\mathcal{R}}(\mathcal{L}^r)+\frac{2\log(1/\delta)}{n}
+%  \end{align}
+%  From the Lemma 2.2 of \cite{Srebro2010lrc},
+%  if $\ell$ is a $H$-smooth loss function,
+%  then we have
+%  \begin{align}
+%   \label{RlocalR}
+%    \hat{\mathcal{R}}(\mathcal{L}^r)\leq 21\sqrt{6Hr}\log^{\frac{3}{2}}(64n)R(\mathcal{H}).
+%  \end{align}
+%  Substitute  the equation \eqref{RlocalR} into \eqref{eqRhatR},
+%  the proof is over.
+%\end{proof}
+%
+%
+%
+%
+%
+%\begin{lemma}
+%  The fixed point $r^\ast$ of $\mathcal{R}(\mathcal{L}^r)$ is bound by
+%  \begin{align*}
+%    r^\ast\leq c\log^3(64n)\hat{\mathcal{R}}(\mathcal{L})^2+\frac{4\log(1/\delta)}{n},
+%  \end{align*}
+%  where $c=(42\sqrt{6L})^2$.
+%\end{lemma}
+%\begin{proof}
+%  According to Lemma \ref{RLrbound},
+%  we get
+%  \begin{align*}
+%     \mathcal{R}(\mathcal{L}^r)\leq 42\sqrt{6Lr}\log^{\frac{3}{2}}(64n)\hat{\mathcal{R}}(\mathcal{L})+\frac{2\log(1/\delta)}{n}.
+%  \end{align*}
+%   Let $c_1=42\sqrt{6L}\log^{\frac{3}{2}}(64n)$, $c_2=\frac{2\log(1/\delta)}{n}$.
+%   Thus, the fixed point $r^\ast$ is the solution of
+%   \begin{align*}
+%     c_1\hat{\mathcal{R}}(\mathcal{L})\sqrt{r}+c_2=r,
+%   \end{align*}
+%   which is
+%   \begin{align*}
+%     r^\ast&=\frac{2c_2+c_1^2\hat{\mathcal{R}}(\mathcal{L})^2+\sqrt{(2c_2+c_1^2\hat{\mathcal{R}}(\mathcal{L})^2)^2-4c_2^2}}{2}\\
+%     &\leq 2c_2+c_1^2\hat{\mathcal{R}}(\mathcal{L})^2=c_1^2\hat{\mathcal{R}}(\mathcal{L})^2+\frac{4\log(1/\delta)}{n}.
+%   \end{align*}
+%  %So the fixed point $r^\ast$ of $\mathcal{R}(\mathcal{L}^r)$ is smaller than the max root of
+%%  \begin{align*}
+%%    42\sqrt{6Lr}\log^{\frac{3}{2}}(64n)\hat{\mathcal{R}}(\mathcal{L})+\frac{2\log(1/\delta)}{n}=r.
+%%  \end{align*}
+%\end{proof}
+%
+%
+%
+
+
+
+
+
+%\bibliographystyle{named}
+%\bibliography{AAAI2018}
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\bibitem{Bartlett2005lrc}
+Peter~L. Bartlett, Olivier Bousquet, and Shahar Mendelson.
+\newblock Local {R}ademacher complexities.
+\newblock {\em The Annals of Statistics}, 33(4):1497--1537, 2005.
+
+\bibitem{Theodoros2000regularization}
+Theodoros Evgeniou, Massimiliano Pontil, and Tomaso Poggio.
+\newblock Regularization networks and {S}upport {V}ector {M}achines.
+\newblock {\em Advances in Computational Mathematics}, 13:1--50, 2000.
+
+\bibitem{ledoux2013probability}
+Michel Ledoux and Michel Talagrand.
+\newblock {\em Probability in Banach Spaces: isoperimetry and processes}.
+\newblock Springer Science \& Business Media, 2013.
+
+\bibitem{lei2015multi}
+Yunwen Lei, Urun Doganand~Alexander Binder, and Marius Kloft.
+\newblock Multi-class svms: From tighter data-dependent generalization bounds
+  to novel algorithms.
+\newblock In {\em Advances in Neural Information Processing Systems 27}, pages
+  2035--2043, 2015.
+
+\bibitem{robbins1955remark}
+Herbert Robbins.
+\newblock A remark on stirling's formula.
+\newblock {\em The American Mathematical Monthly}, 62(1):26--29, 1955.
+
+\bibitem{winkelbauer2012moments}
+Andreas Winkelbauer.
+\newblock Moments and absolute moments of the normal distribution.
+\newblock {\em arXiv preprint arXiv:1209.4340}, 2012.
+
+\bibitem{Xiao10}
+Lin Xiao.
+\newblock Dual Averaging Methods for Regularized Stochastic Learning and Online Optimization.
+\newblock {\em Journal of Machine Learning Research}, 11:2543--2596, 2010.
+
+\bibitem{Gentile03a}
+Claudio Gentile.
+\newblock The Robustness of the p-Norm Algorithms.
+\newblock {\em Machine Learning}, 53(3):265--299, 2003.
+
+
+\end{thebibliography}
+
+
+\end{document}
