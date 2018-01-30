@@ -1,5 +1,6 @@
 tmp/
 mycache/
+workshop/
 .*
 !.gitignore
 paper/*
