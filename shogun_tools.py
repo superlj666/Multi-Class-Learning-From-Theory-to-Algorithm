@@ -210,7 +210,7 @@ if __name__=='__main__':
     epsilon=1e-5
     mkl_epsilon=0.001
     test_size=0.2
-    width=8
+    width=pow(2,-8)
     num_threads=32
     mkl_norm=1
 

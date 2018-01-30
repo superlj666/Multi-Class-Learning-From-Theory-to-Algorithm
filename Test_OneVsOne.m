@@ -5,8 +5,8 @@ close all
 % datasets={'segment','vehicle','vowel','wine','dna','glass','iris', 'svmguide2','svmguide4','satimage'};
 % size_arr=[2310,846,528,178,2000,214,150,391,300,4435];
 
-datasets={'wine'};
-size_arr=[178];
+datasets={'satimage'};
+size_arr=[4435];
 all_results=zeros(30, length(datasets));
 for j=1:length(datasets)
     [kernel_name, best_para]=choose_kernel(char(datasets(j)))
@@ -19,7 +19,6 @@ for j=1:length(datasets)
     train_part=0.8;
     
     rand('state', 0);
-    performance_c=zeros(30,1);
     for i=1:30
         rand_arr = randperm(sample_n);
         

@@ -25,8 +25,8 @@ if strcmp(mode, 'dc')
     
     [value, loc]=max(C_accuracy);    
     
-    best_para(end+1)=C_list(int64(loc/length(C_list)));
-    best_para(end+1)=C_list(mod(loc, length(C_list)));
+    best_para(end+1)=C_list(fix(loc/length(C_list))+1);
+    best_para(end+1)=gamma_list(mod(loc-1, length(gamma_list))+1);
 else
     C_list = cell2mat(paralist(1));
     C_accuracy = [];
