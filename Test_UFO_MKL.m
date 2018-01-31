@@ -6,8 +6,8 @@ folds=5;
 % datasets={'psortPos', 'vehicle','glass','dna', 'svmguide2'};
 % size_arr=[541,846,214,2000,391];
 
-datasets={'wine'};
-size_arr=[178];
+datasets={'satimage'};
+size_arr=[4435];
 C_list=2.^(-2:1:12);
 
 all_results=zeros(rounds, length(datasets));
