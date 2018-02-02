@@ -25,7 +25,9 @@
 % If your build breaks (sometimes temporarily if a hyperlink spans a page)
 % please comment out the following usepackage line and replace
 % \usepackage{icml2018} with \usepackage[nohyperref]{icml2018} above.
-\usepackage{hyperref}
+
+\usepackage[nohyperref]{icml2018}
+%\usepackage{hyperref}
 
 % Attempt to make hyperref and algorithmic work together better:
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
@@ -38,7 +40,7 @@
 
 % The \icmltitle you define below is probably too long as a header.
 % Therefore, a short form for the running title is supplied here:
-\icmltitlerunning{Multi-Class Classification: Fast Rate and Algorithms}
+\icmltitlerunning{Multi-Class Kernel Learning: Fast Rate and Algorithms}
 
 \begin{document}
 
@@ -67,23 +69,24 @@
 %\printAffiliationsAndNotice{\icmlEqualContribution} % otherwise use the standard text.
 
 \begin{abstract}
+
     The study on generalization performance of multi-class
-    classification algorithms is a fundamental issue in statistical learning theory.
+    classification algorithms is one of the fundamental issues in statistical learning theory.
     %Several generalization bounds have been proposed based on different measures,
 %    but the convergence rates of the existing bounds are usually at most $\mathcal{O}\big(\frac{K^2}{\sqrt{n}}\big)$,
 %    where $K$ and $n$ are the number of classes and size of the sample, respectively.
     In this paper, we study the generalization performance of multi-class classification
     based on the notion of local Rademacher complexity and obtain a data-dependent
     generalization error bound with convergence rate $\mathcal{O}\big(\frac{(\log K)^{2+{1}/{\log K}}}{n}\big)$,
-    substantially improving the state-of-art linear dependence in the existing data-dependent generalization analysis,
+    substantially improving the state-of-art bounds in the existing data-dependent generalization analysis,
     where $K$ and $n$ are the number of classes and size of the sample, respectively.
     The theoretical analysis motivates us to
-    devise two effective multi-kernel multi-class algorithms
-    with statical guarantees and fast convergence rate.
-    %Experimental results on lots of benchmark data sets show that our proposed methods can significantly
-%    outperform the existing multi-class classification methods.
-    Theoretical analysis and empirical results demonstrate that the proposed multi-kernel multi-class
-    classification algorithms outperforms the state-of-the-art multi-class kernel learning methods.
+    devise two effective multi-class kernel learning algorithms
+    with statistical guarantees and fast convergence rate.
+    Experimental results show that our proposed methods can significantly outperform
+    the existing multi-class classification methods.
+    Theoretical analysis and empirical results demonstrate that our
+    local Rademacher complexity based multi-class kernel learning methods are sound and effective.
     %a convex optimization way based on any existing MC-MKL algorithms, and another one that add local Rademancher complexity in optimization formulation for which we give a stochastic sub-gradient descent method in detail
 \end{abstract}
 
@@ -114,20 +117,20 @@ where $K$ and $n$ are the number of classes and size of the sample, respectively
 
 
 
-In this paper, we  study the generalization performance of multi-class classification,
-and derive a novel data-dependent generalization bound via the notion of local Rademacher complexity.
+In this paper, we derive a novel data-dependent generalization bound for multi-class classification
+via the notion of local Rademacher complexity and
+further devise two effective multi-class kernel learning algorithms based on the above theoretical analysis.
 The rate of this bound is $\mathcal{O}\big(\frac{(\log K)^{2+{1}/{\log K}}}{n}\big)$,
 which substantially improves on  the existing data-dependent generalization bounds.
-Moreover, we create two new multi-kernel multi-class classification algorithms
-with statical guarantees and fast convergence rate.
-Experimental results on lots of benchmark data sets show that our proposed methods can significantly
+Moreover, the proposed multi-class kernel learning algorithms have statistic guarantees and fast convergence rate.
+Experimental results on benchmark datasets show that our proposed methods can significantly
 outperform the existing multi-class classification methods.
 The major contributions of this paper include:
- 1): A new local Rademacher complexity-based bound of fast convergence rate for multi-class classification is established;
- 2): Two novel algorithms are proposed with convergence guarantee: a convex optimization way based on
- any existing MC-MKL algorithms,
+ 1) A new local Rademacher complexity-based bound of fast convergence rate for multi-class classification is established;
+ 2) Two novel algorithms are proposed with convergence guarantee: a convex optimization way based on
+ any existing multi-class kernel learning algorithms,
  and another one that add local Rademancher complexity in optimization formulation
- for which we give a stochastic sub-gradient descent method;
+ for which we give a stochastic sub-gradient descent method.
 
 
 %The rest of the paper is organized as follows.
@@ -144,12 +147,12 @@ The major contributions of this paper include:
 
 \section{Related Work}
 In this section,
-we  introduce  the related work:
+we  introduce related works:
 multi-class classification bounds,
-local Rademacher complexity and kernel-based multi-class classification.
+local Rademacher complexity and multi-class kernel learning classification.
 
 \subsection{Multi-Class Classification Bounds}
- Rademacher complexity, VC-dimension, and covering number are  three
+ Rademacher complexity, VC-dimension, and covering number are three
  popular tools to derive generalization bounds for multi-class classification:
 
 \textbf{Rademacher Complexities Bounds.}
@@ -172,7 +175,7 @@ local Rademacher complexity and kernel-based multi-class classification.
     to obtain a sharper bound, which  substantially improves on
     the existing Rademacher complexity bounds.
 
-    \textbf{VC-dimension Bounds.}
+\textbf{VC-dimension Bounds.}
     Allwein, Schapire, and Singer \yrcite{allwein2000reducing}  used the notion of VC-dimension
     for multi-class learning problems,
     and derived a VC-dimension based bound.
@@ -186,7 +189,7 @@ local Rademacher complexity and kernel-based multi-class classification.
     dependent, which makes them hardly applicable for practical large
     scale problems (such as typical computer vision problems).
 
-   \textbf{Covering Number  Bounds.}
+\textbf{Covering Number  Bounds.}
     Based on the $\ell_\infty$-norm covering number bound of
     linear operators, Guermeur \yrcite{guermeur2002combining} obtained
     a generalization bound exhibiting a linear dependence on the class size,
@@ -225,7 +228,7 @@ we bridge this gap by deriving a sharper generalization bound using local Radema
 %binary classification for multi-class classification.
 \subsection{Multi-Class Kernel Learning Algorithms}
 Improvements in multi-class classification has emerged as one of success stories in Multiple Kernel Learning \cite{ZienO2007}
-in which a one-stage multi-class MKL algorithm is presented as a generalization of multi-class loss function \cite{CrammerS02,TsochantaridisHJA04}.
+in which a one-stage multi-class MKL algorithm was presented as a generalization of multi-class loss function \cite{CrammerS02,TsochantaridisHJA04}.
 And Orabona designed stochastic gradient methods, named
 OBSCURE \cite{OrabonaJC10} and
 UFO-MKL \cite{OrabonaL11}, which optimize primal versions of equivalent problems.
@@ -243,7 +246,7 @@ of size $n$ drawn i.i.d. from a fixed,
 but unknown probability distribution $\mu$ on $\mathcal{Z}=\mathcal{X}\times\mathcal{Y}$.
 Based on the training examples $\mathcal{S}$,
 we wish to learn a scoring rule $h$ from a space $\mathcal{H}$ mapping from $\mathcal{Z}$ to $\mathbb{R}$
-and use the mapping $\mathbf x\rightarrow \argmax_{y\in\mathcal{Y}} h(\mathbf x,y)$ to predict.
+and use the mapping $$\mathbf x\rightarrow \argmax_{y\in\mathcal{Y}} h(\mathbf x,y)$$ to predict.
 For any hypothesis $h\in\mathcal{H}$,
 the margin of a labeled example $z=(\mathbf x,y)$ is defined as
 \begin{align*}
@@ -274,7 +277,7 @@ Any function $h:\mathcal{X}\times\mathcal{Y}\rightarrow \mathbb{R}$ can be equiv
 $(h_1,\ldots,h_K)$ with $h_j(\mathbf x)=h(\mathbf x,j)$, $\forall j=1,\ldots,K$.
 Let $\kappa:\mathcal{X}\times\mathcal{X}\rightarrow\mathbb{R}$ be a Mercer kernel with $\phi$ being the associated feature map,
 i.e., $\kappa(\mathbf x,\mathbf x')=\langle \phi(\mathbf x),\phi(\mathbf x')\rangle$.
-In this paper, we consider the following $\ell_p$-norm hypothesis space associated with the kernel $\kappa$:
+The $\ell_p$-norm hypothesis space associated with the kernel $\kappa$ is denoted by:
  \begin{align}
  \label{hypothspapce}
    \begin{aligned}
@@ -286,7 +289,7 @@ In this paper, we consider the following $\ell_p$-norm hypothesis space associat
  where $\mathbf w=(\mathbf w_1,\ldots,\mathbf w_K)$ and $\|\mathbf w\|_{2,p}=\left[\sum_{i=1}^K\|\mathbf x_i\|_2^p\right]^{\frac{1}{p}}$
  is the $\ell_{2,p}$-norm.
  For any $p\geq 1$, let $p^\ast$ be the dual exponent of $p$ satisfying $\frac{1}{p}+\frac{1}{p^\ast}=1$.
- Note that,  $\forall 1\leq p\leq 2$, we have $p^\ast\geq 2$.
+% Note that,  $\forall 1\leq p\leq 2$, we have $p^\ast\geq 2$.
 
 The space of loss function associated with $\mathcal{H}_{p,\kappa}$  is denoted by
 \begin{align}
@@ -358,7 +361,7 @@ Then the empirical Rademacher complexity of $\mathcal{L}$ is:
     \end{align*}
 \end{definition}
 %Rademacher complexity is the most powerful tool to get generalization bounds for multi-class classification, currently.
-Generalization bounds based on the Rademacher complexity for multi-class classification
+Generalization bounds based on the notion of Rademacher complexity for multi-class classification
 are standard \cite{koltchinskii2002empirical,koltchinskii2001some,mohri2012foundations}:
 with probability $1-\delta$,
 \begin{align*}
@@ -710,38 +713,32 @@ ability of multi-class classification.
 
 \section{Multi-Class Multiple Kernel Learning}
 Motivated by the above analysis of generalization bound and convergence rate for multi-class classification, we will exploit properties of the local Rademacher complexity
-to devise two algorithms for multi-class Multiple Kernel Learning (MC-MKL).
-\subsection{Motivation and anlysis}
-As we know, there is a standard way to learn binary classification problems,
-in which the prediction of $\mathbf x$ is the scalar product between an hyperplane $\mathbf w$ and the transformed sample $\phi(\mathbf x)$,
-corresponding kernel $k(\mathbf x, \mathbf x')$ defined as $\phi(\mathbf x) \cdot \phi(\mathbf x')$.
-For multiple kernels, $k_\mu=\sum_{m=1}^M \mu_mk_m$ is a non-negative linear combination of $M$ kernels \cite{BachLJ04}.
-A common approach to multiclass classification is the use of joint feature
-maps $\phi(\mathbf x, y):\mathcal X \times \mathcal Y \to \mathcal H$ \cite{TsochantaridisHJA04}.
-For kernels learning, we have $M$ feature mappings $\phi_m(\cdot,\cdot)$,
-$m=1,\ldots,M$ and $M$ kernels
-$$k_m((\mathbf x, y),(\mathbf x', y'))=\phi_m(\mathbf x, y) \cdot \phi_m(\mathbf x', y').$$
-For each class, the above definition give $M$ different hyperplanes, respectively. In fact, $\phi_m(\mathbf x, y)$ can be defined as
-\begin{align*}
-   \phi_m(\mathbf x, y)=[\mathbf 0,\ldots, \mathbf 0,\underbrace{\phi'_m(\mathbf x)}_{y},\mathbf 0,\ldots,\mathbf 0],
-\end{align*}
-where $\phi_m(\cdot, \cdot)$ contains $K$ vectors in $\mathcal{H}$ space, only the $y$-th vector not being zero.
-And $\phi'_m(\cdot)$ is a feature mapping that only depends on data.
-According to the defined notation, $\phi(\mathbf x, y)=[\phi_1(\mathbf x, y),\ldots, \phi_M(\mathbf x, y)]$.
-So, the $\ell_{2,p}$-norm of $\mathbf{w}$ can be defined as $\|\mathbf w\|_{2,p}=\|[\|\mathbf{w}_1\|_2,\|\mathbf{w}_2\|_2,\ldots,\|\mathbf{w}_M\|_2]\|_p$. The dual norm of $\|\cdot\|_{2,p}$ is $\|\cdot\|_{2,q}$, where $1/p+1/q=1$ \cite{kakade2009duality}.
+to devise two algorithms for multi-class multiple kernel learning (MC-MKL).
+%\subsection{Motivation and Anlysis}
+%As we know, there is a standard way to learn binary classification problems,
+%in which the prediction of $\mathbf x$ is the scalar product between an hyperplane $\mathbf w$ and the transformed sample $\phi(\mathbf x)$,
+%corresponding kernel $k(\mathbf x, \mathbf x')$ defined as $\phi(\mathbf x) \cdot \phi(\mathbf x')$.
 
-Using multiple kernels, we can modify the $\mathcal{H}_{p,\kappa}$ as
+In this paper, we consider the use of multiple kernels,
+$$\kappa_\mu=\sum_{m=1}^M \mu_m\kappa_m.$$
+A common approach to multiclass classification is the use of joint feature
+maps $\phi(\mathbf x):\mathcal X \to \mathcal H$ \cite{TsochantaridisHJA04}.
+For multiple kernel learning, we have $M$ feature mappings $\phi_m$, and
+$$\kappa_m(\mathbf x,\mathbf x')=\langle \phi_m(\mathbf x), \phi_m(\mathbf x')\rangle, m=1,\ldots,M$$
+Let $\phi_{\bm \mu}(\mathbf x)=[\phi_1(\mathbf x),\ldots,\phi_M(\mathbf x)]$.
+%So, the $\ell_{2,p}$-norm of $\mathbf{w}$ can be defined as $\|\mathbf w\|_{2,p}=\|[\|\mathbf{w}_1\|_2,\|\mathbf{w}_2\|_2,\ldots,\|\mathbf{w}_M\|_2]\|_p$. The dual norm of $\|\cdot\|_{2,p}$ is $\|\cdot\|_{2,q}$, where $1/p+1/q=1$ \cite{kakade2009duality}.
+Using multiple kernels, the $\ell_p$ hypothesis space can be written as:
  \begin{align*}
  \label{hypothspapcemkl}
    \begin{aligned}
-   \mathcal{H}_{mkl}=\Big\{h_{\mathbf{w},k_\mu}&=\left(\langle \mathbf w_1,\phi(\mathbf x,1)\rangle,\ldots, \langle\mathbf w_K,\phi(\mathbf x, K)\rangle\right),\\
+   \mathcal{H}_{mkl}=\Big\{h_{\mathbf{w},\kappa_\mu}&=\left(\langle \mathbf w_1,\phi_{\bm \mu}(\mathbf x)\rangle,\ldots, \langle\mathbf w_K,\phi_{\bm \mu}(\mathbf x)\rangle\right),\\
    \left\|\mathbf  w \right\|_{2,p}&\leq 1, 1\leq p\leq 2
   \Big\}.
    \end{aligned}
  \end{align*}
- Note that the tail sum is the difference between the trace and
- the $\theta$ largest eigenvalues:$\sum_{j>\theta}\lambda_j(\mathbf{K})=\mathrm{Tr}(\mathbf{K})-\sum_{j=1}^\theta\lambda_j(\mathbf{K})$,
- thus the tail sum can be calculated in $O(n^2\theta)$ for each kernel.
+ %Note that the tail sum is the difference between the trace and
+% the $\theta$ largest eigenvalues:$\sum_{j>\theta}\lambda_j(\mathbf{K})=\mathrm{Tr}(\mathbf{K})-\sum_{j=1}^\theta\lambda_j(\mathbf{K})$,
+% thus the tail sum can be calculated in $O(n^2\theta)$ for each kernel.
 \subsection{COV-MKL}
 The trace of kernel matrix $\mathbf{K}_\mu$ can be the upper-bound of the global Rademacher complexity of $\mathcal{H}_{mkl}$.
 The trace of kernel matrix $\mathbf{K}_\mu$ can be the upper-bound of the global Rademacher complexity of $\mathcal{H}_{mkl}$. Existing works on learning kernels \cite{LanckrietCBGJ02,BachLJ04,SonnenburgRSS06} use the following constraint to $\mathcal{H}_{mkl}$:
@@ -752,10 +749,15 @@ According the above theoretical analysis, the local Rademancher complexity(the t
 \end{align}
 where $\mathbf{K}_\mu=\sum_{m=1}^M \mu_m \mathbf{K}_m$,
 $\theta$ is free parameter removing the $\theta$ largest eigenvalues to control the tail sum.
-Note that $\mathcal{H}_{1}$ is not convex, and we know that:
+Note that the tail sum is the difference between the trace and
+the $\theta$ largest eigenvalues: $\sum_{j>\theta}\lambda_j(\mathbf{K})=\mathrm{Tr}(\mathbf{K})-\sum_{j=1}^\theta\lambda_j(\mathbf{K})$,
+thus the tail sum can be calculated in $O(n^2\theta)$ for each kernel.
+
+One can see that $\mathcal{H}_{1}$ is not convex, and we know that:
 \begin{align*}
     \begin{aligned}
-        \sum_{m=1}^M\mu_m\sum_{j>\theta}\lambda_{j}(\mathbf{K}_m) & =\sum_{m=1}^M\mu_m/\|\mathbf{\mu}\|_1 \sum_{j>\theta}\lambda_{j}(\|\mathbf{\mu}\|_1\mathbf{K}_m)\\
+        \sum_{m=1}^M\mu_m\sum_{j>\theta}\lambda_{j}(\mathbf{K}_m)
+        & =\sum_{m=1}^M\mu_m/\|\mathbf{\mu}\|_1 \sum_{j>\theta}\lambda_{j}(\|\mathbf{\mu}\|_1\mathbf{K}_m)\\
         & \leq \sum_{j>\theta} \lambda_j\big(\mathbf{K}_\mu\big).
     \end{aligned}
 \end{align*}
@@ -764,7 +766,16 @@ Thus, we consider the use of the convex $\mathcal{H}_2$ replace of $\mathcal{H}_
     \mathcal{H}_{2}=\Big\{f_{\mathbf{w}, k_\mu} \in \mathcal{H}_{mkl}:
     \sum_{m=1}^M\mu_m\sum_{j>\theta}\lambda_{j}(\mathbf{K}_m) \leq 1\Big\}.
 \end{align}
-Based on the convex class $\mathcal{H}_2$, we can design a simpler algorithm in which precomputed kernel matrices
+Note that by a renormalization of the kernels $\kappa_1,\ldots,\kappa_M$,
+according to $\tilde{\kappa}_m:=\left(\sum_{j>\theta}\lambda_j(\kappa_m)\right)^{-1}\kappa$
+and $\tilde{\kappa}_{\bm \mu}=\sum_{m=1}^M\mu_m\tilde{\kappa}_m$,
+we can simply rewrite $\mathcal{H}_2$ as
+\begin{align*}
+  \mathcal{H}_{2}=\Big\{&f_{\mathbf{w},\tilde{\kappa}_{\bm \mu}} \in \mathcal{H}_{mkl}:\\
+    &\sum_{m=1}^M\mu_m\sum_{j>\theta}\lambda_{j}(\mathbf{K}_m) \leq 1,\bm \mu\succeq 0,\|\bm \mu\|_1 \leq 1\Big\}.
+\end{align*}
+which is the commonly studied hypothesis class in multi-class multiple kernel learning.
+A simpler algorithm in which precomputed kernel matrices
 are regularized by the local Rademancher complexity respectively seen in Algorithm  \ref{algorithm1}:
 \begin{algorithm}[h]
    \caption{Conv-MKL}
@@ -781,77 +792,77 @@ are regularized by the local Rademancher complexity respectively seen in Algorit
 \end{algorithm}
 
 
-\subsection{MG-MKL}
-According to local Rademancher analysis in Theorem \ref{theorem-finally},
-the local Rademancher complexity leads to a shaper generalization bound.
-Thus, we consider the following optimization:
+\subsection{SMSD-MKL}
+%According to local Rademancher analysis in Theorem \ref{theorem-finally},
+%the local Rademancher complexity leads to a shaper generalization bound.
+In this subsection, we consider a more challenging case.
+We add the local Rademancher complexity in optimization formulation:
 \begin{equation}
 \label{optimization-problem}
-    \min_{\mathbf{w},\bm \mu} \frac{\alpha}{2}\|\mathbf{w}\|_{2,p}^2
-    +\frac{1}{n}\sum_{i=1}^n\ell(\mathbf{w},\phi(\mathbf{x}_i,\cdot), y_i)
-    +\beta\sum_{m=1}^M\mathbf{\mu}_m\mathbf{r}_m
+    \min_{\pmb{w},\bm \mu}
+    \overbrace{\frac{1}{n}\sum_{i=1}^n\ell(\pmb{w},\phi_{\bm \mu}(\mathbf{x}_i), y_i)}^{C(\pmb{w})}
+    +\underbrace{\frac{\alpha}{2}\|\pmb{w}\|_{2,p}^2
+    +\beta\sum_{m=1}^M\mathbf{\mu}_m\mathbf{r}_m}_{\Omega(\pmb{w})}
 \end{equation}
 where
-$\mathbf{r}_m=\sum_{j>\theta}\lambda_j(\mathbf{K}_m), m=1,\ldots, M,$
-$\mathbf{r}_m$ is the tail sum of the $m$-th kernel matrix,
-and the loss funtion
-$$\ell(\mathbf{w},\phi(\mathbf{x}_t,\cdot), y_t)=
-\max\limits_{y \not= u}|1-\mathbf{w} \cdot(\phi(\mathbf{x}_t,y_t)-\phi(\mathbf{x}_t,u))|_+.$$
-In the algorithm, we cope with the non-differentiability of the hinge loss directly by sub-gradients instead of gradients.
+$$\ell(\pmb{w},\phi_{\bm \mu}(\mathbf{x}_i), y_i)=
+\max\limits_{i \not= j}\left|1-\left(\langle\pmb{w}_i, \phi_{\bm \mu}(\mathbf{x}_i\rangle -\langle\pmb{w}_j, \phi_{\bm \mu}(\mathbf{x}_j\rangle\right)\right|_+,$$
+and
+$\mathbf{r}_m=\sum_{j>\theta}\lambda_j(\mathbf{K}_m)$ is the tail sum of the $m$-th kernel matrix,  $m=1,\ldots, M$.
 
-\begin{algorithm}[h]
-   \caption{SG-MKL}
+\begin{algorithm}[t]
+   \caption{SMSD-MKL}
    \label{algorithm2}
     \begin{algorithmic}
        \STATE {\bfseries Input:} $\alpha, \beta, \theta, \mathbf{\mu}, T$
-       \STATE {\bfseries Initialize:} $\mathbf{w}_1=\mathbf{0}, \mathbf{\zeta}_1=\mathbf{0},q=2\log M $
+       \STATE {\bfseries Initialize:} $\pmb{w}^1=\mathbf{0}, \pmb{\theta}^1=\mathbf{0}, \mathbf{\mu}^1=\mathbf{1}, q=2\log M $
        \FOR{$t=1$ {\bfseries to} $T$}
        \STATE Sample at random $(\mathbf{x}^t, y^t)$
-       \STATE Compute the dual weight: $\mathbf{\zeta}^{t+1}=\mathbf{\zeta}^t-\partial{\ell(\xi^t)}$
-       \STATE $\mathbf{v}_m=\|\mathbf{\zeta}_m^{t+1}\|-t\beta\mathbf{r}_m$, $\forall m=1,\ldots, M.$
-       \STATE $\mathbf{w}^{t+1}_m=\frac{\text{sgn}(\mathbf{v}_m) \mathbf{\zeta}_m^{t+1}}{t\alpha\|\mathbf{\zeta}_m^{t+1}\|}
-       \frac{|\mathbf{v}_m|^{q-1}}{\|\mathbf{v}\|_q^{q-2}}$, $\forall m=1,\ldots, M.$
-       \STATE $\mu_m=\frac{\mathbf{w}^{t+1}_m}{\mathbf{\zeta}^{t+1}_m}$, $\forall m=1,\ldots, M.$
+       \STATE Compute the dual weight: $\pmb{\theta}^{t+1}=\pmb{\theta}^t-\partial{C(\pmb{w})}$
+       \STATE $\pmb{v}_m=\|\pmb{\theta}_m^{t+1}\|-t\beta\mathbf{r}_m$, $\forall m=1,\ldots, M.$
+       \STATE $\pmb{\mu}_m=\frac{sgn(\pmb{v}_m)|\pmb{v}_m|^{q-1}}
+       {\alpha\|\pmb{\theta}_m\|\|\pmb{v}_m\|_q^{q-2}}$, $\forall m=1,\ldots, M.$
+       \STATE $\pmb{w}_m=\frac{sgn(\pmb{v}_m)\pmb{\theta}_m|\pmb{v}_m|^{q-1}}
+       {\alpha\|\pmb{\theta}_m\|\|\pmb{v}_m\|_q^{q-2}}$, $\forall m=1,\ldots, M.$
+       %\STATE $\pmb{w}^{t+1}_m=\frac{\text{sgn}(\pmb{v}_m) \pmb{\theta}_m^{t+1}}{t\alpha\|\pmb{\theta}_m^{t+1}\|}
+       %\frac{|\pmb{v}_m|^{q-1}}{\|\pmb{v}\|_q^{q-2}}$, $\forall m=1,\ldots, M.$
+       %\STATE $\mu_m=\frac{\pmb{w}^{t+1}_m}{\pmb{\theta}^{t+1}_m}$, $\forall m=1,\ldots, M.$
        \ENDFOR
     \end{algorithmic}
 \end{algorithm}
-Based on a primal-dual framework for the minimization \cite{Shalev-ShwartzK08, Xiao10,OrabonaL11},
-we design a simple stochastic sub-gradient descent algorithm, called SG-MKL, to minimize \eqref{optimization-problem}.
-As shown in the algorithm \ref{algorithm2}, there are two weights, a primal one $\mathbf{w}$ and a dual one $\mathbf{\zeta}$, to maintain.
-Then we derive the algorithm in following:
-\begin{itemize}
-\item[(1)]The algorithm initializes $q=2\log M$ and $M>2$, thus $p=1/(1-1/q) \in (1,2)$.
-\item[(2)] For every step, the algorithm takes a random sample from train data to update
-    the dual vector $\mathbf{\zeta}^t$ in a subgradient descent step, where $\partial{\ell(\xi^t)}$ is the subgradient to $\mathbf{w}$.
-    Then, the algorithm uses the regularizer and the local Rademancher complexity
-    part to update primal weights $\mathbf{w}$ and kernel coefficient $\mathbf{\mu}$.
-    The calculation of $\mathbf{v}_j$ can make the weight be zero when the norm is less than $\alpha t$,
-    causing sparsity of the solution.
-\item[(3)] Let $\Omega(\mathbf{w})=\frac{\alpha}{2}\|\mathbf{w}\|_{2,p}^2 + \beta\mathbf{\mu} \cdot \mathbf{r}$.
-            Theorem \ref{theorem-fenchel-dual} gives solution of the gradient of the Fenchel dual of $\Omega$.
-            Actually, the algorithm updates real numbers $\|\mathbf{\zeta}_m^{t+1}\|_2$, $\mathbf{v}_m$
-            and $\mathbf{\mu}_m$ in scalar products instand of updating high-dimensional variables $\mathbf{w}$ and $\mathbf{\zeta}$.
- \item[(4)] The first real number $\|\mathbf{\zeta}_m^{t+1}\|_2$ can be calculated in an efficient incremental way as following:
-            \begin{align*}
-                \|\mathbf{\zeta}_m^{t+1}\|
-                =\|\mathbf{\zeta}_m^{t}-z^t\|_2^2
-                =\|\mathbf{\zeta}_m^{t}\|_2^2-2\mathbf{\zeta}_m^t \cdot z^t +\|z^t\|_2^2
-            \end{align*}
-            where $z^t=\partial\ell(\mathbf{w}^t,\phi(\mathbf{x}_t,\cdot), y_t)$.
- \end{itemize}
 
- The following theorem gives calculation of $\nabla\Omega^\ast(\mathbf{\zeta})$.
+%We cope with the non-differentiability of the hinge loss directly by sub-gradients instead of gradients.
+Based on the Stochastic Mirror Descent framework for minimization in \cite{Shalev-ShwartzT11, OrabonaL11},
+  we design a Stochastic Mirror and Sub-gradient Descent lgorithm, called \texttt{SMSD-MKL}, to minimize \eqref{optimization-problem}.
+
+ As in the mirror descent algorithm, the algorithm maintain two weight vectors: primal $\pmb{w}$ and dual $\pmb{\theta}$. Meanwhile, the optimization formulation can be divided into two parts: $C(\pmb{w})$ to update the dual $\pmb{\theta}$ vector and $\Omega(\pmb{w})$ to update the primal vector $\pmb{w}$ by the gradient of the Fenchel dual of $\Omega$. Actually, the algorithm puts the kernel weight $\pmb{\mu}$ aside when updating $\pmb{\theta}$, but $\pmb{\mu}$ is updated together with $\pmb{w}$ according to a tricky link function gaven in Theorem \ref{theorem-fenchel-dual}.
+ %The connection between the two vectors is via a link function $\pmb{\theta}=f(\pmb{w})$, where $f:\mathcal{K}\times\mathcal{M}\times\mathcal{H} \to \mathcal{K}\times\mathcal{M}\times\mathcal{H}$. Function $\Omega$ is strictly convex, so the algorithm use $\pmb{\theta}=f(\pmb{w})=\nabla\Omega(\pmb{w})$ as link function and $\pmb{w}==\nabla\Omega^\ast(\pmb{\theta})$ as the inverse function.Similar with UFO-MKL in \cite{OrabonaL11},
+
+For $C(\pmb{w})$, the algorithm randomly samples a training example from train set at each iteration. The algorithm updates the dual vector with the gradient of $C(\pmb{w})$. Since hinge loss used in $C(\pmb{w})$ is not differentiable, the algorithm uses sub-gradient of $\mathbf{z}^t=\partial\ell(\pmb{w}^t,\phi_{\bm \mu}(\mathbf{x}_t), y_t)$ instead, where $\partial\ell(\pmb{w}^t,\phi_{\bm \mu}(\mathbf{x}_t), y_t)$ is the sub-gradient w.r.t $\pmb{w}^t$.
+
+For $\Omega(\pmb{w})$, as in the UFO-MKL \cite{OrabonaL11}, the algorithm uses $\pmb{w}=\nabla\Omega^\ast(\pmb{\theta})$ to update the primal vector $\pmb{w}$, of which the calculation has been given in Theorem \ref{theorem-fenchel-dual}.
+
+The algorithm initializes $q=2\log M$ and $M>2$, thus $p=1/(1-1/q) \in (1,2)$, with this choice of $p$ the regularization becomes similar to the entropic regularization \cite{OrabonaFCC10}.
+
+Actually, the algorithm updates real numbers $\|\pmb{\theta}_m^{t+1}\|$, $\pmb{v}_m$ and $\mathbf{\mu}_m$ in scalar products instand of updating high-dimensional variables $\pmb{w}$ and $\pmb{\theta}$. The $\|\pmb{\theta}_m^{t+1}\|$ can be calculated in an efficient incremental way as following:
+\begin{align*}
+\|\pmb{\theta}_m^{t+1}\|
+=\|\pmb{\theta}_m^{t}-z^t\|_2^2
+=\|\pmb{\theta}_m^{t}\|_2^2-2\pmb{\theta}_m^t \cdot z^t +\|z^t\|_2^2
+\end{align*}
+where $z^t=\partial\ell(\pmb{w}^t,\phi_{\bm \mu}(\mathbf{x}_t), y_t)$.
+
  \begin{theorem}
 \label{theorem-fenchel-dual}
 Let
 $
-    \mathbf{v}=\Big[\|\mathbf{\zeta}_1\|-\beta\mathbf{r}_1,\ldots,
-    \|\mathbf{\zeta}_M\|-\beta\mathbf{r}_M\Big],
+    \pmb{v}=\Big[\|\pmb{\theta}_1\|-\beta\mathbf{r}_1,\ldots,
+    \|\pmb{\theta}_M\|-\beta\mathbf{r}_M\Big],
 $
-then the component $j$ of $\;\nabla\Omega^\ast(\mathbf{\zeta})$ is
+then the component $j$ of $\;\nabla\Omega^\ast(\pmb{\theta})$ is
 \begin{align*}
-\frac{\mathrm{sgn}(\mathbf{v}_m) \mathbf{\zeta}_m}{\alpha\|\mathbf{\zeta}_m\|}
-       \frac{|\mathbf{v}_m|^{q-1}}{\|\mathbf{v}\|_q^{q-2}},
+\frac{\mathrm{sgn}(\pmb{v}_m) \pmb{\theta}_m}{\alpha\|\pmb{\theta}_m\|}
+       \frac{|\pmb{v}_m|^{q-1}}{\|\pmb{v}\|_q^{q-2}},
 \end{align*}
 where $\mathrm{sgn}(x)$ is defined as
 $sgn(x)=1$, if $x>0$, $sgn(x)=-1$, if $x<0$,
@@ -860,75 +871,91 @@ $sgn(x)\in[-1,+1]$, if $x=0$.
 
 \begin{proof}
 According to standard Legendre-Fenchel duality, we can get
-\begin{align}
-\nabla\Omega^*(\mathbf{\zeta})=\argmax\limits_{\mathbf{w}} \mathbf{w} \cdot \mathbf{\zeta} - \Omega(\mathbf{w}).
-\end{align}
-Obviously, the solution of above argmax is the derivative being zero, thus $\mathbf{w}_m$ must be proportional to $\mathbf{\zeta}_m$, that is $\mathbf{w}_m=c_m\mathbf{\zeta}_m/\|\mathbf{\zeta}_m\|$, in which $c_m$ is real number and $\mathbf{\mu}_m=c_m/\|\mathbf{\zeta}_m\|$ can be the coefficient of multiple kernels. Then, we know $\|\mathbf{w}_m\|_2=\mathbf{c}_m/\|\mathbf{\zeta}_m\|_2$ rewrite the problem on $\mathbf{c}_m$:
+\begin{align*}
+\nabla\Omega^*(\pmb{\theta})&=\argmax\limits_{\pmb{w}} \pmb{w} \cdot \pmb{\theta} - \Omega(\pmb{w})\\
+&=\argmax\limits_{\pmb{w}} \pmb{w} \cdot \pmb{\theta}
+-\frac{\alpha}{2}\|\pmb{w}\|_{2,p}^2
+-\beta\pmb{\mu}\cdot\pmb{r}.
+\end{align*}
+
+To reach the above argmax, the derivative of argmax should be zero, so $\pmb{w}$ must be proportional to $\pmb{\theta}$. As in UFO-MKL \cite{OrabonaL11}, we explicitly give a tricky link function $\pmb{w}_m=\pmb{\mu}_m\pmb{\theta}_m$ for different kernels. By this explicit link function, the algorithm can update both $\pmb{w}$ and $\pmb{\mu}$ by $\nabla\Omega^\ast(\pmb{\theta})$. Then, for the convenience of computation, we focus on $\pmb{c}_m=\pmb{\mu}_m\|\pmb{\theta}_m\|$, rewriting the argmax:
 \begin{align}
     \label{lp-regularization}
-    \argmin \limits_{\mathbf{c}} (\beta\mathbf{r} - \mathbf{a})\cdot\mathbf{c}+\frac{\alpha}{2}\|\mathbf{c}\|_p^2
+    \argmin \limits_{\pmb{c}} (\beta\mathbf{r} - \mathbf{a})\cdot\pmb{c}+\frac{\alpha}{2}\|\pmb{c}\|_p^2
 \end{align}
-where $\mathbf{a}=\Big[\|\mathbf{\zeta}_1\|,\ldots, \|\mathbf{\zeta}_M\|\Big]$.
+where $\mathbf{a}=\Big[\|\pmb{\theta}_1\|,\ldots, \|\pmb{\theta}_M\|\Big]$.
 
-To get optimal solution of $\ell_p$-regularization in \eqref{lp-regularization}, we need to solve $\ell_2$-regularization problem firstly, according to Lemma 6 and Lemma 7 in supplementary file.
-\begin{align}
- \label{l2-regularization}
-    \argmin \limits_{\mathbf{c}} (\beta\mathbf{r} - \mathbf{a})\cdot\mathbf{c}+\frac{\alpha}{2}\|\mathbf{c}\|_2^2
-\end{align}
-The optimality condition of the above minimization problem\cite{rockafellar2015convex} states that $\mathbf{c}^\ast$ is an optimal solution of \eqref{l2-regularization} such that
+The optimality condition of the above minimization problem\cite{rockafellar2015convex} states that $\pmb{c}^\ast$ is an optimal solution of \eqref{lp-regularization}. And we set the derivative of above argmin being zero
 \begin{align}
     \label{l2-regularization-subgradient}
-        \beta\mathbf{r}-\mathbf{a}+\alpha\upsilon(\mathbf{c})=0
+        \beta\mathbf{r}-\mathbf{a}+\alpha\pmb{c}^\ast=0
 \end{align}
-Following similar arguments as in Lemma 6 (seen in supplementary), we find that it has a closed-form solution
-$\mathbf{c}=\upsilon ^{-1}(\mathbf{c}^\ast)$,
-where the elements of $\mathbf{c}^\ast$ are given as
-$
-    \mathbf{c}_m^\ast=\frac{1}{\alpha}(\mathbf{a}_m-\beta\mathbf{r}_m)=\frac{1}{\alpha}(\|\mathbf{\zeta}_m\|-\beta\mathbf{r}_m).
-$
-Following Lemma 7 (seen in supplementary), the component $\mathbf{c}_m$ of $\mathbf{c}$ can be given by the inverse mapping $\upsilon ^{-1}(\mathbf{c}^\ast)$
+And then we can get $\pmb{c}^\ast=\frac{1}{\alpha}\Big(\mathbf{a}-\beta\mathbf{r}\Big)$.
+Following similar arguments as in Lemma \ref{inverse-mapping}, we find that it has a closed-form solution
 \begin{align*}
-    \mathbf{c}_m=&\upsilon ^{-1}(\mathbf{c}_m^\ast)=\nabla_m\Big(\frac{1}{2}\|\mathbf{c}_m^\ast\|_q^2\Big)
-    =\frac{sgn(\mathbf{c}_m^\ast)|\mathbf{c}_m^\ast|^{q-1}}{\|\mathbf{c}^\ast\|_q^{q-2}}.
+    \pmb{c}_m=&f ^{-1}(\pmb{c}_m^\ast)=\nabla_m\Big(\frac{1}{2}\|\pmb{c}_m^\ast\|_q^2\Big)
+    =\frac{sgn(\pmb{c}_m^\ast)|\pmb{c}_m^\ast|^{q-1}}{\alpha\|\pmb{c}^\ast\|_q^{q-2}}.
 \end{align*}
-Using $\mathbf{c}_m$ and $\mathbf{w}_m=\mathbf{c}_m\mathbf{\zeta}_m/\|\mathbf{\zeta}_m\|$, we have the stated result.
+Let
+$
+    \pmb{v}=\Big[\|\pmb{\theta}_1\|-\beta\mathbf{r}_1,\ldots,
+    \|\pmb{\theta}_M\|-\beta\mathbf{r}_M\Big],
+$
+and use $\pmb{\mu}_m=\pmb{c}_m/\|\pmb{\theta}_m\|$ and $\pmb{w}_m=\pmb{\mu}_m\pmb{\theta}_m$, We can get
+\begin{align*}
+    &\pmb{\mu}_m=\frac{sgn(\pmb{v}_m)|\pmb{v}_m|^{q-1}}{\alpha\|\pmb{\theta}_m\|\|\pmb{v}_m\|_q^{q-2}}\;
+    &\pmb{w}_m=\frac{sgn(\pmb{v}_m)\pmb{\theta}_m|\pmb{v}_m|^{q-1}}{\alpha\|\pmb{\theta}_m\|\|\pmb{v}_m\|_q^{q-2}}.\\
+\end{align*}
 Similar argmax has been analysis in Sec. 7.2 of \cite{Xiao10}.
 \end{proof}
+
+\begin{lemma}
+  \label{inverse-mapping}
+  Let $p \in (1,2]$ and $q=p/(p-1)$, and then the norms $\|\pmb{c}\|_p$ and $\|\pmb{c}^\ast\|_q$ are dual to each other. Define the mapping $f:\mathcal{M} \to \mathcal{M}$ with
+  \begin{align*}
+    \pmb{c}^\ast_i=f_i(\pmb{c})=\nabla_i\Big(\frac{1}{2}\|\pmb{c}\|_p^2\Big)=\frac{sng(\pmb{c}_i)|\pmb{c}_i|^{p-1}}{\|\pmb{c}\|_p^{p-2}}, i=1,\ldots,n,
+  \end{align*}
+and the inverse mapping $f^{-1}$ with
+  \begin{align*}
+    \pmb{c}_i=f^{-1}_i(\pmb{c}^\ast)=\nabla_i\Big(\frac{1}{2}\|\pmb{c}^\ast\|_q^2\Big)=\frac{sng(\pmb{c}^\ast_i)|\pmb{c}^\ast_i|^{q-1}}{\|\pmb{c}^\ast\|_q^{q-2}}, i=1,\ldots,n,
+  \end{align*}
+\end{lemma}
+These mapping are often called {\em link functions} in machine learning(e.g., Gentile, 2003).
+
 \subsection{Convergence Rate Guarantee}
-In this section, we analysis convergence rate guarantee for SD-MKL.
+In this section, we analysis convergence rate guarantee for SMSD-MKL.
 %In multi-class classification, there is one hyperplane for each class
 %and $\phi_m(\cdot, \cdot)$ induces the transformation in $m$-th class.
-Denote by $z^t=\partial\ell(\mathbf{w},\phi(\mathbf{x}^t,\cdot), y^t)$,
+Denote by $z^t=\partial\ell(\pmb{w},\phi_{\bm \mu}(\mathbf{x}^t), y^t)$,
 we now state the convergence therem for any loss function that satisfies the following hypothesis
 \begin{align}
 \label{loss_function_hypothesis}
-    \|z_m\| \leq L\|\phi(\mathbf{w}_m, y')\|_2, \forall t =1,\ldots, M, y' \in \mathcal{Y}.
+    \|z_m\| \leq L\|\phi(\pmb{w}_m, y')\|_2, \forall t =1,\ldots, M, y' \in \mathcal{Y}.
 \end{align}
-The hinge loss for multi-class $\ell(\mathbf{w}, \phi(\mathbf{w},\cdot), y)
-= \max_{y' \not =y} |1-\mathbf{w}\cdot(\phi(\mathbf{w},y)-\phi(\mathbf{x},y'))|_+$ satisfies the hypothesis with $L=\sqrt{2}$.
+The hinge loss for multi-class $\ell(\pmb{w},\phi(\mathbf{x}_i), y_i)=
+\max\limits_{i \not= j}\left|1-\left(\langle\pmb{w}_i \phi(\mathbf{x}_i\rangle -\langle\pmb{w}_j \phi(\mathbf{x}_j\rangle\right)\right|_+$ satisfies the hypothesis with $L=\sqrt{2}$.
 
 \begin{theorem}
-Denote by $$f(\mathbf{w})=\Omega(\mathbf{w})+\frac{1}{n}\sum_{i=1}^n\ell(\mathbf{w},\phi(\mathbf{x}_i,\cdot),y_i)$$
-and by $\mathbf{w}^\ast$ the solution that minimize \eqref{optimization-problem}.
-Suppose that $\|\phi_m(\mathbf{w}^t,\cdot)\|_2 \leq 1$, and the loss function $\ell$ satisfies $\eqref{loss_function_hypothesis}$.
+Denote by $$f(\pmb{w})=\Omega(\pmb{w})+\frac{1}{n}\sum_{i=1}^n\ell(\pmb{w},\phi(\mathbf{x}_i),y_i)$$
+and by $\pmb{w}^\ast$ the solution that minimize \eqref{optimization-problem}.
+Suppose that $\|\phi_m(\pmb{w}^t,\cdot)\|_2 \leq 1$, and the loss function $\ell$ satisfies $\eqref{loss_function_hypothesis}$.
 Let $\delta \in (0,1)$, then with probability at least $1 - \delta$ over the choices of the random samples
-we have that after $T$ iterations of the SG-MKL algorithm
+we have that after $T$ iterations of the SMSD-MKL algorithm
 \begin{align*}
-    f(\mathbf{w}^{T+1})-f(\mathbf{w^\ast}) \leq \frac{eL^2(1+\log T)\log F}{\alpha\delta T},
+    f(\pmb{w}^{T+1})-f(\pmb{w}^\ast) \leq \frac{eL^2(1+\log T)\log F}{\alpha\delta T},
 \end{align*}
 where $e$ is the Euler's number.
 \end{theorem}
 \begin{proof}
-Using \eqref{loss_function_hypothesis} and $\|\phi_m(\mathbf{w}^t, y^t)\|_2 \leq 1$, we have
+Using \eqref{loss_function_hypothesis} and $\|\phi_m(\pmb{w}^t, y^t)\|_2 \leq 1$, we have
 \begin{align*}
-    &\|\partial(\mathbf{w}^t,\phi(\mathbf{x}^t,\cdot), y^t)\|_{2,q} \\
+    &\|\partial(\pmb{w}^t,\phi(\mathbf{x}^t,\cdot), y^t)\|_{2,q} \\
     &\leq LF^{1/q} \max_{j=1, \ldots, F} \|\phi_m(\mathbf{x}^t, \cdot)\|_2 \leq LF^{1/q}
 \end{align*}
-The function $\Omega(\mathbf{w})=\frac{\alpha}{2}\|\mathbf{w}\|_{2,p}^2 + \beta\mathbf{\mu} \cdot \mathbf{r}$ is
+The function $\Omega(\pmb{w})=\frac{\alpha}{2}\|\pmb{w}\|_{2,p}^2 + \beta\mathbf{\mu} \cdot \mathbf{r}$ is
  $\alpha$-strongly convex w.r.t. the norm $\|\cdot\|_{2,q}$. Hence, using according to Theorem 1 in \cite{Shalev-ShwartzSS07},
  using $\eta=1$ and $g=\Omega$, and using Markov inequality as in \cite{Shalev-ShwartzSS07} we prove the stated result.
 \end{proof}
-
 
 
 \section{Experiments}
@@ -940,7 +967,7 @@ The function $\Omega(\mathbf{w})=\frac{\alpha}{2}\|\mathbf{w}\|_{2,p}^2 + \beta\
 %\tiny
 %\renewcommand{\captionfont}{\small}
    \caption{
-    \small Comparison of average test accuracies of our \texttt{conv} and \texttt{SG-MKL} with the others including
+    \small Comparison of average test accuracies of our \texttt{CONV-MKL} and \texttt{SMSD-MKL} with the others including
     the linear multi-class SVM (LSVM),
     One-against-One (One vs. One),
     One-against-the-Rest(One vs. Rest),
@@ -954,39 +981,39 @@ The function $\Omega(\mathbf{w})=\frac{\alpha}{2}\|\mathbf{w}\|_{2,p}^2 + \beta\
    }
    \label{tabel:accuracy}
     %\centering
-    \begin{tabular*}{\linewidth}{@{\extracolsep{-0.23cm}}lccccccccc}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{-0.25cm}}lccccccccc}
     \toprule
-                   & SG-MKL              & Conv-MKL               & C\&S               & One vs. One              & One vs. Rest                                              & GMNP                      & $\ell_1$ MC-MKL          & $\ell_2$ MC-MKL    & UFO-MKL                  \\ \hline
+                   & SMSD-MKL              & CONV-MKL               & C\&S               & One vs. One              & One vs. Rest                                              & GMNP                      & $\ell_1$ MC-MKL          & $\ell_2$ MC-MKL    & UFO-MKL                  \\ \hline
 plant              & \textbf{78.01$\pm$2.17}   &77.14$\pm$2.25            & 70.12$\pm$2.96     & 75.83$\pm$2.69           &75.17$\pm$2.68       &75.42$\pm$3.64    & \underline{77.60$\pm$2.63}&75.49$\pm$2.48            &76.77$\pm$2.42\\
-psortPos           & \textbf{76.23$\pm$3.39}   &74.74$\pm$3.35            &63.85$\pm$39.4      &73.33$\pm$4.21            &71.70$\pm$4.89       & 73.55$\pm$4.22   &71.87$\pm$4.87             &70.70$\pm$4.89            &74.56$\pm$4.04\\
+psortPos           & \textbf{76.23$\pm$3.39}   &74.41$\pm$3.35            &63.85$\pm$3.94      &73.33$\pm$4.21            &71.70$\pm$4.89       & 73.55$\pm$4.22   &71.87$\pm$4.87             &70.70$\pm$4.89            &74.56$\pm$4.04\\
 psortNeg           & \textbf{74.66$\pm$1.90}   &74.07$\pm$2.16            &57.85$\pm$2.49      &73.74$\pm$2.87            &71.94$\pm$2.50   &\underline{74.27$\pm$2.51}   &72.83$\pm$2.20                             &72.42$\pm$2.65      &73.80$\pm$2.26 \\
-nonpl              &78.69$\pm$1.58             & \textbf{79.15$\pm$1.51}  &75.16$\pm$1.48      &77.78$\pm$1.52            &77.49$\pm$1.53 &78.35$\pm$1.46    &00.00$\pm$0.00             &77.95$\pm$1.64            &78.07$\pm$1.56\\
-sector             & \textbf{93.39$\pm$0.70}   &\underline{92.83$\pm$2.62}&93.16$\pm$0.66      &90.61$\pm$0.69            &\underline{93.34$\pm$0.61}                    &00.00$\pm$0.00    &00.00$\pm$0.00             &92.15$\pm$2.57            &92.60$\pm$0.47\\
-segment            & \textbf{97.62$\pm$0.83}   &96.80$\pm$0.91            &94.92$\pm$1.10      &97.08$\pm$0.61            &96.29$\pm$0.84       &96.87$\pm$0.80    &96.98$\pm$0.80             &\underline{97.58$\pm$0.68}&97.20$\pm$0.82\\
-vehicle            & 77.28$\pm$2.78            &79.35$\pm$2.27            &75.61$\pm$3.56      &82.72$\pm$1.92            &81.24$\pm$2.21       &81.57$\pm$2.24    &74.96$\pm$2.93             &76.27$\pm$3.15            &76.92$\pm$2.83\\
-vowel              &\textbf{98.83$\pm$5.57}    &98.82$\pm$1.19            &62.23$\pm$3.00      &97.05$\pm$1.72            &91.65$\pm$3.26       &88.08$\pm$3.03    &98.27$\pm$1.22             &97.86$\pm$1.75            &98.22$\pm$1.62\\
-wine               &\textbf{99.52$\pm$1.08}    &99.44$\pm$1.13            &97.87$\pm$2.80      &97.24$\pm$3.04            &98.14$\pm$3.04       &97.69$\pm$2.43    &98.61$\pm$1.75             &98.52$\pm$1.89            &99.52$\pm$1.08            \\
-dna                &\textbf{96.30$\pm$0.79}    &91.13$\pm$1.22            &92.02$\pm$1.50      &95.89$\pm$0.56            &95.93$\pm$0.74       &64.77$\pm$2.02    &96.27$\pm$0.68             &95.06$\pm$0.92            &95.84$\pm$0.61\\
-glass              & 73.65$\pm$5.83            &\textbf{75.19$\pm$5.05}   &63.95$\pm$6.04      &70.87$\pm$5.58            &70.23$\pm$6.24       &71.24$\pm$8.14    &69.07$\pm$8.08             &74.03$\pm$6.41            &72.46$\pm$6.12\\
-iris               &97.33$\pm$2.53             &\textbf{98.00$\pm$2.25}            &87.89$\pm$4.33      &96.76$\pm$2.63            &96.11$\pm$3.04    &96.11$\pm$4.11    &96.00$\pm$3.65             &95.44$\pm$3.66            &95.56$\pm$3.07\\
-svmguide2          &\textbf{85.17$\pm$3.83}    &82.69$\pm$5.65            &82.15$\pm$3.41      &82.01$\pm$3.29            &82.31$\pm$3.07       &82.15$\pm$3.95    &86.16$\pm$3.63             &83.84$\pm$4.21            &82.91$\pm$3.09\\
-satimage           &\textbf{91.78$\pm$0.82}    &90.86$\pm$1.07            &84.95$\pm$1.15      &90.67$\pm$0.91            &89.29$\pm$0.96       &89.97$\pm$0.81    &00.00$\pm$00.00            &90.43$\pm$1.27            &91.92$\pm$0.83\\
+nonpl              &78.69$\pm$1.58             & \textbf{79.15$\pm$1.51}  &75.16$\pm$1.48      &77.78$\pm$1.52            &77.49$\pm$1.53 &78.35$\pm$1.46    &77.89$\pm$1.79             &77.95$\pm$1.64            &78.07$\pm$1.56\\
+sector             & \textbf{93.39$\pm$0.70}   &\underline{92.83$\pm$2.62}&93.16$\pm$0.66      &90.61$\pm$0.69            &\underline{93.34$\pm$0.61}                    &\                         &\                   &92.15$\pm$2.57            &92.60$\pm$0.47\\
+segment            & \textbf{97.62$\pm$0.83}   &96.79$\pm$0.91            &95.07$\pm$1.11      &97.08$\pm$0.61            &97.02$\pm$0.80       &96.87$\pm$0.80    &96.98$\pm$0.64             &\underline{97.58$\pm$0.68}&97.20$\pm$0.82\\
+vehicle            & 77.28$\pm$2.78            &79.35$\pm$2.27            &75.61$\pm$3.56      &82.72$\pm$1.92            &\textbf{85.11$\pm$1.94}       &81.57$\pm$2.24    &74.96$\pm$2.93             &76.27$\pm$3.15            &76.92$\pm$2.83\\
+vowel              &\textbf{98.83$\pm$5.57}    &98.82$\pm$1.19            &62.32$\pm$4.97      &98.12$\pm$1.76            &98.22$\pm$1.83       &97.04$\pm$1.85    &98.27$\pm$1.22             &97.86$\pm$1.75            &98.22$\pm$1.62\\
+wine               &\textbf{99.63$\pm$0.96}    &\textbf{99.63$\pm$0.96}   &97.87$\pm$2.80      &97.24$\pm$3.05            &98.14$\pm$3.04       &97.69$\pm$2.43    &98.61$\pm$1.75             &98.52$\pm$1.89            &99.44$\pm$1.13            \\
+dna                &\textbf{96.30$\pm$0.79}    &96.08$\pm$0.83            &92.02$\pm$1.50      &95.89$\pm$0.56            &95.61$\pm$0.73       &94.60$\pm$0.94    &\underline{96.27$\pm$0.68}             &95.06$\pm$0.92            &95.84$\pm$0.61\\
+glass              & 73.72$\pm$5.80            &\textbf{75.19$\pm$5.05}   &63.95$\pm$6.04      &71.98$\pm$5.75            &70.00$\pm$5.75       &71.24$\pm$8.14    &69.07$\pm$8.08             &74.03$\pm$6.41            &72.46$\pm$6.12\\
+iris               &\underline{97.33$\pm$2.53} &\textbf{98.00$\pm$2.25}   &89.67$\pm$8.71      &96.76$\pm$2.63            &96.11$\pm$3.04       &96.11$\pm$4.11    &96.00$\pm$3.65             &95.44$\pm$3.66            &95.56$\pm$3.07\\
+svmguide2          &\textbf{85.17$\pm$3.83}    &82.69$\pm$5.65            &81.10$\pm$4.15      &\underline{84.79$\pm$3.45}&\underline{84.27$\pm$3.03}  &81.77$\pm$3.45    &83.16$\pm$3.63             &\underline{83.84$\pm$4.21}            &82.91$\pm$3.09\\
+satimage           &\underline{91.78$\pm$0.82} &91.64$\pm$0.88            &84.95$\pm$1.15      &90.67$\pm$0.91            &89.29$\pm$0.96       &89.97$\pm$0.81    &\underline{91.86$\pm$0.62} &90.43$\pm$1.27            &\textbf{91.92$\pm$0.83}\\
 \bottomrule
 \end{tabular*}
 \vspace{-0.3cm}
 \end{table*}
 
-In this section, we will  compare our proposed \texttt{Conv-MKL} (Algorithm \ref{algorithm1}) and \texttt{SG-MKL} (\ref{algorithm2})
+In this section, we will  compare our proposed \texttt{Conv-MKL} (Algorithm \ref{algorithm1}) and \texttt{SMSD-MKL} (\ref{algorithm2})
 with 7 popular multi-class classification methods:
- One-against-One \cite{knerr1990single}, One-against-the-Rest \cite{bottou1994comparison},
+ One-against-One \cite{knerr1990single}, One-against-the-Rest \cite{bottou1994comparison}, 
 $\ell_1$-norm linear multi-class SVM (LMC) \cite{CrammerS02},
 Generalized Minimal Norm Problem solver (GMNP)\cite{franc2005optimization},
 the Multiclass MKL (MC-MKL) for $\ell_1$-norm and $\ell_2$-norm \cite{ZienO2007}
- the mixed-norm MKL solved by stochastic gradient descent(UFO-MKL)\cite{OrabonaL11}.
-Actually, we use LIBSVM\footnote{Available at https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/}
+ the mixed-norm MKL solved by stochastic gradient descent (UFO-MKL) \cite{OrabonaL11}.
+Actually, we use LIBSVM\footnote{Available at https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/} 
 (implementing One-against-One and One-against-the-Rest implemented),
-the DOGMA libary \footnote{Available at http://dogma. sourceforge. net} \cite{orabona2009dogma} (implementing C\&S, GMNP,
-$\ell_1$-nomr and $\ell_2$-norm MC-MKL) and the SHOGUN-6.1.3\footnote{Available at http://www.shogun-toolbox.org/}(implementing UFO-MKL).
+the DOGMA libary \footnote{Available at http://dogma. sourceforge. net} \cite{orabona2009dogma} (implementing C\&S, GMNP, 
+$\ell_1$-nomr and $\ell_2$-norm MC-MKL) and the SHOGUN-6.1.3 \footnote{Available at http://www.shogun-toolbox.org/}(implementing UFO-MKL).
 
 We experiment on 14 publicly avaliable datasets:
 four of them evaluated in \cite{ZienO2007} (plant, nonpl, psortPos, and psortNeg)
@@ -996,10 +1023,10 @@ For each data set, we use the Gaussian kernel
 $K(\mathbf{x}, \mathbf{x}')=\exp\Big(-\frac{\|\mathbf{x}-\mathbf{x}'\|_2^2}{2\tau}\Big)$ as our basic kernels,
 where $\tau \in {2^i, i=-10,-9,\ldots,9,10}$. For single Kernel methods (One vs. One, One vs. Rest, GMNP),
 we choose one kernel which have the highest performance among basic kernels by cross-validation.
-Meanwhile, use all basic kernels for MKL methods (SG-MKL, conv, $\ell_1$ MC-MKL, $\ell_2$ MC-MKL, UFO-MKL).
-For our algorithms \texttt{conv} and \texttt{SG-MKL}, we fix the parameter $\theta=2$ to curve the local Rademancher complexity.
+Meanwhile, use all basic kernels for MKL methods (\texttt{SMSD-MKL}, \texttt{CONV-MKL}, $\ell_1$ MC-MKL, $\ell_2$ MC-MKL, UFO-MKL).
+For our algorithms \texttt{CONV-MKL} and \texttt{SMSD-MKL}, we fix the parameter $\theta=2$ to curve the local Rademancher complexity.
 The regularization parameterized $C \in {2^i, i=-2, \ldots, 12}$ of all algorithms,
-the parameter $\gamma \in {10^i, i=-4, \ldots, 1}$ of \texttt{SG-MKL} are determined by 5-folds cross-validation on training data.
+the parameter $\gamma \in {10^i, i=-4, \ldots, 1}$ of \texttt{SMSD-MKL} are determined by 5-folds cross-validation on training data.
 The other parameters for the compared algorithms follow the same experimental setting in their papers.
 For each data set, we run all methods 50 times with randomly selected 80\% for training and 20\% for testing.
 The use of multiple training/testing partitions allows an estimate of the statistical significance of differences
@@ -1010,22 +1037,24 @@ if the $t$-statistic $\frac{\bar{d}}{S_d/\sqrt{50}} > 1.676$.
 All statement of statistical significance in the remainder refer to a 95\% level of significance.
 
 The average test accuracies are reported in Table \ref{tabel:accuracy}.
-The results show: 1) Our \texttt{SG-MKL} and \texttt{Conv-MKL} methods lead to a consistent improvement over all data sets except \textit{vehicle};
-2) Our \texttt{SG-MKL} and \texttt{Conv-MKL} methods is significantly
-better than the compared Multiple Kernel Learning methods ($\ell_1$ MC-MKL,
-$\ell_2$ MC-MKL and UFO-MKL) over all data sets;
-3) \texttt{SG-MKL}  is significantly better than state-of-the-art \texttt{conv} on most data sets;
-4) The multiple kernel methods usually better than the compared single kernel methods (One vs. One, One vs. Rest, GMNP);
-5) The kernel based methods usually have better performance than linear classification machine (LMKL).
+The results show: 1) Our \texttt{SMSD-MKL} and \texttt{Conv-MKL} methods give best results on nearly all data sets
+except \textit{vehicle} and \textit{satimage}; 
+2) \texttt{SMSD-MKL} is significantly better than \texttt{Conv-MKL} because of wining 9 data sets and defeated on 2 data sets;
+3) Compared with Multiple Kernel Learning methods ($\ell_1$ MC-MKL, $\ell_2$ MC-MKL and UFO-MKL), 
+our methods get better results over almost all data sets except that only UFO-MKL works slightly better than ours on \textit{satige}; 
+4) The multiple kernel methods usually better than the compared single kernel methods (One vs. One, One vs. Rest, GMNP),
+since \textit{vehicle} leads fairly good results for single kernel method but terrible results for MKL methods; 
+5) The kernel based methods have better performance than linear classification machine (C\&S) on all data sets.
 
 \section{Conclusion}
 In this paper, we studied the generalization performance of the multi-class classification,
 and derived a sharper data dependent generalization error bound based on the notion of local Rademacher complexity,
 which is much sharper than the existing data-dependent generalization bound of multiclass classification.
-Then, we design a two algorithms: 1) \texttt{conv}.
+Then, we design a two algorithms: 1) \texttt{CONV-MKL}.
 Using precomputed kernel matrices regularized by the local Rademancher complexity,
 this method can be implemented by any $\ell_p$-norm multi-class MKL solvers.
-2) \texttt{SG-MKL}. This method puts the local Rademancher complexity
+2) \texttt{SMSD-MKL}.
+This method puts the local Rademancher complexity
 in penalized ERM with $\ell_{2,p}$-norm regularizer and multi-class hinge loss function,
 implemented by stochastic sub-gradient descent by updating
 dual weights with statistical guarantees and fast convergence rates.
@@ -1034,7 +1063,6 @@ Empirical results show our algorithms outperform the state-of-the-art multiclass
 \bibliographystyle{icml2018}
 
 \end{document}
-
 
 % This document was modified from the file originally made available by
 % Pat Langley and Andrea Danyluk for ICML-2K. This version was created
