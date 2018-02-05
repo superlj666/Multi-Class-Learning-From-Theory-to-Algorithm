@@ -90,10 +90,9 @@
 %    but the convergence rates of the existing bounds are usually at most $\mathcal{O}\big(\frac{K^2}{\sqrt{n}}\big)$,
 %    where $K$ and $n$ are the number of classes and size of the sample, respectively.
     In this paper, we study the generalization performance of multi-class classification
-    based on the notion of local Rademacher complexity and obtain a data-dependent
-    generalization error bound with convergence rate of $\mathcal{O}\big(\frac{(\log K)^{2+{1}/{\log K}}}{n}\big)$,
-    substantially improving the state-of-art bounds in the existing data-dependent generalization analysis,
-    where $K$ and $n$ are the number of classes and size of the sample, respectively.
+    based on the notion of local Rademacher complexity and obtain a shaper data-dependent
+    generalization error bound with fast convergence rate,
+    substantially improving the state-of-art bounds in the existing data-dependent generalization analysis.
     The theoretical analysis motivates us to
     devise two effective multi-class kernel learning algorithms
     with statistical guarantee and fast convergence rate.
@@ -110,13 +109,13 @@ Multi-class classification is an important problem in various applications,
 such as natural language processing \cite{Zhang2005cs}, information retrieval \cite{hofmann2003learning}, computer vision \cite{deng2009imagenet},
 web advertising \cite{beygelzimer2009conditional}, etc.
 The statistical learning theory of binary classification is by now relatively well developed \cite{vapnik1998naturestatistical,mohri2012foundations},
-but there are still numerous statistical challenges in its multi-class extension \cite{maximov2016tight}.
+but there are still numerous statistical challenges to its multi-class extension \cite{maximov2016tight}.
 
 To understand the existing multi-class classification algorithms and guide the development of new ones,
-people have to investigate the generalization ability of multi-class classification algorithms.
+people have to develop the generalization ability of multi-class classification algorithms.
 A sharper generalization bound usually implies more consistent
 performance on the training set and the test set.
-In recent years, some generalization bounds have been developed to
+In recent years, some generalization bounds have been proposed to
 estimate the ability of multi-class classification algorithms based on different measures,
 such as
 VC-dimension \cite{allwein2000reducing},
@@ -125,7 +124,7 @@ covering Number \cite{guermeur2002combining,zhang2004statistical,Hill2007},
 Rademacher Complexity \cite{koltchinskii2002empirical,mohri2012foundations,cortes2013multi}, etc.
 Although there have been several recent advances in the studying of
 generalization bounds of multi-class classification algorithms,
-the convergence rates of the existing generalization bounds are usually at most
+convergence rates of the existing generalization bounds are usually %at least%
  $\mathcal{O}\big(\frac{K^2}{\sqrt{n}}\big)$,
 where $K$ and $n$ are the number of classes and size of the sample, respectively.
 
@@ -136,7 +135,7 @@ via the notion of local Rademacher complexity and
 further devise two effective multi-class kernel learning algorithms based on the above theoretical analysis.
 The rate of this bound is $\mathcal{O}\big(\frac{(\log K)^{2+{1}/{\log K}}}{n}\big)$,
 which substantially improves on  the existing data-dependent generalization bounds.
-Moreover, the proposed multi-class kernel learning algorithms have statistic guarantees and fast convergence rate.
+Moreover, the proposed multi-class kernel learning algorithms have statistic guarantee and fast convergence rate.
 Experimental results on benchmark datasets show that our proposed methods can significantly
 outperform the existing multi-class classification methods.
 The major contributions of this paper include:
@@ -187,10 +186,10 @@ local Rademacher complexity and multi-class kernel learning classification.
     Lei, Binder, and Klof \yrcite{lei2015multi} introduced a bound
     with a logarithmic dependence on the number of class size.
 
-    Instead of using the Rademacher complexity,
-    in this paper, we consider using local Rademacher complexity
-    to obtain a sharper bound, which  substantially improves on
-    the existing Rademacher complexity bounds.
+    Instead of global Rademacher complexity,
+    in this paper, we use local Rademacher complexity
+    to obtain a sharper bound, which  substantially improves 
+    generalization performance upon existing global Rademancher complexity methods.
 
 \textbf{VC-dimension Bounds.}
     Allwein, Schapire, and Singer \yrcite{allwein2000reducing}  used the notion of VC-dimension
@@ -203,7 +202,7 @@ local Rademacher complexity and multi-class kernel learning classification.
     Daniely and Shalev-Shwartz \yrcite{daniely2014optimal} derived a risk bound with Natarajan dimension for multi-class classification.
     VC dimension and Natarajan dimension are the important tools to derive generalization bounds,
     however these bounds are usually dimension
-    dependent, which makes them hardly applicable for practical large
+    dependent, which makes them hardly applicable to practical large
     scale problems.
 
 \textbf{Covering Number  Bounds.}
@@ -215,7 +214,7 @@ local Rademacher complexity and multi-class kernel learning classification.
     However, their bound is based on a delicate definition of margin,
     which is not commonly used in the mainstream multi-class literature.
 \subsection{Local Rademacher Complexity}
-One of the useful data-dependent complexity measures used in the generalization analysis
+One of useful data-dependent complexity measures used in the generalization analysis
 for  traditional  binary classification
 is the notion of (global) Rademacher complexity \cite{bartlett2003rademacher}.
 However,
@@ -252,7 +251,7 @@ UFO-MKL \cite{OrabonaL11}, which optimize primal versions of equivalent problems
 %Then, tighter margin-based bounds for multi-class classification in terms of Rademacher complexity are introduced \cite{mohri2012foundations,cortes2013multi}.
 
 In this paper, we consider the use of  the local Rademacher complexity to devise the novel  multi-class classification
-algorithms, which have statistic guarantees and fast convergence rate.
+algorithms, which have statistical guarantee and fast convergence rate.
 
 \section{Notations and Preliminaries}
 We consider multi-class classification problems with $K\geq 2$ classes in this paper.
@@ -309,7 +308,7 @@ The $\ell_p$-norm hypothesis space associated with the kernel $\kappa$ is denote
   \Big\},
    \end{aligned}
  \end{align}
- where $\mathbf w=(\mathbf w_1,\ldots,\mathbf w_K)$ and $\|\mathbf w\|_{2,p}=\left[\sum_{i=1}^K\|\mathbf x_i\|_2^p\right]^{\frac{1}{p}}$
+ where $\mathbf w=(\mathbf w_1,\ldots,\mathbf w_K)$ and $\|\mathbf w\|_{2,p}=\left[\sum_{i=1}^K\|\mathbf w_i\|_2^p\right]^{\frac{1}{p}}$
  is the $\ell_{2,p}$-norm.
  For any $p\geq 1$, let $q$ be the dual exponent of $p$ satisfying $\frac{1}{p}+\frac{1}{q}=1$.
 % Note that,  $\forall 1\leq p\leq 2$, we have $q\geq 2$.
@@ -744,20 +743,22 @@ to devise two algorithms for multi-class multiple kernel learning (MC-MKL).
 %in which the prediction of $\mathbf x$ is the scalar product between an hyperplane $\mathbf w$ and the transformed sample $\phi(\mathbf x)$,
 %corresponding kernel $k(\mathbf x, \mathbf x')$ defined as $\phi(\mathbf x) \cdot \phi(\mathbf x')$.
 
-In this paper, we consider the use of multiple kernels,
-$$\kappa_{\bm \mu}=\sum_{m=1}^M \mu_m\kappa_m.$$
+In this paper, we consider the use of multiple kernel matrix,
+$$\mathbf{K}_{\bm \mu}=\sum_{m=1}^M \mu_m\mathbf{K}_m.$$
 A common approach to multi-class classification is the use of joint feature
 maps $\phi(\mathbf x):\mathcal X \to \mathcal H$ \cite{TsochantaridisHJA04}.
 For multiple kernel learning, we have $M$ feature mappings $\phi_m$, $m=1,\ldots,M$ and
-$$\kappa_m(\mathbf x,\mathbf x')=\langle \phi_m(\mathbf x), \phi_m(\mathbf x')\rangle, m=1,\ldots,M.$$
+$$\mathbf{K}_m(i,j)=\langle \phi_m(\mathbf x_i), \phi_m(\mathbf x_j)\rangle$$where $
+m=1,\ldots,M$ and $i,j=1, \ldots, n$. 
 Let $\phi_{\bm \mu}(\mathbf x)=[\phi_1(\mathbf x),\ldots,\phi_M(\mathbf x)]$.
+%We know $\mathbf{K}_{\bm \mu}(i,j)=\langle \phi_{\bm \mu}(\mathbf{x}_i), \phi_{\bm \mu}(\mathbf{x}_j)\rangle$.% 
 %So, the $\ell_{2,p}$-norm of $\mathbf{w}$ can be defined as $\|\mathbf w\|_{2,p}=\|[\|\mathbf{w}_1\|_2,\|\mathbf{w}_2\|_2,\ldots,\|\mathbf{w}_M\|_2]\|_p$. The dual norm of $\|\cdot\|_{2,p}$ is $\|\cdot\|_{2,q}$, where $1/p+1/q=1$ \cite{kakade2009duality}.
 Using Theorem \ref{theorem-finally}, the $\ell_p$ hypothesis space of multiple kernels can be written as:
  \begin{align*}
  \label{hypothspapcemkl}
    \begin{aligned}
-   \mathcal{H}_{mkl}=\Big\{h_{\mathbf{w},\kappa_\mu}&=\left(\langle \mathbf w_1,\phi_{\bm \mu}(\mathbf x)\rangle,\ldots, \langle\mathbf w_K,\phi_{\bm \mu}(\mathbf x)\rangle\right),\\
-   \left\|\mathbf  w \right\|_{2,p}&\leq 1, 1 \leq p \leq \frac{2\log K}{2\log K-1}
+   \mathcal{H}_{mkl}=\Big\{h_{\mathbf{w},\mathbf{K}_{\bm \mu}}&=\left(\langle \mathbf w_1,\phi_{\bm \mu}(\mathbf x)\rangle,\ldots, \langle\mathbf w_K,\phi_{\bm \mu}(\mathbf x)\rangle\right),\\
+   \left\|\mathbf  w \right\|_{2,p}&\leq 1, 1 < p \leq \frac{2\log K}{2\log K-1}
   \Big\}.
    \end{aligned}
  \end{align*}
@@ -765,22 +766,21 @@ Using Theorem \ref{theorem-finally}, the $\ell_p$ hypothesis space of multiple k
 % the $\theta$ largest eigenvalues:$\sum_{j>\theta}\lambda_j(\mathbf{K})=\mathrm{Tr}(\mathbf{K})-\sum_{j=1}^\theta\lambda_j(\mathbf{K})$,
 % thus the tail sum can be calculated in $O(n^2\theta)$ for each kernel.
 \subsection{Conv-MKL}
-%The trace of kernel matrix $\mathbf{K}_\mu$ can be the upper-bound of the global Rademacher complexity of $\mathcal{H}_{mkl}$.
-The global Rademacher complexity of $\mathcal{H}_{mkl}$ can be bounded by the trace of kernel matrix $\mathbf{K}_\mu$.
+%The trace of kernel matrix $\mathbf{K}_{\bm \mu}$ can be the upper-bound of the global Rademacher complexity of $\mathcal{H}_{mkl}$.
+The global Rademacher complexity of $\mathcal{H}_{mkl}$ can be bounded by the trace of kernel matrix $\mathbf{K}_{\bm \mu}$.
 Existing works on \cite{LanckrietCBGJ02,BachLJ04,SonnenburgRSS06} use the following constraint to $\mathcal{H}_{mkl}$:
-$\mathrm{Tr}(\mathbf{K}_\mu) \leq 1.$
+$\mathrm{Tr}(\mathbf{K}_{\bm \mu}) \leq 1.$
 According the above theoretical analysis,
 local Rademancher complexity (the tail sum of the eigenvalues of the kernel) lead to
 tighter generalization bounds than the global Rademancher complexity (the trace).
 Thus, we add local Rademancher complexity to restrict $\mathcal{H}_{mkl}$:
 \begin{align}
-    \mathcal{H}_{1}=\Big\{h_{\mathbf{w}, k_\mu} \in \mathcal{H}_{mkl}:\sum_{j > \zeta} \lambda(\mathbf{K}_\mu) \leq 1\Big\},
+    \mathcal{H}_{1}=\Big\{h_{\mathbf{w}, \mathbf{K}_{\bm \mu}} \in \mathcal{H}_{mkl}:\sum_{j > \zeta} \lambda_j(\mathbf{K}_{\bm \mu}) \leq 1\Big\},
 \end{align}
-where $\mathbf{K}_{\bm \mu}=\sum_{m=1}^M \mu_m \mathbf{K}_m$,
-$\lambda_j(\mathbf K_{\bm \mu})$ is the $j$-th eigenvalues of $\mathbf K_{\bm \mu}$,
+where $\lambda_j(\mathbf K_{\bm \mu})$ is the $j$-th eigenvalues of $\mathbf K_{\bm \mu}$,
 $\zeta$ is free parameter removing the $\zeta$ largest eigenvalues to control the tail sum.
 Note that the tail sum is the difference between the trace and
-the $\zeta$ largest eigenvalues: $\sum_{j>\zeta}\lambda_j(\mathbf{K})=\mathrm{Tr}(\mathbf{K})-\sum_{j=1}^\zeta\lambda_j(\mathbf{K})$,
+the $\zeta$ largest eigenvalues: $\sum_{j>\zeta}\lambda_j(\mathbf{K}_{\bm \mu})=\mathrm{Tr}(\mathbf{K}_{\bm \mu})-\sum_{j=1}^\zeta\lambda_j(\mathbf{K}_{\bm \mu})$,
 thus the tail sum can be calculated in $O(n^2\zeta)$ for each kernel.
 
 One can see that $\mathcal{H}_{1}$ is not convex, and we know that:
@@ -793,16 +793,18 @@ One can see that $\mathcal{H}_{1}$ is not convex, and we know that:
 \end{align*}
 Thus, we consider the use of the convex $\mathcal{H}_2$ replace of $\mathcal{H}_1$:
 \begin{align}
-    \mathcal{H}_{2}=\Big\{f_{\mathbf{w}, k_\mu} \in \mathcal{H}_1:
+    \mathcal{H}_{2}=\Big\{h_{\mathbf{w}, \mathbf{K}_{\bm \mu}} \in \mathcal{H}_{mkl}:
     \sum_{m=1}^M\mu_m\sum_{j>\zeta}\lambda_{j}(\mathbf{K}_m) \leq 1\Big\}.
 \end{align}
 Note that by a renormalization of the kernels $\kappa_1,\ldots,\kappa_M$,
-according to $\tilde{\mathbf K}_m:=\left(\sum_{j>\zeta}\lambda_j(\mathbf K_m)\right)^{-1}\mathbf K_{\bm \mu}$
+according to $\tilde{\mathbf K}_m:=\left(\sum_{j>\zeta}\lambda_j(\mathbf K_m)\right)^{-1}\mathbf K_m$
 and $\tilde{\mathbf K}_{\bm \mu}=\sum_{m=1}^M\mu_m\tilde{\mathbf K}_m$,
 we can simply rewrite $\mathcal{H}_2$ as
 \begin{align*}
-  \mathcal{H}_{2}=\Big\{&f_{\mathbf{w},\tilde{\kappa}_{\bm \mu}} \in \mathcal{H}_1:\\
-    &\sum_{m=1}^M\mu_m\sum_{j>\zeta}\lambda_{j}(\mathbf{K}_m) \leq 1,\bm \mu\succeq 0,\|\bm \mu\|_1 \leq 1\Big\}.
+   \mathcal{H}_2&=\Big\{h_{\mathbf{w},\tilde{\mathbf{K}}_{\bm \mu}}=\left(\langle \mathbf w_1,\tilde{\phi}_{\bm \mu}(\mathbf x)\rangle,
+   \ldots, \langle\mathbf w_K,\tilde{\phi}_{\bm \mu}(\mathbf x)\rangle\right),\\
+   &\left\|\mathbf  w \right\|_{2,p}\leq 1, 1 < p \leq \frac{2\log K}{2\log K-1},
+   \bm \mu\succeq 0,\|\bm \mu\|_1 \leq 1\Big\}.
 \end{align*}
 which is the commonly studied hypothesis class in multi-class multiple kernel learning.
 A simpler algorithm in which precomputed kernel matrices
@@ -813,13 +815,14 @@ are regularized by local Rademancher complexity respectively seen in Algorithm  
     \begin{algorithmic}
        \STATE {\bfseries Input:} precomputed kernel matrices $\mathbf{K}_1,\ldots,\mathbf{K}_M$ and $\zeta$
        \FOR{$i=1$ {\bfseries to} $M$}
-        \STATE Compute tail sum: $r_m=\sum_{j>\zeta}\lambda\left(\mathbf{K}_m\right)$
+        \STATE Compute tail sum: $r_m=\sum_{j>\zeta}\lambda_j\left(\mathbf{K}_m\right)$
         \STATE Normalize precomputed kernel matrix: $\widetilde{\mathbf{K}}_m=\mathbf{K}_m/r_m$
        \ENDFOR
        %\STATE Compute the minimizer of ERM over $\mathcal{H}_2$:%
-       \STATE Use $\widetilde{\mathbf{K}}=\sum_{m=1}^M \mu_m \widetilde{\mathbf{K}}_m$ in any $\ell_p$-norm MKL solver
+       \STATE Use $\widetilde{\mathbf{K}}_{\bm \mu}=\sum_{m=1}^M \mu_m \widetilde{\mathbf{K}}_m$ in any $\ell_p$-norm MKL solver
     \end{algorithmic}
 \end{algorithm}
+
 
 
 \subsection{SMSD-MKL}
@@ -1109,7 +1112,7 @@ a convex optimization way based on any existing MC-MKL algorithms,
 and the other that put local Rademancher complexity in optimization formulation,
 for which we give a stochastic mirror and sub-gradient descent method.
 Empirical results show our methods outperform the state-of-the-art multi-class classification methods.
-Based on local Rademacher complexity, our analysis can be used as a basis for the
+Based on local Rademacher complexity, our analysis can be used as a solid basis for the
 design of new multi-class kernel learning algorithms.
 
 
