@@ -96,7 +96,7 @@
     where $K$ and $n$ are the number of classes and size of the sample, respectively.
     The theoretical analysis motivates us to
     devise two effective multi-class kernel learning algorithms
-    with statistical guarantees and fast convergence rate.
+    with statistical guarantee and fast convergence rate.
     Experimental results show that our proposed methods can significantly outperform
     the existing multi-class classification methods.
     Theoretical analysis and empirical results demonstrate that our
@@ -204,7 +204,7 @@ local Rademacher complexity and multi-class kernel learning classification.
     VC dimension and Natarajan dimension are the important tools to derive generalization bounds,
     however these bounds are usually dimension
     dependent, which makes them hardly applicable for practical large
-    scale problems (such as typical computer vision problems).
+    scale problems.
 
 \textbf{Covering Number  Bounds.}
     Based on the $\ell_\infty$-norm covering number bound of
@@ -745,7 +745,7 @@ to devise two algorithms for multi-class multiple kernel learning (MC-MKL).
 %corresponding kernel $k(\mathbf x, \mathbf x')$ defined as $\phi(\mathbf x) \cdot \phi(\mathbf x')$.
 
 In this paper, we consider the use of multiple kernels,
-$$\kappa_\mu=\sum_{m=1}^M \mu_m\kappa_m.$$
+$$\kappa_{\bm \mu}=\sum_{m=1}^M \mu_m\kappa_m.$$
 A common approach to multi-class classification is the use of joint feature
 maps $\phi(\mathbf x):\mathcal X \to \mathcal H$ \cite{TsochantaridisHJA04}.
 For multiple kernel learning, we have $M$ feature mappings $\phi_m$, $m=1,\ldots,M$ and
@@ -776,7 +776,7 @@ Thus, we add local Rademancher complexity to restrict $\mathcal{H}_{mkl}$:
 \begin{align}
     \mathcal{H}_{1}=\Big\{h_{\mathbf{w}, k_\mu} \in \mathcal{H}_{mkl}:\sum_{j > \zeta} \lambda(\mathbf{K}_\mu) \leq 1\Big\},
 \end{align}
-where $\mathbf{K}_\mu=\sum_{m=1}^M \mu_m \mathbf{K}_m$,
+where $\mathbf{K}_{\bm \mu}=\sum_{m=1}^M \mu_m \mathbf{K}_m$,
 $\lambda_j(\mathbf K_{\bm \mu})$ is the $j$-th eigenvalues of $\mathbf K_{\bm \mu}$,
 $\zeta$ is free parameter removing the $\zeta$ largest eigenvalues to control the tail sum.
 Note that the tail sum is the difference between the trace and
@@ -787,8 +787,8 @@ One can see that $\mathcal{H}_{1}$ is not convex, and we know that:
 \begin{align*}
     \begin{aligned}
         \sum_{m=1}^M\mu_m\sum_{j>\zeta}\lambda_{j}(\mathbf{K}_m)
-        & =\sum_{m=1}^M\mu_m/\|\mathbf{\mu}\|_1 \sum_{j>\zeta}\lambda_{j}(\|\mathbf{\mu}\|_1\mathbf{K}_m)\\
-        & \leq \sum_{j>\zeta} \lambda_j\big(\mathbf{K}_\mu\big).
+        & =\sum_{m=1}^M\mu_m/\|\bm \mu\|_1 \sum_{j>\zeta}\lambda_{j}(\|\bm \mu\|_1\mathbf{K}_m)\\
+        & \leq \sum_{j>\zeta} \lambda_j\big(\mathbf{K}_{\bm \mu}\big).
     \end{aligned}
 \end{align*}
 Thus, we consider the use of the convex $\mathcal{H}_2$ replace of $\mathcal{H}_1$:
@@ -797,8 +797,8 @@ Thus, we consider the use of the convex $\mathcal{H}_2$ replace of $\mathcal{H}_
     \sum_{m=1}^M\mu_m\sum_{j>\zeta}\lambda_{j}(\mathbf{K}_m) \leq 1\Big\}.
 \end{align}
 Note that by a renormalization of the kernels $\kappa_1,\ldots,\kappa_M$,
-according to $\tilde{\kappa}_m:=\left(\sum_{j>\zeta}\lambda_j(\kappa_m)\right)^{-1}\kappa$
-and $\tilde{\kappa}_{\bm \mu}=\sum_{m=1}^M\mu_m\tilde{\kappa}_m$,
+according to $\tilde{\mathbf K}_m:=\left(\sum_{j>\zeta}\lambda_j(\mathbf K_m)\right)^{-1}\mathbf K_{\bm \mu}$
+and $\tilde{\mathbf K}_{\bm \mu}=\sum_{m=1}^M\mu_m\tilde{\mathbf K}_m$,
 we can simply rewrite $\mathcal{H}_2$ as
 \begin{align*}
   \mathcal{H}_{2}=\Big\{&f_{\mathbf{w},\tilde{\kappa}_{\bm \mu}} \in \mathcal{H}_1:\\
@@ -813,8 +813,8 @@ are regularized by local Rademancher complexity respectively seen in Algorithm  
     \begin{algorithmic}
        \STATE {\bfseries Input:} precomputed kernel matrices $\mathbf{K}_1,\ldots,\mathbf{K}_M$ and $\zeta$
        \FOR{$i=1$ {\bfseries to} $M$}
-        \STATE Compute tail sum: $t_m=\sum_{j>\zeta}\mathbf{K}_m$
-        \STATE Normalize precomputed kernel matrix: $\widetilde{\mathbf{K}}_m=\mathbf{K}_m/t_m$
+        \STATE Compute tail sum: $r_m=\sum_{j>\zeta}\lambda\left(\mathbf{K}_m\right)$
+        \STATE Normalize precomputed kernel matrix: $\widetilde{\mathbf{K}}_m=\mathbf{K}_m/r_m$
        \ENDFOR
        %\STATE Compute the minimizer of ERM over $\mathcal{H}_2$:%
        \STATE Use $\widetilde{\mathbf{K}}=\sum_{m=1}^M \mu_m \widetilde{\mathbf{K}}_m$ in any $\ell_p$-norm MKL solver
@@ -879,8 +879,8 @@ For each iteration, the algorithm randomly samples a training example from train
 
 For $C(\mathbf w)$, the algorithm updates the dual vector with the gradient of $C(\mathbf w)$.
 Since hinge loss used in $C(\mathbf w)$ is not differentiable,
-the algorithm uses sub-gradient of $z^t=\partial\ell(\mathbf w^t,\phi_{\bm \mu}(\mathbf{x}_t), y_t)$ instead,
-where $\partial\ell(\mathbf w^t,\phi_{\bm \mu}(\mathbf{x}_t), y_t)$ is the sub-gradient w.r.t $\mathbf w^t$.
+the algorithm uses sub-gradient of $z^t=\partial\ell(\mathbf w^t,\phi_{\bm \mu}(\mathbf{x}^t), y^t)$ instead,
+where $\partial\ell(\mathbf w^t,\phi_{\bm \mu}(\mathbf{x}^t), y^t)$ is the sub-gradient w.r.t $\mathbf w^t$.
 
 For $\Omega(\mathbf w)$, as in the UFO-MKL \cite{OrabonaL11},
 the algorithm uses $\mathbf w=\nabla\Omega^\ast(\pmb{\theta})$ to update the primal vector $\mathbf w$,
@@ -1059,7 +1059,7 @@ with 7 popular multi-class classification methods:
 $\ell_1$-norm linear multi-class SVM (LMC) \cite{CrammerS02},
 Generalized Minimal Norm Problem solver (GMNP) \cite{franc2005optimization},
 the Multiclass MKL (MC-MKL) for $\ell_1$-norm and $\ell_2$-norm \cite{ZienO2007},
- the mixed-norm MKL solved by stochastic gradient descent(UFO-MKL)\cite{OrabonaL11}.
+ the mixed-norm MKL solved by stochastic gradient descent (UFO-MKL) \cite{OrabonaL11}.
 Actually, we use LIBSVM\footnote{Available at https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/}
 (implementing One-against-One and One-against-the-Rest implemented),
 the DOGMA libary \footnote{Available at http://dogma. sourceforge. net} \cite{orabona2009dogma} (implementing LMC, GMNP,
@@ -1074,7 +1074,7 @@ $K(\mathbf{x}, \mathbf{x}')=\exp\Big(-\frac{\|\mathbf{x}-\mathbf{x}'\|_2^2}{2\ta
 where $\tau \in {2^i, i=-10,-9,\ldots,9,10}$. For single Kernel methods (One vs. One, One vs. Rest, GMNP),
 we choose the kernel which have the highest performance among basic kernels by cross-validation.
 Meanwhile, we use all basic kernels for MKL methods (\texttt{Conv-MKL}, \texttt{SMSD-MKL}, $\ell_1$ MC-MKL, $\ell_2$ MC-MKL, UFO-MKL).
-For our algorithms \texttt{Conv-MKL} and \texttt{SMSD-MKL}, we fix the parameter $\theta=2$ to curve local Rademancher complexity.
+For our algorithms \texttt{Conv-MKL} and \texttt{SMSD-MKL}, we fix the parameter $\zeta=2$ to curve local Rademancher complexity.
 The regularization parameterized $C \in {2^i, i=-2, \ldots, 12}$ of all algorithms and
 the parameter $\gamma \in {10^i, i=-4, \ldots, 1}$ of \texttt{SMSD-MKL} are determined by 10-folds cross-validation on training data.
 The other parameters for the compared algorithms follow the same experimental setting in their papers.
