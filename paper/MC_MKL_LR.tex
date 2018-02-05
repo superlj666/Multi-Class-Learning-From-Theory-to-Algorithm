@@ -46,6 +46,20 @@
 
 \twocolumn[
 \icmltitle{Multi-Class Kernel Learning: Fast Rate and Algorithms}
+
+\begin{icmlauthorlist}
+\icmlauthor{Jian Li}{iie,ucas}
+\icmlauthor{Yong Liu}{iie}
+\icmlauthor{Hailun Lin}{iie}
+\icmlauthor{Yinliang Yue}{iie}
+\icmlauthor{Weiping Wang}{iie}
+\end{icmlauthorlist}
+
+\icmlaffiliation{iie}{Institute of Information Engineering, Chinese Academy of Sciences}
+\icmlaffiliation{ucas}{School of Cyber Security, University of Chinese Academy of Sciences}
+
+\icmlcorrespondingauthor{Yong Liu}{liuyong@iie.ac.cn}
+
 \icmlkeywords{Multi-Class Classification, Kernel Methods, Local Rademacher Complexity}
 
 \vskip 0.3in
@@ -434,8 +448,9 @@ To this end,
 
 In the following, we assume that
 $\vartheta=\sup_{\mathbf x\in \mathcal{X}}\kappa(\mathbf x,\mathbf x)< \infty$,
-and $\ell_h:\mathcal{Z}\rightarrow [0,M]$,
-$M>0$ is a constant.
+and $\ell_h:\mathcal{Z}\rightarrow [0,d]$,
+$d>0$ is a constant.
+
 \section{Sharper Generalization Bounds}
 In this section, we first estimate the local Rademacher complexity,
 and further derive a sharper generalization bound.
@@ -448,7 +463,7 @@ In this subsection, we will estimate the local Rademacher complexity of multi-cl
   then with probability $1-\delta$,
   we have
   \begin{align*}
-    \mathcal{R}(\mathcal{L}^r) \leq \frac{c_{M,\vartheta}\xi(K)\sqrt{\zeta r}\log^{\frac{3}{2}}(n)}{\sqrt{n}}+\frac{4\log(1/\delta)}{n},
+    \mathcal{R}(\mathcal{L}^r) \leq \frac{c_{d,\vartheta}\xi(K)\sqrt{\zeta r}\log^{\frac{3}{2}}(n)}{\sqrt{n}}+\frac{4\log(1/\delta)}{n},
   \end{align*}
   where
   \begin{align*}
@@ -460,7 +475,7 @@ In this subsection, we will estimate the local Rademacher complexity of multi-cl
       \end{aligned}
       \right.
   \end{align*}
-  $c_{M,\vartheta}$ is a constant depends on $M$ and $\vartheta$.
+  $c_{d,\vartheta}$ is a constant depends on $d$ and $\vartheta$.
 \end{theorem}
 \begin{proof}
   According to the Lemma 3.6 of \cite{oneto2013improved},
@@ -482,14 +497,14 @@ In this subsection, we will estimate the local Rademacher complexity of multi-cl
   we know that if $\ell$ is a $\zeta$-smooth loss function,
   \begin{align}
    \label{RlocalRnew}
-    \hat{\mathcal{R}}(\mathcal{L}^r)\leq c_M\sqrt{\zeta r}\log^{\frac{3}{2}}(n)\hat{\mathcal{R}}(\mathcal{L}),
+    \hat{\mathcal{R}}(\mathcal{L}^r)\leq c_d\sqrt{\zeta r}\log^{\frac{3}{2}}(n)\hat{\mathcal{R}}(\mathcal{L}),
   \end{align}
-  where $c_M$ is a constant depends on $M$.
+  where $c_d$ is a constant depends on $d$.
   Substituting  \eqref{RlocalRnew} into \eqref{eqRhatRnew},
   we have
   \begin{align}
   \label{eq-middle-result-hatR}
-    \hat{\mathcal{R}}(\mathcal{L}^r)\leq 2c_M\sqrt{\zeta r}\log^{\frac{3}{2}}(n)\hat{\mathcal{R}}(\mathcal{L})
+    \hat{\mathcal{R}}(\mathcal{L}^r)\leq 2c_d\sqrt{\zeta r}\log^{\frac{3}{2}}(n)\hat{\mathcal{R}}(\mathcal{L})
     +\frac{2\log(1/\delta)}{n}.
   \end{align}
   From Theorem 1 in Appendix A,
@@ -546,12 +561,12 @@ the notion of local Rademacher complexity.
 \begin{theorem}
 \label{theorem-finally}
   If $\ell$ is a $\zeta$-smooth loss.
-  Then, $\forall h\in\mathcal{H}_{p,\kappa}$ and $\forall k>\max(1,\frac{\sqrt{2}}{2M})$,  with probability
+  Then, $\forall h\in\mathcal{H}_{p,\kappa}$ and $\forall k>\max(1,\frac{\sqrt{2}}{2d})$,  with probability
   $1-\delta$, we have $L(h)\leq $
   \begin{align*}
    \leq \max\left\{
         \frac{k}{k-1}\hat{L}(\ell_h),
-       \hat{L}(\ell_h)+\frac{c_{M,\vartheta,\zeta, k}\xi^2(K) \log^3 n}{n}+\frac{c_{\delta}}{n}
+       \hat{L}(\ell_h)+\frac{c_{d,\vartheta,\zeta, k}\xi^2(K) \log^3 n}{n}+\frac{c_{\delta}}{n}
      \right\},
 \end{align*}
 where \begin{align*}
@@ -563,18 +578,18 @@ where \begin{align*}
       \end{aligned}
       \right.
   \end{align*}
-  $c_{M,\vartheta}$ is a constant depending on $M,\vartheta,\zeta, k$,
+  $c_{d,\vartheta}$ is a constant depending on $d,\vartheta,\zeta, k$,
   and $c_{\delta}$ is a constant depending on $\delta$.
 \end{theorem}
 \begin{proof}
-From Theorem 2 (see in Appendix B),
+From Theorem 2 in Appendix B,
 with probability $1-\delta$,
 we have
 \begin{align}
 \label{eq-middle-leel}
    L(\ell_h)&\leq \max\left\{
         \frac{k}{k-1}\hat{L}(\ell_h),
-       \hat{L}(\ell_h)+c_Mr^\ast+\frac{c_\delta}{n}
+       \hat{L}(\ell_h)+c_dr^\ast+\frac{c_\delta}{n}
      \right\},
 \end{align}
 where $r^\ast$ is a fixed point of $\mathcal{R}(\mathcal{L}^r)$.
@@ -585,9 +600,9 @@ so the fixed point $r^\ast$ of $\mathcal{R}(\mathcal{L}^r)$ is uniquely exists.
 
 According to  Theorem \ref{rademacherlocal}, we know that
 \begin{align*}
-    \mathcal{R}(\mathcal{L}^r) \leq \frac{c_{M,\vartheta}\xi(K)\sqrt{\zeta r}\log^{\frac{3}{2}}(n)}{\sqrt{n}}+\frac{4\log(1/\delta)}{n}.
+    \mathcal{R}(\mathcal{L}^r) \leq \frac{c_{d,\vartheta}\xi(K)\sqrt{\zeta r}\log^{\frac{3}{2}}(n)}{\sqrt{n}}+\frac{4\log(1/\delta)}{n}.
   \end{align*}
-Thus, if we set $A=\frac{c_{M,\vartheta}\xi(K)\sqrt{\zeta}\log^{\frac{3}{2}}(n)}{\sqrt{n}}$, $B=\frac{4\log(1/\delta)}{n}$,
+Thus, if we set $A=\frac{c_{d,\vartheta}\xi(K)\sqrt{\zeta}\log^{\frac{3}{2}}(n)}{\sqrt{n}}$, $B=\frac{4\log(1/\delta)}{n}$,
 the fixed point $r^\ast$ is smaller than the solution of
   $
      A\sqrt{r}+B=r,
@@ -596,7 +611,7 @@ the fixed point $r^\ast$ is smaller than the solution of
    \begin{align*}
      r^s&=\frac{2B+A^2+\sqrt{(2B+A^2)^2-4B^2}}{2}\\
      &\leq 2B+A^2
-     =\frac{c_{M,\vartheta}^2\xi^2(K)\zeta\log^3(n)}{n}+\frac{4\log(1/\delta)}{n}.
+     =\frac{c_{d,\vartheta}^2\xi^2(K)\zeta\log^3(n)}{n}+\frac{4\log(1/\delta)}{n}.
    \end{align*}
    Substituting the above inequality into \eqref{eq-middle-leel} finishes the proof.
 \end{proof}
@@ -857,12 +872,12 @@ seen in Algorithm \ref{algorithm2}.
  but $\pmb{\mu}$ is updated together with $\mathbf w$ according to a tricky link function given in Theorem \ref{theorem-fenchel-dual}.
  %The connection between the two vectors is via a link function $\pmb{\theta}=f(\mathbf w)$, where $f:\mathcal{K}\times\mathcal{M}\times\mathcal{H} \to \mathcal{K}\times\mathcal{M}\times\mathcal{H}$. Function $\Omega$ is strictly convex, so the algorithm use $\pmb{\theta}=f(\mathbf w)=\nabla\Omega(\mathbf w)$ as link function and $\mathbf w==\nabla\Omega^\ast(\pmb{\theta})$ as the inverse function.Similar with UFO-MKL in \cite{OrabonaL11},
 
-Initially, the algorithm sets $\mathbf{w}=\mathbf{1}$, $\pmb{\theta}=\mathbf{1}$ and $\pmb{\mu}=\mathbf{1}$. 
+Initially, the algorithm sets $\mathbf{w}=\mathbf{1}$, $\pmb{\theta}=\mathbf{1}$ and $\pmb{\mu}=\mathbf{1}$.
 Especially, the algorithm initializes $q=2\log K$ to make the order of generalization reach
-$\mathcal{O}\big(\frac{(\log K)^{2+1/\log K}}{n}\big)$, according to Theorem \ref{theorem-finally}.   
+$\mathcal{O}\big(\frac{(\log K)^{2+1/\log K}}{n}\big)$, according to Theorem \ref{theorem-finally}.
 For each iteration, the algorithm randomly samples a training example from train set.
 
-For $C(\mathbf w)$, the algorithm updates the dual vector with the gradient of $C(\mathbf w)$. 
+For $C(\mathbf w)$, the algorithm updates the dual vector with the gradient of $C(\mathbf w)$.
 Since hinge loss used in $C(\mathbf w)$ is not differentiable,
 the algorithm uses sub-gradient of $z^t=\partial\ell(\mathbf w^t,\phi_{\bm \mu}(\mathbf{x}_t), y_t)$ instead,
 where $\partial\ell(\mathbf w^t,\phi_{\bm \mu}(\mathbf{x}_t), y_t)$ is the sub-gradient w.r.t $\mathbf w^t$.
@@ -978,7 +993,7 @@ Suppose that $\|\phi_m(\mathbf w^t,\cdot)\|_2 \leq 1$, and the loss function $\e
 Let $\delta \in (0,1)$, then with probability at least $1 - \delta$ over the choices of the random samples
 we have that after $T$ iterations of the SMSD-MKL algorithm
 \begin{align*}
-    f(\mathbf w^{T+1})-f(\mathbf w^\ast) \leq \frac{eL^2(1+\log T)\log F}{\alpha\delta T},
+    f(\mathbf w^{T+1})-f(\mathbf w^\ast) \leq \frac{eL^2(1+\log T)\log M}{\alpha\delta T},
 \end{align*}
 where $e$ is the Euler's number.
 \end{theorem}
@@ -986,7 +1001,7 @@ where $e$ is the Euler's number.
 Using \eqref{loss_function_hypothesis} and $\|\phi_m(\mathbf w^t, y^t)\|_2 \leq 1$, we have
 \begin{align*}
     &\|\partial(\mathbf w^t,\phi(\mathbf{x}^t,\cdot), y^t)\|_{2,q} \\
-    &\leq LF^{1/q} \max_{j=1, \ldots, F} \|\phi_m(\mathbf{x}^t, \cdot)\|_2 \leq LF^{1/q}
+    &\leq LM^{1/q} \max_{j=1, \ldots, M} \|\phi_m(\mathbf{x}^t, \cdot)\|_2 \leq LF^{1/q}
 \end{align*}
 The function $\Omega(\mathbf w)=\frac{\alpha}{2}\|\mathbf w\|_{2,p}^2 + \beta\mathbf{\mu} \cdot \mathbf{r}$ is
  $\alpha$-strongly convex w.r.t. the norm $\|\cdot\|_{2,q}$. Hence, using according to Theorem 1 in \cite{Shalev-ShwartzSS07},
@@ -1035,7 +1050,7 @@ svmguide2          &82.69$\pm$5.65             &\textbf{85.17$\pm$3.83}   &81.10
 satimage           &91.64$\pm$0.88             &\underline{91.78$\pm$0.82}&84.95$\pm$1.15      &90.67$\pm$0.91            &89.29$\pm$0.96       &89.97$\pm$0.81    &\underline{91.86$\pm$0.62} &90.43$\pm$1.27            &\textbf{91.92$\pm$0.83}\\
 \bottomrule
 \end{tabular*}
-\vspace{-0.3cm}
+\vspace{-0.6cm}
 \end{table*}
 
 In this section, we will  compare our proposed \texttt{Conv-MKL} (Algorithm \ref{algorithm1}) and \texttt{SMSD-MKL} (Algorithm \ref{algorithm2})
