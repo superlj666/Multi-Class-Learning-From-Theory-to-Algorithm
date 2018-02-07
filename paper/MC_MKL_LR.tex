@@ -188,7 +188,7 @@ local Rademacher complexity and multi-class kernel learning classification.
 
     Instead of global Rademacher complexity,
     in this paper, we use local Rademacher complexity
-    to obtain a sharper bound, which  substantially improves 
+    to obtain a sharper bound, which  substantially improves
     generalization performance upon existing global Rademancher complexity methods.
 
 \textbf{VC-dimension Bounds.}
@@ -749,9 +749,9 @@ A common approach to multi-class classification is the use of joint feature
 maps $\phi(\mathbf x):\mathcal X \to \mathcal H$ \cite{TsochantaridisHJA04}.
 For multiple kernel learning, we have $M$ feature mappings $\phi_m$, $m=1,\ldots,M$ and
 $$\mathbf{K}_m(i,j)=\langle \phi_m(\mathbf x_i), \phi_m(\mathbf x_j)\rangle$$where $
-m=1,\ldots,M$ and $i,j=1, \ldots, n$. 
+m=1,\ldots,M$ and $i,j=1, \ldots, n$.
 Let $\phi_{\bm \mu}(\mathbf x)=[\phi_1(\mathbf x),\ldots,\phi_M(\mathbf x)]$.
-%We know $\mathbf{K}_{\bm \mu}(i,j)=\langle \phi_{\bm \mu}(\mathbf{x}_i), \phi_{\bm \mu}(\mathbf{x}_j)\rangle$.% 
+%We know $\mathbf{K}_{\bm \mu}(i,j)=\langle \phi_{\bm \mu}(\mathbf{x}_i), \phi_{\bm \mu}(\mathbf{x}_j)\rangle$.%
 %So, the $\ell_{2,p}$-norm of $\mathbf{w}$ can be defined as $\|\mathbf w\|_{2,p}=\|[\|\mathbf{w}_1\|_2,\|\mathbf{w}_2\|_2,\ldots,\|\mathbf{w}_M\|_2]\|_p$. The dual norm of $\|\cdot\|_{2,p}$ is $\|\cdot\|_{2,q}$, where $1/p+1/q=1$ \cite{kakade2009duality}.
 Using Theorem \ref{theorem-finally}, the $\ell_p$ hypothesis space of multiple kernels can be written as:
  \begin{align*}
@@ -1014,6 +1014,7 @@ The function $\Omega(\mathbf w)=\frac{\alpha}{2}\|\mathbf w\|_{2,p}^2 + \beta\ma
 
 \section{Experiments}
 \begin{table*}[t]
+\label{tabel:accuracy}
 \small
 \footnotesize
 %\scriptsize
@@ -1061,26 +1062,27 @@ with 7 popular multi-class classification methods:
  One-against-One \cite{knerr1990single}, One-against-the-Rest \cite{bottou1994comparison},
 $\ell_1$-norm linear multi-class SVM (LMC) \cite{CrammerS02},
 Generalized Minimal Norm Problem solver (GMNP) \cite{franc2005optimization},
-the Multiclass MKL (MC-MKL) for $\ell_1$-norm and $\ell_2$-norm \cite{ZienO2007},
- the mixed-norm MKL solved by stochastic gradient descent (UFO-MKL) \cite{OrabonaL11}.
-Actually, we use LIBSVM\footnote{Available at https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/}
-(implementing One-against-One and One-against-the-Rest implemented),
-the DOGMA libary \footnote{Available at http://dogma. sourceforge. net} \cite{orabona2009dogma} (implementing LMC, GMNP,
-$\ell_1$-nomr and $\ell_2$-norm MC-MKL) and the SHOGUN-6.1.3\footnote{Available at http://www.shogun-toolbox.org/} (implementing UFO-MKL).
+the Multiclass MKL (MC-MKL) for $\ell_1$-norm and $\ell_2$-norm \cite{ZienO2007} 
+and the mixed-norm MKL solved by stochastic gradient descent (UFO-MKL) \cite{OrabonaL11}.
+Actually, we complete comparison tests via implements in LIBSVM \footnote{Available at https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/} 
+(One-against-One and One-against-the-Rest), 
+the DOGMA libary \footnote{Available at http://dogma. sourceforge. net} \cite{orabona2009dogma} (LMC, GMNP, 
+$\ell_1$-nomr and $\ell_2$-norm MC-MKL) and the SHOGUN-6.1.3 \footnote{Available at http://www.shogun-toolbox.org/} (UFO-MKL). 
+What's more, we implement the proposed \texttt{Conv-MKL} and \texttt{SMSD-MKL} algorithms based on UFO-MKL.
 
 We experiment on 14 publicly avaliable datasets:
 four of them evaluated in \cite{ZienO2007} (plant, nonpl, psortPos, and psortNeg)
 \footnote{Available at http://www.raetschlab.org/suppl/protsubloc}
 and the others from LIBSVM Data. %\footnote{Available at https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/}.
 For each data set, we use the Gaussian kernel
-$K(\mathbf{x}, \mathbf{x}')=\exp\Big(-\frac{\|\mathbf{x}-\mathbf{x}'\|_2^2}{2\tau}\Big)$ as our basic kernels,
-where $\tau \in {2^i, i=-10,-9,\ldots,9,10}$. For single Kernel methods (One vs. One, One vs. Rest, GMNP),
-we choose the kernel which have the highest performance among basic kernels by cross-validation.
-Meanwhile, we use all basic kernels for MKL methods (\texttt{Conv-MKL}, \texttt{SMSD-MKL}, $\ell_1$ MC-MKL, $\ell_2$ MC-MKL, UFO-MKL).
-For our algorithms \texttt{Conv-MKL} and \texttt{SMSD-MKL}, we fix the parameter $\zeta=2$ to curve local Rademancher complexity.
+$K(\mathbf{x}, \mathbf{x}')=\exp\Big(-\frac{\|\mathbf{x}-\mathbf{x}'\|_2^2}{2\tau}\Big)$ as our basic kernels, 
+where $\tau \in {2^i, i=-10,-9,\ldots,9,10}$. For single Kernel methods (One vs. One, One vs. Rest, GMNP), 
+we choose a kernel which gives the highest performance by cross-validation. 
+Meanwhile, we use all basic kernels for MKL methods (\texttt{Conv-MKL}, \texttt{SMSD-MKL}, $\ell_1$ MC-MKL, $\ell_2$ MC-MKL, UFO-MKL). 
+For \texttt{Conv-MKL} and \texttt{SMSD-MKL}, we fix the parameter $\zeta=2$ to curve local Rademancher complexity.
 The regularization parameterized $C \in {2^i, i=-2, \ldots, 12}$ of all algorithms and
-the parameter $\gamma \in {10^i, i=-4, \ldots, 1}$ of \texttt{SMSD-MKL} are determined by 10-folds cross-validation on training data.
-The other parameters for the compared algorithms follow the same experimental setting in their papers.
+the parameter $\gamma \in {10^i, i=-4, \ldots, 1}$ of \texttt{SMSD-MKL} are determined by 10-folds cross-validation.
+Other parameters of the compared algorithms follow the same experimental setting in their papers.
 For each data set, we run all methods 50 times with randomly selected 80\% for training and 20\% for testing.
 The use of multiple training/testing partitions allows an estimate of the statistical significance of differences
 in performance between methods.
@@ -1090,7 +1092,7 @@ in performance between methods.
 %if the $t$-statistic $\frac{\bar{d}}{S_d/\sqrt{50}} > 1.676$.
 All statement of statistical significance in the remainder refer to a 95\% level of significance under $t$-test.
 
-The average test accuracies are reported in Table \ref{tabel:accuracy}.
+The average test accuracies are reported in Table \ref{tabel:accuracy}. 
 The results show: 1) Our \texttt{Conv-MKL} and \texttt{SMSD-MKL}methods give best results on nearly all data sets
 except \textit{vehicle} and \textit{satimage};
 2) \texttt{SMSD-MKL} is significantly better than \texttt{Conv-MKL} because of wining 9 data sets and defeated on 2 data sets;
