@@ -2,8 +2,8 @@ function   [kernel_name, para]=choose_kernel(data_name)
 
 c_list=2.^(-2:1:12);
 folds=10;
-str1=['/home/bd-dev/lijian/201801_ICML/data/new_kernels/',data_name,'/Gaussian_'];
-label_path=['/home/bd-dev/lijian/201801_ICML/data/labels/label_', data_name,'.mat'];
+str1=['data/',data_name,'/Gaussian_'];
+label_path=['data/labels/label_', data_name,'.mat'];
 load(label_path);
 sample_n = size(label_vector,2);
 str2=strsplit(num2str(-10:1:10),' ');

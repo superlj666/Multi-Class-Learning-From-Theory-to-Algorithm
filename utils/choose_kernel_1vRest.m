@@ -2,8 +2,8 @@ function   [kernel_name, para]=choose_kernel_1vRest(data_name)
 
 c_list=2.^(-2:1:12);
 folds=10;
-str1=['/home/bd-dev/lijian/201801_ICML/data/new_kernels/',data_name,'/Gaussian_'];
-label_path=['/home/bd-dev/lijian/201801_ICML/data/labels/label_', data_name,'.mat'];
+str1=['data/',data_name,'/Gaussian_'];
+label_path=['data/labels/label_', data_name,'.mat'];
 load(label_path);
 if strcmp(data_name,'glass') || strcmp(data_name,'svmguide4')
     label_vector(label_vector>3) = label_vector(label_vector>3)-1;

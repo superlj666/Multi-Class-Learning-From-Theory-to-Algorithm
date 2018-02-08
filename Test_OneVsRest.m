@@ -2,17 +2,17 @@ addpath( './utils' );
 clear
 close all
 
-datasets={'satimage'};
-size_arr=[4435];
-best_para=2;
-data_path='/home/bd-dev/lijian/201801_ICML/data/new_kernels/satimage/Gaussian_-2.mat';
+datasets={'usps'};
+size_arr=[7291];
+data_path=['data/usps/Gaussian_-3.mat'];
+best_para=[8]
 
 all_results=zeros(30, length(datasets));
 for j=1:length(datasets)
 %     [kernel_name, best_para]=choose_kernel_1vRest(char(datasets(j)))
 %     data_path=kernel_name;
     
-    label_path=['/home/bd-dev/lijian/201801_ICML/data/labels/label_', char(datasets(j)),'.mat'];
+    label_path=['data/labels/label_', char(datasets(j)),'.mat'];
     load(data_path);
     load(label_path);
     if strcmp(char(datasets(j)),'glass') || strcmp(char(datasets(j)),'svmguide4')

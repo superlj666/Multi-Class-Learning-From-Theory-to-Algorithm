@@ -3,6 +3,7 @@ mycache/
 .*
 !.gitignore
 paper/*
+data/*
 !paper/MC_MKL_LR.tex
 !paper/MC_MKL_LR.bib
 !paper/MC-supplementary.tex

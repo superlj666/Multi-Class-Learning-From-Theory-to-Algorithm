@@ -6,16 +6,17 @@ folds=5;
 % datasets={'psortPos', 'vehicle','glass','dna', 'svmguide2'};
 % size_arr=[541,846,214,2000,391];
 
-datasets={'satimage'};
-size_arr=[4435];
+datasets={'usps'};
+size_arr=[7291];
 C_list=2.^(-2:1:12);
+best_para=[100];
 
 all_results=zeros(rounds, length(datasets));
 for j=1:length(datasets)
     sample_n=size_arr(j);
     [KMatrix, label_vector] = load_data(char(datasets(j)), 'mkl');
     
-    best_para = get_best_para(KMatrix, label_vector, {C_list}, 'mkl', folds);
+%     best_para = get_best_para(KMatrix, label_vector, {C_list}, 'mkl', folds);
     fprintf('best C is %.2f\n',best_para(end));
     
     rand('state', 0);

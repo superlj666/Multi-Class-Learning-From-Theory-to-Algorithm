@@ -292,7 +292,7 @@ if __name__ == '__main__':
     num_threads = 32
     mkl_norm = 1
 
-    sys.argv=['1','5','sector','gmnp','1']
+    #sys.argv=['1','5','sector','gmnp','1']
     file_type = sys.argv[1]
     data_name = sys.argv[2]
     mode = sys.argv[3]
