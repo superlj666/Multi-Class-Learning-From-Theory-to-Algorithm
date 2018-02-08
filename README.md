@@ -1,8 +1,8 @@
 # ICML_2018_Local_Rademancher
-Paper and experiments in ICML_2018_Local_Rademancher, own by Yong Liu and Jian Li
-
+Paper and experiments in ICML_2018_Local_Rademancher, own by Yong Liu and Jian Li.
+Appendixes mentioned in the paper are attached in MC-supplementary.pdf
 ## Usage of source code in Multi-class Kernel Learning: Fast Rate and Algorithms
-#### Enviroment
+### Enviroment
 We do experiments based on following softwares:
 1. Python 2.7
 2. MATLAB R2017b
@@ -10,10 +10,10 @@ We do experiments based on following softwares:
 4. SHOGUN-6.1.3 from https://github.com/shogun-toolbox/shogun
 5. LIBSVM Tools from https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/
 6. sklearn for python
-#### Data sets
+### Data sets
 1. plant, psortPos, psortNeg and nonpl from http://www.raetschlab.org/suppl/protsubloc
 2. others from https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/
-#### Steps
+### Steps
 1. Download data sets and move dataName.phylpro.mat, label_dataName.mat and dataName.scale to ./data/
 2. Create Gaussian kernels: change variable file_list in Test_Gaussian_Kernel.m and run
 3. Run following methods
