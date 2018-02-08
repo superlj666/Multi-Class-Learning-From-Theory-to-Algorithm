@@ -1,6 +1,7 @@
 # ICML_2018_Local_Rademancher
 Paper and experiments in ICML_2018_Local_Rademancher, own by Yong Liu and Jian Li.
-Appendixes mentioned in the paper are attached in MC-supplementary.pdf
+
+**Appendixes mentioned in the paper are attached in MC-supplementary.pdf**
 ## Usage of source code in Multi-class Kernel Learning: Fast Rate and Algorithms
 ### Enviroment
 We do experiments based on following softwares:
