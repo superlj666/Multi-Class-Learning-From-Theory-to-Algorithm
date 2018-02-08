@@ -1,7 +1,7 @@
 function best_para=get_best_para(KMatrix, label_vector, paralist, mode, folds)
 best_para=[];
 
-if strcmp(mode, 'dc')
+if strcmp(mode, 'smsd')
     C_list = cell2mat(paralist(1));
     gamma_list = cell2mat(paralist(2));
     C_accuracy = [];

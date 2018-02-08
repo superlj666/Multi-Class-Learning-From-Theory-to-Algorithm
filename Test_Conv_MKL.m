@@ -1,23 +1,21 @@
-clear;
-close all;
-train_part = 0.8;
-rounds=30;
-folds=5;
-% datasets={'psortPos', 'vehicle','glass','dna', 'svmguide2'};
-% size_arr=[541,846,214,2000,391];
+addpath( './utils' );
+clear
+close all
+% datasets={'plant','psortPos', 'psortNeg', 'nonpl', 'sector', 'segment','vehicle','vowel','wine','dna','glass','iris', 'svmguide2','satimage', 'usps'};
 
-datasets={'usps'};
-size_arr=[7291];
+datasets={'iris'};
 C_list=2.^(-2:1:12);
-best_para=[0.5];
 
+train_part = 0.8;
+rounds=50;
+folds=10;
 all_results=zeros(rounds, length(datasets));
 for j=1:length(datasets)
-    sample_n=size_arr(j);
-    [KMatrix, label_vector] = load_data(char(datasets(j)), 'conv');
+    [KMatrix, label_vector] = load_kernels(char(datasets(j)), 'conv');
+    sample_n=length(label_vector);
     
-%     best_para = get_best_para(KMatrix, label_vector, {C_list}, 'conv', folds);
-    fprintf('best C is %.2f\n',best_para(end));
+    best_para = get_best_para(KMatrix, label_vector, {C_list}, 'conv', folds);
+    fprintf('best C is %.6f\n',best_para(end));
     
     rand('state', 0);
     for i=1:rounds
@@ -34,5 +32,5 @@ for j=1:length(datasets)
         all_results(i, j)=single_mkl(Ktrain, Ytrain, Ktest, Ytest, best_para(end));
         fprintf('for %s round:%2d acc:%.2f\n',char(datasets(j)), i, all_results(i, j));
     end
-    fprintf('mean acc of %s is %.2f and best C is %.2f\n ',char(datasets(j)), mean(all_results(:,j)), best_para(end));
+    fprintf('mean acc of %s is %.2f and best C is %.6f\n ',char(datasets(j)), mean(all_results(:,j)), best_para(end));
 end

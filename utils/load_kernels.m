@@ -23,11 +23,3 @@ for index=1:size(str_arr,1)
         KMatrix(:,:,index)=single(K*sample_n/localR(index));
     end
 end
-
-
-% if char(datasets(j))=='sector'
-%     cut_index=label_vector<11;
-%     label_vector=label_vector(cut_index);
-%     KMatrix=KMatrix(cut_index,cut_index,:);
-%     sample_n=size(label_vector,2);
-% end

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
+import numpy as np
 import sys
-import class_tools
+from class_tools import *
 
 if __name__ == '__main__':
     #datasets=['plant','psortPos', 'psortNeg', 'nonpl', 'sector', 'segment','vehicle','vowel','wine','dna','glass','iris', 'svmguide2','satimage', 'usps']
@@ -20,13 +21,14 @@ if __name__ == '__main__':
             file_type='5'
         data_name = datasets[i]
         mode='cs'
-        C = get_best_para()
+        para_list=[C_list, data_name, mode, file_type]
+        C = get_best_para(para_list)
 
     if file_type == '4':
         data, label = loadFromMat(data_name)
-        accuracy = train_test(mode, data, label, C)
+        accuracy = train_test(mode, data, label, C, data_name)
     elif file_type == '5':
         X, y = loadFromLibsvm(data_name)
-        accuracy = train_test(mode, X, y, C)
+        accuracy = train_test(mode, X, y, C, data_name)
     print("\n".join(str(item * 100) for item in accuracy))
 

@@ -1,7 +1,5 @@
-function   [kernel_name, para]=choose_kernel_1vRest(data_name)
+function   [kernel_name, para]=choose_kernel_1vRest(data_name, c_list, folds)
 
-c_list=2.^(-2:1:12);
-folds=10;
 str1=['data/',data_name,'/Gaussian_'];
 label_path=['data/labels/label_', data_name,'.mat'];
 load(label_path);

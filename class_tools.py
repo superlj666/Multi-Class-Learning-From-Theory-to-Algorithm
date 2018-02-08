@@ -21,6 +21,12 @@ from sklearn.model_selection import KFold
 from sklearn.decomposition import PCA
 from tempfile import NamedTemporaryFile
 
+epsilon=1e-5
+folds=10
+times=50
+test_size=10
+num_threads=8
+
 def feature_extract(X):
     pca = PCA(n_components=20)
     new_data=pca.fit_transform(X.toarray())
@@ -83,7 +89,7 @@ def mkl_multiclass (fm_train_real, fm_test_real, label_train_multiclass,
     return out
 
 # multi-class classification based on C&S formulation
-def classifier_multiclassliblinear (fm_train_real,fm_test_real,label_train_multiclass,width, C, epsilon):
+def classifier_multiclassliblinear (fm_train_real,fm_test_real,label_train_multiclass, C):
     feats_train=RealFeatures(fm_train_real)
     feats_test=RealFeatures(fm_test_real)
 
@@ -118,7 +124,7 @@ def classifier_gmnpsvm (fm_train_real,fm_test_real,label_train_multiclass,width,
     out=svm.apply(feats_test).get_labels()
     return out
 
-def train_test(mode, X, y, C):
+def train_test(mode, X, y, C, data_name):
     accuracy=[]
     for i in range(times):        
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)        
@@ -138,14 +144,14 @@ def train_test(mode, X, y, C):
         elif mode=='gmnp':
             label_pre = classifier_gmnpsvm(X_train, X_test, y_train, width, C, epsilon)
         elif mode=='cs':
-            label_pre = classifier_multiclassliblinear(X_train, X_test, y_train, width, C, epsilon)    
+            label_pre = classifier_multiclassliblinear(X_train, X_test, y_train, C)    
         accuracy.append((y_test==label_pre).sum()/float(label_pre.size))
         
         print 'finish '+ data_name + ' in ' + mode + ', round ' + str(i) +', accuracy: ' + str(accuracy[len(accuracy)-1])
-    print 'mean accuracy of ' + data_name + ' in ' + mode + ' is ' + str(np.mean(accuracy))
+    print 'mean accuracy of ' + data_name + ' in ' + mode + ' is ' + str(np.mean(accuracy)) + ' and best C is ' + str(C)
     return accuracy
 
-def cv_para(mode, X, y, C):
+def cv_para(mode, X, y, C, data_name):
     accuracy=[]
     for train_index, test_index in KFold(n_splits=folds, shuffle=True).split(y):        
         X_train, X_test, y_train, y_test = X[train_index], X[test_index], y[train_index], y[test_index]
@@ -165,22 +171,23 @@ def cv_para(mode, X, y, C):
         elif mode=='gmnp':
             label_pre = classifier_gmnpsvm(X_train, X_test, y_train, width, C, epsilon)
         elif mode=='cs':
-            label_pre = classifier_multiclassliblinear(X_train, X_test, y_train, width, C, epsilon)    
+            label_pre = classifier_multiclassliblinear(X_train, X_test, y_train, C)    
         accuracy.append((y_test==label_pre).sum()/float(label_pre.size))
     print 'C: ' + str(C) + ' and mean accuracy of ' + data_name + ' in ' + mode + ' is ' + str(np.mean(accuracy))
     return np.mean(accuracy)
 
-def get_best_para():
+def get_best_para(para_list):
+    [C_list, data_name, mode, file_type]=para_list
     best_para = 0
     max_acc = 0
     for para in C_list:
         C = para
         if file_type =='4':
             data, label = loadFromMat(data_name)
-            accuracy =cv_para(mode, data, label, C)
+            accuracy =cv_para(mode, data, label, C, data_name)
         elif file_type =='5':
             X, y = loadFromLibsvm(data_name)
-            accuracy = cv_para(mode, X, y, C)
+            accuracy = cv_para(mode, X, y, C, data_name)
         if max_acc < accuracy:
             max_acc = accuracy
             best_para = C

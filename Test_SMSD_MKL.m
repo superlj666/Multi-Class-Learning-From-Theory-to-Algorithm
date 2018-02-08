@@ -1,24 +1,22 @@
-clear;
-close all;
-train_part = 0.8;
-rounds=30;
-folds=5;
-% datasets={'psortPos', 'vehicle','glass','dna', 'svmguide2'};
-% size_arr=[541,846,214,2000,391];
+addpath( './utils' );
+clear
+close all
+% datasets={'plant','psortPos', 'psortNeg', 'nonpl', 'sector', 'segment','vehicle','vowel','wine','dna','glass','iris', 'svmguide2','satimage', 'usps'};
 
 datasets={'usps'};
-size_arr=[7291];
-C_list=2.^(-2:1:12);%2.^(-2:1:10);
+C_list=10.^(0:1:3);
 gamma_list= 10.^(-4:1:-2);
-best_para=[128, 0.001];
 
+train_part = 0.8;
+rounds=50;
+folds=10;
 all_results=zeros(rounds, length(datasets));
 for j=1:length(datasets)
-    sample_n=size_arr(j);
-    [KMatrix, label_vector, localR] = load_data(char(datasets(j)), 'dc');
+    [KMatrix, label_vector, localR] = load_kernels(char(datasets(j)), 'smsd');    
+    sample_n=length(label_vector);
     
-%     best_para = get_best_para(KMatrix, label_vector, {C_list,gamma_list}, 'dc', folds);
-    fprintf('best C is %.2f and best gamma is %.2f\n',best_para(1), best_para(2));
+    best_para = get_best_para(KMatrix, label_vector, {C_list,gamma_list}, 'smsd', folds);
+    fprintf('best C is %.2f and best gamma is %.6f\n',best_para(1), best_para(2));
     
     rand('state', 0);
     for i=1:rounds
