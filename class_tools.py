@@ -5,6 +5,7 @@ from sklearn.externals.joblib import Memory
 from sklearn.datasets import load_svmlight_file
 mem = Memory("./mycache")
 
+import time
 import scipy.io as sio
 import scipy
 import numpy as np
@@ -25,7 +26,9 @@ epsilon=1e-5
 folds=10
 times=50
 test_size=10
-num_threads=8
+num_threads=16
+width=8
+mkl_epsilon=0.001
 
 def feature_extract(X):
     pca = PCA(n_components=20)
@@ -56,8 +59,8 @@ def loadFromMat (data_name):
     return data, label
 
 # mc-mkl learning machine
-def mkl_multiclass (fm_train_real, fm_test_real, label_train_multiclass,
-    C, epsilon, num_threads, mkl_epsilon, mkl_norm):
+def mkl_multiclass_1 (fm_train_real, fm_test_real, label_train_multiclass,
+    C):
     kernel = CombinedKernel()
     feats_train = CombinedFeatures()
     feats_test = CombinedFeatures()
@@ -76,10 +79,43 @@ def mkl_multiclass (fm_train_real, fm_test_real, label_train_multiclass,
 
     mkl = MKLMulticlass(C, kernel, labels)
 
-    mkl.set_epsilon(epsilon)
+    mkl.set_epsilon(1e-2)
     mkl.parallel.set_num_threads(num_threads)
     mkl.set_mkl_epsilon(mkl_epsilon)
-    mkl.set_mkl_norm(mkl_norm)
+    mkl.set_mkl_norm(1)
+    
+    mkl.train()
+
+    kernel.init(feats_train, feats_test)
+
+    out =  mkl.apply().get_labels()
+    return out
+
+# mc-mkl learning machine
+def mkl_multiclass_2 (fm_train_real, fm_test_real, label_train_multiclass,
+    C):
+    kernel = CombinedKernel()
+    feats_train = CombinedFeatures()
+    feats_test = CombinedFeatures()
+
+    for i in range(-10,11):
+        subkfeats_train = RealFeatures(fm_train_real)
+        subkfeats_test = RealFeatures(fm_test_real)
+        subkernel = GaussianKernel(pow(2,i+1))
+        feats_train.append_feature_obj(subkfeats_train)
+        feats_test.append_feature_obj(subkfeats_test)
+        kernel.append_kernel(subkernel)
+        
+    kernel.init(feats_train, feats_train)
+
+    labels = MulticlassLabels(label_train_multiclass)
+
+    mkl = MKLMulticlass(C, kernel, labels)
+
+    mkl.set_epsilon(1e-2)
+    mkl.parallel.set_num_threads(num_threads)
+    mkl.set_mkl_epsilon(mkl_epsilon)
+    mkl.set_mkl_norm(2)
 
     mkl.train()
 
@@ -104,7 +140,7 @@ def classifier_multiclassliblinear (fm_train_real,fm_test_real,label_train_multi
     return out
 
 # multi-class on gmnp
-def classifier_gmnpsvm (fm_train_real,fm_test_real,label_train_multiclass,width, C, epsilon):
+def classifier_gmnpsvm (fm_train_real,fm_test_real,label_train_multiclass,C):
     feats_train=RealFeatures(fm_train_real)
     feats_test=RealFeatures(fm_test_real)
     kernel= GaussianKernel(feats_train, feats_train, width)
@@ -112,7 +148,6 @@ def classifier_gmnpsvm (fm_train_real,fm_test_real,label_train_multiclass,width,
     start=time.time()
     tmp=kernel.get_kernel_matrix()
     end=time.time()
-    print 'use time: ' + str(end-start)
 
     labels=MulticlassLabels(label_train_multiclass)
 
@@ -137,12 +172,12 @@ def train_test(mode, X, y, C, data_name):
         y_train=y_train.reshape(y_train.size,).astype('float64')
         y_test=y_test.reshape(y_test.size,).astype('float64')
 
-        if mode=='mcmkl':
-            label_pre = mkl_multiclass(X_train, X_test, y_train, C, epsilon, num_threads, mkl_epsilon, mkl_norm)
-        elif mode=='1vR':
-            label_pre = classifier_multiclassmachine(X_train, X_test, y_train, width, C, epsilon)
+        if mode=='mcmkl1':
+            label_pre = mkl_multiclass_1(X_train, X_test, y_train, C)
+        elif mode=='mcmkl2':
+            label_pre = mkl_multiclass_2(X_train, X_test, y_train, C)
         elif mode=='gmnp':
-            label_pre = classifier_gmnpsvm(X_train, X_test, y_train, width, C, epsilon)
+            label_pre = classifier_gmnpsvm(X_train, X_test, y_train, C)
         elif mode=='cs':
             label_pre = classifier_multiclassliblinear(X_train, X_test, y_train, C)    
         accuracy.append((y_test==label_pre).sum()/float(label_pre.size))
@@ -164,12 +199,12 @@ def cv_para(mode, X, y, C, data_name):
         y_train=y_train.reshape(y_train.size,).astype('float64')
         y_test=y_test.reshape(y_test.size,).astype('float64')
 
-        if mode=='mcmkl':
-            label_pre = mkl_multiclass(X_train, X_test, y_train, C, epsilon, num_threads, mkl_epsilon, mkl_norm)
-        elif mode=='1vR':
-            label_pre = classifier_multiclassmachine(X_train, X_test, y_train, width, C, epsilon)
+        if mode=='mcmkl1':
+            label_pre = mkl_multiclass_1(X_train, X_test, y_train, C)
+        elif mode=='mcmkl2':
+            label_pre = mkl_multiclass_2(X_train, X_test, y_train, C)
         elif mode=='gmnp':
-            label_pre = classifier_gmnpsvm(X_train, X_test, y_train, width, C, epsilon)
+            label_pre = classifier_gmnpsvm(X_train, X_test, y_train, C)
         elif mode=='cs':
             label_pre = classifier_multiclassliblinear(X_train, X_test, y_train, C)    
         accuracy.append((y_test==label_pre).sum()/float(label_pre.size))

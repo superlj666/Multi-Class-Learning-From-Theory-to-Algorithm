@@ -1,4 +1,5 @@
 addpath( './utils' );
+addpath('../libsvm/libsvm-3.22/matlab/')
 clear
 close all
 % file_list={'plant','psortPos', 'psortNeg', 'nonpl', 'sector', 'segment','vehicle','vowel','wine','dna','glass','iris', 'svmguide2','satimage', 'usps'};

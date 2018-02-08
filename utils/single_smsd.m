@@ -13,5 +13,5 @@ options.eachRound = @ufomkl_test;
 options.Ktest     = Ktest;
 options.Ytest     = Ytest;
 
-model = new_k_ufomkl_dc_train(Ktrain, Ytrain, model_zero, options);
+model = smsd_mkl_train(Ktrain, Ytrain, model_zero, options);
 performance=max(model.acc1);

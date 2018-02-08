@@ -1,4 +1,5 @@
 addpath( './utils' );
+addpath('../libsvm/libsvm-3.22/matlab/')
 clear
 close all
 

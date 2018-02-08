@@ -4,12 +4,14 @@ best_para=[];
 if strcmp(mode, 'smsd')
     C_list = cell2mat(paralist(1));
     gamma_list = cell2mat(paralist(2));
+    localR = cell2mat(paralist(3));
     C_accuracy = [];
     for j=1:length(C_list)
         for k=1:length(gamma_list)
             rand('state', 0);
             cv_accuracy=[];
             C=C_list(j);
+            gamma=gamma_list(k);
             indices = crossvalind('Kfold',label_vector,folds);
             for i = 1:folds
                 test = (indices == i); train = ~test;
@@ -17,7 +19,7 @@ if strcmp(mode, 'smsd')
                 Ktest=KMatrix(train,test,:);
                 Ytrain=label_vector(train);
                 Ytest=label_vector(test);
-                cv_accuracy(end+1)=single_mkl(Ktrain, Ytrain, Ktest, Ytest, C);
+                cv_accuracy(end+1)=single_smsd(Ktrain, Ytrain, Ktest, Ytest, localR, C, gamma);
             end
             C_accuracy(end+1)=mean(cv_accuracy);
         end
