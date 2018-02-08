@@ -41,12 +41,7 @@
 \mainmatter  % start of an individual contribution
 
 
-
-
-
-
-
-\title{Generalization Analysis for Multi-Class Classification: Local Rademacher Complexity and Fast Rate}
+\title{Multi-Class Kernel Learning: Fast Rate and Algorithms}
 \author{}
 \institute{}
 
@@ -55,7 +50,7 @@
 To prove Theorem \ref{Lemma-empRad} in the main file, we first introduce the following two lemmas.
 \begin{lemma}
 \label{hatRLlemma}
-Suppose that $\mathcal{L}$ is defined in equation \textbf{(2)},
+Suppose that $\mathcal{L}$ is defined in equation \textrm{(2)} in the paper,
 then we have
 %Suppose that the hypothesis space $\mathcal{H}_{p,\kappa}$ is defined by
 % \begin{align*}
@@ -172,7 +167,7 @@ In the next, we bound $A_3$:
 
 \begin{theorem}
   \label{Lemma-empRad}
-Suppose that $\mathcal{L}$ is defined in equation \textbf{(2)} in the main file,
+Suppose that $\mathcal{L}$ is defined in equation \textrm{(2)} in the paper,
 then we have
   \begin{align*}
     \hat{\mathcal{R}}(\mathcal{L})\leq \frac{\sqrt{\vartheta}}{\sqrt{n}}\times
@@ -257,14 +252,14 @@ conjugate, i.e., $$f^\ast(\nu):=\sup_{w}\left[\langle w,\nu\rangle-f(w)\right].$
     &=\left[K\mathbb{E}_{g_1}|g_1|^{q^\ast}\right]^{\frac{2}{q^\ast}}\sum_{i=1}^nk(\mathbf x_i,\mathbf x_i)\\
     &\leq K^{\frac{2}{q^\ast}}\left[\mathbb{E}_{g_1}|g_1|^{q^\ast}\right]^{\frac{2}{q^\ast}}n\vartheta.
   \end{align*}
-  Substituting the above inequality in \textbf{(10)}, we have
+  Substituting the above inequality in \textrm{(10)} in the paper, we have
   \begin{align*}
     &\mathbb{E}_{\bm g}\sup_{h\in \mathcal{H}_{q,\kappa}}\sum_{i=1}^n\sum_{j=1}^Kg_{(j-1)n+i}\langle \mathbf w_j,\lambda \phi(\mathbf x_i)\rangle\\
     &\leq  K^{\frac{1}{q^\ast}}\sqrt{q^\ast}\left[\mathbb{E}_{g_1}|g_1|^{q^\ast}\right]^\frac{1}{q^\ast}\sqrt{n\vartheta}.
   \end{align*}
   From the trivial inequality $\|\mathbf w\|_{2,p}\geq \|\mathbf w\|_{2,q}$,
   we know that $\mathcal{H}_{p,\kappa}\subset \mathcal{H}_{q,\kappa}$.
-  Combining the above  equation and \textbf{(9)},
+  Combining the above  equation and \textrm{(9)} in the paper,
   we have
   \begin{align*}
     \hat{\mathcal{R}}(\mathcal{L})\leq\inf_{p\leq q\leq 2}\frac{\sqrt{2\vartheta\pi}}{\sqrt{n}} K^{\frac{1}{q^\ast}}\sqrt{q^\ast}
@@ -356,7 +351,7 @@ To prove Theorem \ref{the-fixedpoint} in the main file, we first introduce the f
 
 \begin{lemma}
 \label{lem-lrs-subset-lr}
-  Suppose that $\bar{\mathcal{L}}$ is defined in Equation \textbf{(13)},
+  Suppose that $\bar{\mathcal{L}}$ is defined in Equation \textrm{(13)} in the paper,
   and $\mathcal{L}^r$ is defined in Equation \textbf{(3)},
   then
   \begin{align*}
@@ -550,38 +545,38 @@ the proof is over.
 \begin{lemma}
 For $\ell_1$-regularization, there is a scalar minimization problem
   \begin{align*}
-    \min\limits_{\mathbf{w} \in \mathbf{R}} \mathbf{\eta}_t\mathbf{w}+\mathbf{\lambda}_t|\mathbf{w}|+\frac{\mathbf{\gamma}_t}{2}\mathbf{w}^2,
+    \min\limits_{\mathbf w \in \mathbf{R}} \eta_t\mathbf w+\lambda_t|\mathbf w|+\frac{\gamma_t}{2}\mathbf w^2,
   \end{align*}
-And an optimal solution $\mathbf{w}^\ast$ can be summarized as
+And an optimal solution $\mathbf w^\ast$ can be summarized as
   \begin{align*}
-    \mathbf{w}^\ast=\left\{
+    \mathbf w^\ast=\left\{
         \begin{aligned}
-        &\mathbf{0}  &if |\mathbf{\eta}_t| \leq \mathbf{\lambda}_t,\\
-        &-\frac{1}{\mathbf{\gamma}_t}(\mathbf{\eta}_t-\mathbf{\lambda}_t sgn(\mathbf{\eta}_t)) &\textrm{otherwise}.
+        &\mathbf{0}  &if |\eta_t| \leq \lambda_t,\\
+        &-\frac{1}{\gamma_t}(\eta_t-\lambda_t sgn(\eta_t)) &\textrm{otherwise}.
         \end{aligned}
     \right.
   \end{align*}
 \end{lemma}
 \begin{proof}
-The minimization problem is an unconstrained nonsmooth optimization problem. Its optimality condition(Rockafellar, 1970, Section 27) states that $\mathbf{w}^\ast$ is an optimal solution if and only if there exists $\xi \in \partial|\mathbf{w}^\ast|$ such that
+The minimization problem is an unconstrained nonsmooth optimization problem. Its optimality condition \cite{rockafellar2015convex} states that $\mathbf{w}^\ast$ is an optimal solution if and only if there exists $\xi \in \partial|\mathbf{w}^\ast|$ such that
 \begin{align*}
     \mathbf{\eta}_t+\mathbf{\lambda}_t\xi+\mathbf{\gamma}_t\mathbf{w}^\ast=0.
 \end{align*}
-There are more discussions in Appendix A of (Xiao, 2003). Finally, we can get the closed-form for $\ell_1$-regularization.
+There are more discussions in Appendix A of \cite{Xiao10}. Finally, we can get the closed-form for $\ell_1$-regularization.
 \end{proof}
 
 \begin{lemma}
   \label{inverse-mapping}
-  Let $p \in (1,2]$ and $q=p/(p-1)$, and define the mapping $\upsilon:\Omega \to \Omega^\ast$ with
+  Let $p \in (1,2]$ and $q=p/(p-1)$, and then the norms $\|\pmb{c}\|_p$ and $\|\pmb{c}^\ast\|_q$ are dual to each other. Define the mapping $f:\mathcal{M} \to \mathcal{M}$ with
   \begin{align*}
-    \nu_i(\mathbf{w})=\nabla_i\Big(\frac{1}{2}\|\mathbf{w}\|_p^2\Big)=\frac{sng(\mathbf{w}_i)|\mathbf{w}_i|^{p-1}}{\|\mathbf{w}\|_p^{p-2}}, i=1,\ldots,n,
+    c_i^\ast=f_i(\pmb{c})=\nabla_i\Big(\frac{1}{2}\|\pmb{c}\|_p^2\Big)=\frac{sng(c_i)|c_i|^{p-1}}{\|\pmb{c}\|_p^{p-2}}, i=1,\ldots,n,
   \end{align*}
-and the inverse mapping $\upsilon^{-1}:\Omega^\ast \to \Omega$ with
+and the inverse mapping $f^{-1}$ with
   \begin{align*}
-    \nu_i(\mathbf{\zeta}^{-1})=\nabla_i\Big(\frac{1}{2}\|\mathbf{\zeta}\|_q^2\Big)=\frac{sng(\mathbf{\zeta}_i)|\mathbf{\zeta}_i|^{q-1}}{\|\mathbf{\zeta}\|_q^{q-2}}, i=1,\ldots,n,
+    c_i=f^{-1}_i(\pmb{c}^\ast)=\nabla_i\Big(\frac{1}{2}\|\pmb{c}^\ast\|_q^2\Big)=\frac{sng(c_i^\ast)|c_i^\ast|^{q-1}}{\|\pmb{c}^\ast\|_q^{q-2}}, i=1,\ldots,n,
   \end{align*}
 \end{lemma}
-These mapping are often called {\em link functions} in machine learning(e.g., Gentile, 2003).
+These mapping are often called {\em link functions} in machine learning (e.g., \cite{Gentile03a}).
 
 %\subsection*{Proof of the Lemma 5}
 %\begin{proof}
@@ -770,6 +765,11 @@ Andreas Winkelbauer.
 \newblock Moments and absolute moments of the normal distribution.
 \newblock {\em arXiv preprint arXiv:1209.4340}, 2012.
 
+\bibitem{rockafellar2015convex}
+Ralph Tyrell Rockafellar.
+\newblock Convex analysis.
+\newblock {\em Princeton university press}, 2015.
+
 \bibitem{Xiao10}
 Lin Xiao.
 \newblock Dual Averaging Methods for Regularized Stochastic Learning and Online Optimization.
@@ -779,7 +779,6 @@ Lin Xiao.
 Claudio Gentile.
 \newblock The Robustness of the p-Norm Algorithms.
 \newblock {\em Machine Learning}, 53(3):265--299, 2003.
-
 
 \end{thebibliography}
 
