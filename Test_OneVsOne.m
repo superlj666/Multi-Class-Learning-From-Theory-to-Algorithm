@@ -5,21 +5,20 @@ close all
 % datasets={'segment','vehicle','vowel','wine','dna','glass','iris', 'svmguide2','svmguide4','satimage'};
 % size_arr=[2310,846,528,178,2000,214,150,391,300,4435];
 
-datasets={'wine'};
-size_arr=[178];
+datasets={'usps'};
+size_arr=[7291];
 all_results=zeros(30, length(datasets));
 for j=1:length(datasets)
     [kernel_name, best_para]=choose_kernel(char(datasets(j)))
     data_path=kernel_name;
     
-    label_path=['/home/bd-dev/lijian/201801_ICML/data/labels/label_', char(datasets(j)),'.mat'];
+    label_path=['data/labels/label_', char(datasets(j)),'.mat'];
     load(data_path);
     load(label_path);
     sample_n=size_arr(j);
     train_part=0.8;
     
     rand('state', 0);
-    performance_c=zeros(30,1);
     for i=1:30
         rand_arr = randperm(sample_n);
         

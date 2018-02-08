@@ -1,10 +1,14 @@
-function   [kernel_name, para]=choose_kernel(data_name)
+function   [kernel_name, para]=choose_kernel_1vRest(data_name)
 
 c_list=2.^(-2:1:12);
 folds=10;
 str1=['data/',data_name,'/Gaussian_'];
 label_path=['data/labels/label_', data_name,'.mat'];
 load(label_path);
+if strcmp(data_name,'glass') || strcmp(data_name,'svmguide4')
+    label_vector(label_vector>3) = label_vector(label_vector>3)-1;
+end
+
 sample_n = size(label_vector,2);
 str2=strsplit(num2str(-10:1:10),' ');
 str3='.mat';
@@ -28,11 +32,21 @@ for index=1:size(str_arr,1)
             testing_label_vector=label_vector(test_array)';
             testing_instance_matrix=[(1:sum(test_array))',K(test_array,train_array)];
             
-            para=strcat('-c', 32, num2str(c_list(j)), ' -t 4 -q');
-            model = svmtrain(training_label_vector, training_instance_matrix, para);
-            [predicted_label, accuracy, prob_estimates] = svmpredict(testing_label_vector, testing_instance_matrix, model);
+            numLabels=max(training_label_vector);
+            para=strcat('-c', 32, num2str(c_list(j)), ' -t 4 -b 1 -q');
+            model = cell(numLabels,1);
+            for k=1:numLabels
+                model{k} = svmtrain(double(training_label_vector==k), training_instance_matrix, para);
+            end
             
-            performance_c(i)=accuracy(1);
+            prob = zeros(sum(test_array),numLabels);
+            for k=1:numLabels
+                [~,~,p] = svmpredict(double(testing_label_vector==k), testing_instance_matrix, model{k}, '-b 1');
+                prob(:,k) = p(:,model{k}.Label==1); %# probability of class==k
+            end
+            [~,pred] = max(prob,[],2);
+            acc = sum(pred == testing_label_vector) ./ numel(testing_label_vector) %# accuracy
+            performance_c(i)=acc*100;
         end
         performance_cv(j)=mean(performance_c);
     end

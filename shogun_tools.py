@@ -125,6 +125,11 @@ def classifier_gmnpsvm (fm_train_real,fm_test_real,label_train_multiclass,width,
     feats_train=RealFeatures(fm_train_real)
     feats_test=RealFeatures(fm_test_real)
     kernel= GaussianKernel(feats_train, feats_train, width)
+    import time
+    start=time.time()
+    tmp=kernel.get_kernel_matrix();
+    end=time.time()
+    print 'use time: ' + str(end-start)
 
     labels=MulticlassLabels(label_train_multiclass)
 
@@ -204,33 +209,107 @@ def get_best_para():
             best_para = C
     return best_para
 
-if __name__=='__main__':    
-    times=30
-    C=100 #[1, 10, 100, 1000]    
-    epsilon=1e-5
-    mkl_epsilon=0.001
-    test_size=0.2
-    width=8
-    num_threads=32
-    mkl_norm=1
 
+def combined_kernel(file_type, data_name, operate_type):
+    if file_type == '4':
+        X, y = loadFromMat(data_name)
+    elif file_type == '5':
+        X, y = loadFromLibsvm(data_name)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
+    if type(X_train) == scipy.sparse.csr.csr_matrix and type(X_test) == scipy.sparse.csr.csr_matrix:
+        X_train = X_train.todense()
+        X_test = X_test.todense()
+    X_train = X_train.T
+    X_test = X_test.T
+    y_train = y_train.reshape(y_train.size, ).astype('float64')
+    y_test = y_test.reshape(y_test.size, ).astype('float64')
+
+    kernel = CombinedKernel()
+    feats_train = CombinedFeatures()
+    feats_test = CombinedFeatures()
+    subkfeats_train = RealFeatures(X_train)
+    subkfeats_test = RealFeatures(X_test)
+    for i in range(-10, 11):
+        subkernel = GaussianKernel(pow(2, i + 1))
+        feats_train.append_feature_obj(subkfeats_train)
+        feats_test.append_feature_obj(subkfeats_test)
+        kernel.append_kernel(subkernel)
+    kernel.init(feats_train, feats_train)
+    tmp_train_csv = NamedTemporaryFile(suffix=data_name + '_combined.csv')
+
+    import time
+    start = time.time()
+    if operate_type == 'save':
+        km_train = kernel.get_kernel_matrix()
+        f = CSVFile(tmp_train_csv.name, "w")
+        kernel.save(f)
+    elif operate_type == 'load':
+        f = CSVFile(tmp_train_csv.name, "r")
+        kernel.load(f)
+    end = time.time()
+    print 'for saving or loading, use time : ' + str(end - start)
+
+    labels = MulticlassLabels(y_train)
+
+    mkl = MKLMulticlass(C, kernel, labels)
+
+    mkl.set_epsilon(epsilon)
+    mkl.parallel.set_num_threads(num_threads)
+    mkl.set_mkl_epsilon(mkl_epsilon)
+    mkl.set_mkl_norm(mkl_norm)
+
+    import time
+    start = time.time()
+    mkl.train()
+    end = time.time()
+    print 'use time : ' + str(end - start)
+
+    kernel.init(feats_train, feats_test)
+    out = mkl.apply().get_labels()
+    print out.shape
+    print sum(out == y_test) / float(len(out))
+
+# times=30
+# C=100 #[1, 10, 100, 1000]
+# epsilon=1e-1
+# mkl_epsilon=0.001
+# test_size=0.2
+# width=8
+# num_threads=32
+# mkl_norm=1
+#
+# combined_kernel('5', 'dna','load')
+
+
+
+if __name__ == '__main__':
+    times = 30
+    C = 100  # [1, 10, 100, 1000]
+    epsilon = 0.1 #1e-5
+    mkl_epsilon = 0.1#0.001
+    test_size = 0.2
+    width = pow(2, -8)
+    num_threads = 32
+    mkl_norm = 1
+
+    #sys.argv=['1','5','sector','gmnp','1']
     file_type = sys.argv[1]
     data_name = sys.argv[2]
-    mode = sys.argv[3]    
+    mode = sys.argv[3]
 
     if len(sys.argv) > 4:
         C = float(sys.argv[4])
     if len(sys.argv) > 5:
-        folds=int(sys.argv[5])
-        para_list = np.logspace(-2,12,15,base=2)
+        folds = int(sys.argv[5])
+        para_list = np.logspace(-2, 12, 15, base=2)
         C = get_best_para()
         print 'best para is ' + str(C)
-                
-    if file_type=='4':
+
+    if file_type == '4':
         data, label = loadFromMat(data_name)
-        accuracy = train_test(mode, data, label, C)        
-    elif file_type=='5':
+        accuracy = train_test(mode, data, label, C)
+    elif file_type == '5':
         X, y = loadFromLibsvm(data_name)
-        accuracy = train_test(mode, X, y, C) 
-    print("\n".join(str(item*100) for item in accuracy))
+        accuracy = train_test(mode, X, y, C)
+    print("\n".join(str(item * 100) for item in accuracy))
 
