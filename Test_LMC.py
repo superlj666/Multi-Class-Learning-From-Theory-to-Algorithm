@@ -9,11 +9,6 @@ if __name__ == '__main__':
     datasets=['iris']
     C_list = np.logspace(-2, 12, 15, base=2)
 
-    times = 50
-    epsilon = 1e-5
-    test_size = 0.2
-    folds = 10
-
     for i in range(len(datasets)):
         if datasets[i] in ['plant','psortPos', 'psortNeg', 'nonpl']:
             file_type='4'
