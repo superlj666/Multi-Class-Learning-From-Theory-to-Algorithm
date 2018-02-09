@@ -2,6 +2,7 @@
 ## Supplementary file
 Appendixes mentioned in the paper are attached in MC-supplementary.pdf
 ## Usage of source code
+Code used in experiments locates in ./code
 ### Enviroment
 We do experiments based on following softwares:
 1. Python 2.7
@@ -14,7 +15,7 @@ We do experiments based on following softwares:
 1. plant, psortPos, psortNeg and nonpl from http://www.raetschlab.org/suppl/protsubloc
 2. others from https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/
 ### Steps
-1. Download data sets and move dataName.phylpro.mat, label_dataName.mat and dataName.scale to ./data/
+1. Download data sets and move dataName.phylpro.mat, label_dataName.mat and dataName.scale to code/data/
 2. Create Gaussian kernels: change variable file_list in Test_Gaussian_Kernel.m and run
 3. Run following methods
 - SMSD-MKL: change variables of data_sets in Test_SMSD_MKL.m and run

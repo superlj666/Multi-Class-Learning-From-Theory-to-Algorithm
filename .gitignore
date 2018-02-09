@@ -5,6 +5,10 @@ workshop/
 !.gitignore
 paper/*
 data/*
+code/*
+libsvm/*
+MC-supplementary.pdf
+*.zip
 !paper/MC_MKL_LR.tex
 !paper/MC_MKL_LR.bib
 !paper/MC_MKL_LR.pdf

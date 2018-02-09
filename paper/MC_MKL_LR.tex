@@ -132,7 +132,7 @@ where $K$ and $n$ are the number of classes and size of the sample, respectively
 
 In this paper, we derive a novel data-dependent generalization bound for multi-class classification
 via the notion of local Rademacher complexity and
-further devise two effective multi-class kernel learning algorithms based on the above theoretical analysis.
+further devise two effective multi-class kernel learning algorithms based on above theoretical analysis.
 The rate of this bound is $\mathcal{O}\big(\frac{(\log K)^{2+{1}/{\log K}}}{n}\big)$,
 which substantially improves on  the existing data-dependent generalization bounds.
 Moreover, the proposed multi-class kernel learning algorithms have statistic guarantee and fast convergence rate.
@@ -302,7 +302,7 @@ The $\ell_p$-norm hypothesis space associated with the kernel $\kappa$ is denote
  \begin{align}
  \label{hypothspapce}
    \begin{aligned}
-   \mathcal{H}_{p,\kappa}=&\Big\{h_\mathbf{w}=\left(\langle \mathbf w_1,\phi(\mathbf x)\rangle,\ldots, \langle\mathbf w_K,\phi(\mathbf x)\rangle\right):\\
+   \mathcal{H}_{p,\kappa}=&\Big\{h_{\mathbf{w}, \kappa}=\left(\langle \mathbf w_1,\phi(\mathbf x)\rangle,\ldots, \langle\mathbf w_K,\phi(\mathbf x)\rangle\right):\\
    &~\left\|\mathbf  w \right\|_{2,p}\leq 1, 1\leq p\leq 2
   \Big\},
    \end{aligned}
@@ -691,22 +691,6 @@ $
 which is substantially sharper
 than the existing bounds of  Rademacher complexity.
 
-\textbf{Covering Number Bounds}
-Based on the $\ell_\infty$-norm covering number bound of
-linear operators, Guermeur \yrcite{guermeur2002combining} obtain
-a generalization of form $\mathcal{O}\big(\frac{K}{\sqrt{n}}\big)$,
-which is improved by \cite{zhang2004statistical} to a radical dependence:
-  \begin{align*}
-   L(h)\leq  \hat{L}(\ell_h) +\mathcal{O}\left(\sqrt{\frac{K}{n}}\right).
-\end{align*}
-Hill and Doucet \yrcite{Hill2007} derive a class-size independent risk guarantee
-of form $\mathcal{O}\big(\sqrt{{1}/{n}}\big)$.
-However, their bound is based on a delicate definition of margin,
-which is not commonly  used in the mainstream multi-class literature.
-%Related results for metric spaces with low doubling dimension were obtained by \cite{Kontorovich2014},
-%who used nearest neighbors method to improve the dependence on the number
-%of classes in favor of (doubling) dimension dependence.
-
 \textbf{VC-dimension Bounds}
 VC-dimension is a important tool to derive the generalization bound for binary classification.
 Allwein, Schapire, and Singer \yrcite{allwein2000reducing} show how to use it
@@ -729,6 +713,22 @@ Note that VC dimension bounds as well as Natarajan dimension bounds are usually 
 dependent, which makes them hardly applicable for practical large
 scale problems (such as typical computer vision problems).
 
+\textbf{Covering Number Bounds}
+Based on the $\ell_\infty$-norm covering number bound of
+linear operators, Guermeur \yrcite{guermeur2002combining} obtain
+a generalization of form $\mathcal{O}\big(\frac{K}{\sqrt{n}}\big)$,
+which is improved by \cite{zhang2004statistical} to a radical dependence:
+  \begin{align*}
+   L(h)\leq  \hat{L}(\ell_h) +\mathcal{O}\left(\sqrt{\frac{K}{n}}\right).
+\end{align*}
+Hill and Doucet \yrcite{Hill2007} derive a class-size independent risk guarantee
+of form $\mathcal{O}\big(\sqrt{{1}/{n}}\big)$.
+However, their bound is based on a delicate definition of margin,
+which is not commonly  used in the mainstream multi-class literature.
+%Related results for metric spaces with low doubling dimension were obtained by \cite{Kontorovich2014},
+%who used nearest neighbors method to improve the dependence on the number
+%of classes in favor of (doubling) dimension dependence.
+
 The above theoretical analysis indicates that it is a good
 choice to use the local Rademacher complexity to analyze the generalization
 ability of multi-class classification.
@@ -747,7 +747,7 @@ $$\kappa_{\bm \mu}=\sum_{m=1}^M \mu_m\kappa_m.$$
 A common approach to multi-class classification is the use of joint feature
 maps $\phi(\mathbf x):\mathcal X \to \mathcal H$ \cite{TsochantaridisHJA04}.
 For multiple kernel learning, we have $M$ feature mappings $\phi_m$, $m=1,\ldots,M$ and
-$$\kappa_m(\mathbf x,\mathbf x')=\langle \phi_m(\mathbf x), \phi_m(\mathbf x')\rangle$$ 
+$$\kappa_m(\mathbf x,\mathbf x')=\langle \phi_m(\mathbf x), \phi_m(\mathbf x')\rangle$$
 where $m=1,\ldots,M$.
 Let $\phi_{\bm \mu}(\mathbf x)=[\phi_1(\mathbf x),\ldots,\phi_M(\mathbf x)]$.
 %We know $\mathbf{K}_{\bm \mu}(i,j)=\langle \phi_{\bm \mu}(\mathbf{x}_i), \phi_{\bm \mu}(\mathbf{x}_j)\rangle$.%
@@ -856,18 +856,17 @@ $r_m=\sum_{j>\zeta}\lambda_j(\mathbf{K}_m)$ is the tail sum of the $m$-th kernel
        \FOR{$t=1$ {\bfseries to} $T$}
        \STATE Sample at random $(\mathbf{x}^t, y^t)$
        \STATE Compute the dual weight: $\pmb{\theta}^{t+1}=\pmb{\theta}^t-\partial{C(\mathbf w^t)}$
-       \STATE $\nu_m^{t+1}=\|\bm \theta_m^{t+1}\|-t\beta r_m$, $\forall m=1,\ldots, M$
+       \STATE $\nu_m^{t+1}=\|\pmb{\theta}_m^{t+1}\|-t\beta r_m$, $\forall m=1,\ldots, M$
        \STATE $\mu_m^{t+1}=\frac{\mathrm{sgn}(\nu_m^{t+1})|\nu_m^{t+1}|^{q-1}}
        {\alpha\|\bm \theta_m^{t+1}\||\nu_m^{t+1}|_q^{q-2}}$, $\forall m=1,\ldots, M$
-%       \STATE $\mathbf w_m=\frac{sgn(\nu_m^{t+1})\bm \theta_m^{t+1}|\nu_m^{t+1}|^{q-1}}
-%       {\alpha\|\bm \theta_m^{t+1}\||\nu_m^{t+1}|_q^{q-2}}$, $\forall m=1,\ldots, M.$
+       \STATE $\mathbf{w}_m^{t+1}=\mu_m^{t+1} \pmb{\theta}_m^{t+1}$, $\forall m=1,\ldots, M$
        \ENDFOR
     \end{algorithmic}
 \end{algorithm}
 
 %We cope with the non-differentiability of the hinge loss directly by sub-gradients instead of gradients.
 Based on the Stochastic Mirror Descent framework for minimization in \cite{Shalev-ShwartzT11, OrabonaL11},
-we design a Stochastic Mirror and Sub-gradient Descent lgorithm, called \texttt{SMSD-MKL}, to minimize \eqref{optimization-problem},
+we design a Stochastic Mirror and Sub-gradient Descent Algorithm, called \texttt{SMSD-MKL}, to minimize \eqref{optimization-problem},
 seen in Algorithm \ref{algorithm2}.
 
  As in the mirror descent algorithm, the algorithm maintain two weight vectors: primal $\mathbf w$ and dual $\pmb{\theta}$.
@@ -899,10 +898,11 @@ The $\|\bm \theta_m^{t+1}\|$ can be calculated in an efficient incremental way b
 \|\pmb{\theta}_m^{t+1}\|
 &=\|\pmb{\theta}_m^{t}-z^t\|_2^2
 =\|\pmb{\theta}_m^{t}\|_2^2-2\pmb{\theta}_m^t \cdot z^t +\|z^t\|_2^2\\
-&=\|\pmb{\theta}_m^{t}\|_2^2-2\pmb{\theta}_m^t \cdot (\phi_m(\mathbf{x}_i)-\phi_m(\mathbf{x}_j))
-+ 2\kappa_m(\mathbf{x}_i, \mathbf{x}_i)^2
+%&=\|\pmb{\theta}_m^{t}\|_2^2-2\pmb{\theta}_m^t \cdot (\phi_m(\mathbf{x})-\phi_m(\mathbf{x}'))
+%+ 2\kappa_m(\mathbf{x}, \mathbf{x})^2
 \end{align*}
 where $z^t=\partial\ell(\mathbf w^t,\phi_{\bm \mu}(\mathbf{x}^t), y^t)$.
+% and $\bm \mu$ is used to chosen the maximum predict label $\mathbf{x}'$.
 
  \begin{theorem}
 \label{theorem-fenchel-dual}
@@ -948,7 +948,7 @@ The optimality condition of the above minimization problem \cite{rockafellar2015
         \beta\mathbf{r}-\mathbf{a}+\alpha\pmb{c}^\ast=0
 \end{align}
 And then we can get $\pmb{c}^\ast=\frac{1}{\alpha}\Big(\mathbf{a}-\beta\mathbf{r}\Big)$.
-Following similar arguments of Lemma 6 (see in Appendix), we find that it has a closed-form solution
+Following similar arguments of Lemma 6 (see in Appendix) and Lemma 7 (see in Appendix), we find that it has a closed-form solution
 \begin{align*}
     c_m=&f ^{-1}(c_m^\ast)=\nabla_m\Big(\frac{1}{2}\|{c}_m^\ast\|_q^2\Big)
     =\frac{\mathrm{sgn}({c}_m^\ast)|{c}_m^\ast|^{q-1}}{\alpha\|\pmb{c}^\ast\|_q^{q-2}}.
@@ -981,8 +981,8 @@ Similar argmax has been analysis in Section 7.2 of \cite{Xiao10}.
 
 \subsection{Convergence Rate of Algorithms}
 \subsubsection{Conv-MKL}
-Convergence rate of the proposed \texttt{Conv-MKL} is decided by which $\ell_p$ MC-MKL algorithm it uses. 
-In experiments, we following implement \texttt{Conv-MKL} based on UFO-MKL \cite{OrabonaL11}. 
+Convergence rate of the proposed \texttt{Conv-MKL} is decided by which $\ell_p$ MC-MKL algorithm it uses.
+In experiments, we following implement \texttt{Conv-MKL} based on UFO-MKL \cite{OrabonaL11}.
 Thus, convergence rate of \texttt{Conv-MKL} is same with UFO-MKL in Section 4.1 of \cite{OrabonaL11}.
 \subsubsection{SMSD-MKL}
 %In this subsection, we analysis convergence rate guarantee for SMSD-MKL.
@@ -1056,7 +1056,7 @@ vowel              &98.82$\pm$1.19             &\textbf{98.83$\pm$5.57}   &62.32
 wine               &\textbf{99.63$\pm$0.96}    &\textbf{99.63$\pm$0.96}   &97.87$\pm$2.80      &97.24$\pm$3.05            &98.14$\pm$3.04       &97.69$\pm$2.43    &98.61$\pm$1.75             &98.52$\pm$1.89            &99.44$\pm$1.13            \\
 dna                &96.08$\pm$0.83             &\textbf{96.30$\pm$0.79}   &92.02$\pm$1.50      &95.89$\pm$0.56            &95.61$\pm$0.73       &94.60$\pm$0.94    &\underline{96.27$\pm$0.68}             &95.06$\pm$0.92            &95.84$\pm$0.61\\
 glass              &\textbf{75.19$\pm$5.05}    & 73.72$\pm$5.80           &63.95$\pm$6.04      &71.98$\pm$5.75            &70.00$\pm$5.75       &71.24$\pm$8.14    &69.07$\pm$8.08             &74.03$\pm$6.41            &72.46$\pm$6.12\\
-iris               &\textbf{98.00$\pm$2.25}    &\underline{97.33$\pm$2.53}&89.67$\pm$8.71      &96.76$\pm$2.63            &96.11$\pm$3.04       &96.11$\pm$4.11    &96.00$\pm$3.65             &95.44$\pm$3.66            &95.56$\pm$3.07\\
+iris               &\underline{96.67$\pm$2.94} &\textbf{97.00$\pm$2.63}   &88.00$\pm$7.82      &95.93$\pm$3.25            &95.87$\pm$3.20       &95.40$\pm$7.34    &95.40$\pm$6.46             &94.00$\pm$7.82            &95.93$\pm$2.88\\
 svmguide2          &82.69$\pm$5.65             &\textbf{85.17$\pm$3.83}   &81.10$\pm$4.15      &\underline{84.79$\pm$3.45}&\underline{84.27$\pm$3.03}  &81.77$\pm$3.45    &83.16$\pm$3.63             &\underline{83.84$\pm$4.21}            &82.91$\pm$3.09\\
 satimage           &91.64$\pm$0.88             &\underline{91.78$\pm$0.82}&84.95$\pm$1.15      &90.67$\pm$0.91            &89.29$\pm$0.96       &89.97$\pm$0.81    &\underline{91.86$\pm$0.62} &90.43$\pm$1.27            &\textbf{91.92$\pm$0.83}\\
 \bottomrule
@@ -1102,7 +1102,7 @@ All statement of statistical significance in the remainder refer to a 95\% level
 The average test accuracies are reported in Table \ref{tabel:accuracy}.
 The results show: 1) Our \texttt{Conv-MKL} and \texttt{SMSD-MKL} methods give best results on nearly all data sets
 except \textit{vehicle} and \textit{satimage};
-2) \texttt{SMSD-MKL} is significantly better than \texttt{Conv-MKL} because it wins on 9 data sets and defeats on 2 data sets;
+2) \texttt{SMSD-MKL} is significantly better than \texttt{Conv-MKL} because it wins on 9 data sets and defeats on 3 data sets;
 3) Compared with typical MKL methods,
 our methods get better results over almost all data sets except that only UFO-MKL works slightly better than ours on \textit{satige};
 4) The MKL methods usually works better than the compared single kernel methods (One vs. One, One vs. Rest and GMNP),
@@ -1111,7 +1111,7 @@ but \textit{vehicle} leads fairly good results in single kernel methods but wors
 
 The above results show that the use of local Rademacher complexity can significantly improve
 the performance of multi-class multiple kernel learning algorithms,
-which conforms to our theoretical analysis. 
+which conforms to our theoretical analysis.
 
 \textbf{Note}: Source code are attached in Supplementary Material.
 
@@ -1119,7 +1119,7 @@ which conforms to our theoretical analysis.
 In this paper, we studied the generalization performance of multi-class classification,
 and derived a sharper data dependent generalization error bound using local Rademacher complexity,
 which is much sharper than existing data-dependent generalization bounds of multi-class classification.
-Then, we design two algorithms with statistical guarantees and fast convergence rates:
+Then, we designed two algorithms with statistical guarantees and fast convergence rates:
 \texttt{Conv-MKL} and \texttt{SMSD-MKL}.
 %a convex optimization way based on any existing MC-MKL algorithms,
 %and the other that put local Rademancher complexity in optimization formulation,
