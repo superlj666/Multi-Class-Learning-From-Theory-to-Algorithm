@@ -129,7 +129,6 @@ convergence rates of the existing generalization bounds are usually %at least%
 where $K$ and $n$ are the number of classes and size of the sample, respectively.
 
 
-
 In this paper, we derive a novel data-dependent generalization bound for multi-class classification
 via the notion of local Rademacher complexity and
 further devise two effective multi-class kernel learning algorithms based on above theoretical analysis.
@@ -146,7 +145,7 @@ this method can be implemented by any $\ell_p$-norm multi-class MKL solvers;
 b) \texttt{SMSD-MKL}.
 This method puts local Rademancher complexity
 in penalized ERM with $\ell_{2,p}$-norm regularizer and multi-class hinge loss function,
-implemented by stochastic sub-gradient descent by updating dual weights.
+implemented by stochastic sub-gradient descent by updating dual weight.
 
 
 %The rest of the paper is organized as follows.
@@ -196,7 +195,7 @@ local Rademacher complexity and multi-class kernel learning classification.
     for multi-class learning problems,
     and derived a VC-dimension based bound.
     Natarajan dimension was introduced in \cite{Natarajan1989} in
-    order to characterize multi-class PAC learnability,
+    order to characterize multi-class PAC learn ability,
     which exactly matches the notion of Vapnik-Chervonenkis
     dimension in the case of binary classification.
     Daniely and Shalev-Shwartz \yrcite{daniely2014optimal} derived a risk bound with Natarajan dimension for multi-class classification.
@@ -278,7 +277,7 @@ $
 where $1_{t\leq 0}$ is the 0-1 loss,
 $1_{t\leq 0}=1$ if $t\leq 0$, otherwise 0.
 Since 0-1 loss is hard to handle in learning machines,
-one ususally considers the proxy loss:
+one usually considers the proxy loss:
 such as the  the hinge $\ell(t)=(1-t)_+$ and the margin loss $\ell^s(t)=1_{t\leq 0}+(1-ts^{-1})1_{0<t\leq s}$, $s>0$.
 In the following, we assume that: 1) $\ell(t)$ bounds the 0-1 loss: $1_{t\leq 0}\leq \ell(t)$; 2)
 $\ell$ is decreasing and it has a zero point $c_\ell$, i.e., $\ell(c_\ell)=0$.
@@ -701,7 +700,7 @@ and derive a VC-dimension based bounds:
 \end{align*}
 where $V$ is the VC-dimension.
 Natarajan dimension is introduced in \cite{Natarajan1989} in
-order to characterize multi-class PAC learnability.
+order to characterize multi-class PAC learn ability.
 %It exactly matches the notion of Vapnik-Chervonenkis
 %dimension in the case of two classes.
 Daniely and Shalev-Shwartz \yrcite{daniely2014optimal} derive a generalization bound with Natarajan dimension:
@@ -744,7 +743,7 @@ to devise two algorithms for multi-class multiple kernel learning (MC-MKL).
 
 In this paper, we consider the use of multiple kernels,
 $$\kappa_{\bm \mu}=\sum_{m=1}^M \mu_m\kappa_m.$$
-A common approach to multi-class classification is the use of joint feature
+A common approach to multi-class classification is the use of feature
 maps $\phi(\mathbf x):\mathcal X \to \mathcal H$ \cite{TsochantaridisHJA04}.
 For multiple kernel learning, we have $M$ feature mappings $\phi_m$, $m=1,\ldots,M$ and
 $$\kappa_m(\mathbf x,\mathbf x')=\langle \phi_m(\mathbf x), \phi_m(\mathbf x')\rangle$$
@@ -764,6 +763,10 @@ The $\ell_p$ hypothesis space of multiple kernels can be written as:
    \end{aligned}
  \end{align*}
 
+
+%$\left[\sum_{i=1}^K\|\mathbf w_i\|_2^p\right]^{\frac{1}{p}}$ equals to $\left[\sum_{i=1}^M\|\mathbf w_i\|_2^p\right]^{\frac{1}{p}}$
+%when $p=2$
+
  %Note that the tail sum is the difference between the trace and
 % the $\theta$ largest eigenvalues:$\sum_{j>\theta}\lambda_j(\mathbf{K})=\mathrm{Tr}(\mathbf{K})-\sum_{j=1}^\theta\lambda_j(\mathbf{K})$,
 % thus the tail sum can be calculated in $O(n^2\theta)$ for each kernel.
@@ -773,13 +776,13 @@ The global Rademacher complexity of $\mathcal{H}_{mkl}$ can be bounded by the tr
 Existing works on \cite{LanckrietCBGJ02,BachLJ04,SonnenburgRSS06} use the following constraint to $\mathcal{H}_{mkl}$:
 $\mathrm{Tr}(\mathbf{K}_{\bm \mu}) \leq 1.$
 According the above theoretical analysis,
-local Rademancher complexity (the tail sum of the eigenvalues of the kernel) lead to
+local Rademancher complexity (the tail sum of the eigenvalues of the kernel) leads to
 tighter generalization bounds than the global Rademancher complexity (the trace).
 Thus, we add local Rademancher complexity to restrict $\mathcal{H}_{mkl}$:
 \begin{align}
     \mathcal{H}_{1}=\Big\{h_{\mathbf{w}, \kappa_{\bm \mu}} \in \mathcal{H}_{mkl}:\sum_{j > \zeta} \lambda_j(\mathbf{K}_{\bm \mu}) \leq 1\Big\},
 \end{align}
-where $\lambda_j(\mathbf K_{\bm \mu})$ is the $j$-th eigenvalues of $\mathbf K_{\bm \mu}$,
+where $\lambda_j(\mathbf K_{\bm \mu})$ is the $j$-th eigenvalues of $\mathbf K_{\bm \mu}$ and
 $\zeta$ is free parameter removing the $\zeta$ largest eigenvalues to control the tail sum.
 Note that the tail sum is the difference between the trace and
 the $\zeta$ largest eigenvalues: $\sum_{j>\zeta}\lambda_j(\mathbf{K}_{\bm \mu})=\mathrm{Tr}(\mathbf{K}_{\bm \mu})-\sum_{j=1}^\zeta\lambda_j(\mathbf{K}_{\bm \mu})$,
@@ -793,7 +796,7 @@ One can see that $\mathcal{H}_{1}$ is not convex, and we know that:
         & \leq \sum_{j>\zeta} \lambda_j\big(\mathbf{K}_{\bm \mu}\big).
     \end{aligned}
 \end{align*}
-Thus, we consider the use of the convex $\mathcal{H}_2$ replace of $\mathcal{H}_1$:
+Thus, we consider the use of the convex $\mathcal{H}_2$:
 \begin{align}
     \mathcal{H}_{2}=\Big\{h_{\mathbf{w}, \kappa_{\bm \mu}} \in \mathcal{H}_{mkl}:
     \sum_{m=1}^M\mu_m\sum_{j>\zeta}\lambda_{j}(\mathbf{K}_m) \leq 1\Big\}.
@@ -842,8 +845,8 @@ We add local Rademancher complexity in optimization formulation:
 \end{equation}
 where
 $$\ell(\mathbf w,\phi_{\bm \mu}(\mathbf{x}_i), y_i)=
-\max\limits_{i \not= j}\left|1-\left(\langle\mathbf w_i,
-\phi_{\bm \mu}(\mathbf{x}_i)\rangle -\langle\mathbf w_j, \phi_{\bm \mu}(\mathbf{x}_j)\rangle\right)\right|_+,$$
+\max\limits_{i \not= j}\left|1-\left(\langle\mathbf w,
+\phi_{\bm \mu}(\mathbf{x}_i)\rangle -\langle\mathbf w, \phi_{\bm \mu}(\mathbf{x}_j)\rangle\right)\right|_+,$$
 and
 $r_m=\sum_{j>\zeta}\lambda_j(\mathbf{K}_m)$ is the tail sum of the $m$-th kernel matrix,  $m=1,\ldots, M$.
 
@@ -859,7 +862,7 @@ $r_m=\sum_{j>\zeta}\lambda_j(\mathbf{K}_m)$ is the tail sum of the $m$-th kernel
        \STATE $\nu_m^{t+1}=\|\pmb{\theta}_m^{t+1}\|-t\beta r_m$, $\forall m=1,\ldots, M$
        \STATE $\mu_m^{t+1}=\frac{\mathrm{sgn}(\nu_m^{t+1})|\nu_m^{t+1}|^{q-1}}
        {\alpha\|\bm \theta_m^{t+1}\||\nu_m^{t+1}|_q^{q-2}}$, $\forall m=1,\ldots, M$
-       \STATE $\mathbf{w}_m^{t+1}=\mu_m^{t+1} \pmb{\theta}_m^{t+1}$, $\forall m=1,\ldots, M$
+       %\STATE $\mathbf{w}_m^{t+1}=\mu_m^{t+1} \pmb{\theta}_m^{t+1}$, $\forall m=1,\ldots, M$
        \ENDFOR
     \end{algorithmic}
 \end{algorithm}
@@ -874,30 +877,29 @@ seen in Algorithm \ref{algorithm2}.
  to update the dual $\pmb{\theta}$ vector and $\Omega(\mathbf w)$ to update the primal vector $\mathbf w$ by
  the gradient of the Fenchel dual of $\Omega$.
  Actually, the algorithm puts the kernel weight $\pmb{\mu}$ aside when updating $\pmb{\theta}$,
- but $\pmb{\mu}$ is updated together with $\mathbf w$ according to a tricky link function given in Theorem \ref{theorem-fenchel-dual}.
+ and then $\pmb{\mu}$ is updated together with $\mathbf w$ according to a tricky link function given in Theorem \ref{theorem-fenchel-dual}.
  %The connection between the two vectors is via a link function $\pmb{\theta}=f(\mathbf w)$, where $f:\mathcal{K}\times\mathcal{M}\times\mathcal{H} \to \mathcal{K}\times\mathcal{M}\times\mathcal{H}$. Function $\Omega$ is strictly convex, so the algorithm use $\pmb{\theta}=f(\mathbf w)=\nabla\Omega(\mathbf w)$ as link function and $\mathbf w==\nabla\Omega^\ast(\pmb{\theta})$ as the inverse function.Similar with UFO-MKL in \cite{OrabonaL11},
 
 Initially, the algorithm starts with $\mathbf{w}^1=\mathbf{0}$, $\pmb{\theta}^1=\mathbf{0}$ and $\pmb{\mu}^1=\mathbf{1}$.
-Especially, the algorithm initializes $q=2\log K$ to make the order of generalization reach
+The algorithm initializes $q=2\log K$ to make the order of generalization reach
 $\mathcal{O}\big(\frac{(\log K)^{2+1/\log K}}{n}\big)$, according to Theorem \ref{theorem-finally}.
 For each iteration, the algorithm randomly samples a training example from train set.
 
 For $C(\mathbf w)$, the algorithm updates the dual vector with the gradient of $C(\mathbf w)$.
 Since hinge loss used in $C(\mathbf w)$ is not differentiable,
-the algorithm uses sub-gradient of $z^t=\partial\ell(\mathbf w^t,\phi_{\bm \mu}(\mathbf{x}^t), y^t)$ instead,
-where $\partial\ell(\mathbf w^t,\phi_{\bm \mu}(\mathbf{x}^t), y^t)$ is the sub-gradient w.r.t $\mathbf w^t$.
+the algorithm uses sub-gradient of $z^t=\partial\ell(\mathbf w^t,\phi_{\bm \mu}(\mathbf{x}^t), y^t)$ instead.
 
 For $\Omega(\mathbf w)$, as in the UFO-MKL \cite{OrabonaL11},
 the algorithm uses $\mathbf w=\nabla\Omega^\ast(\pmb{\theta})$ to update the primal vector $\mathbf w$,
 of which the calculation has been given in Theorem \ref{theorem-fenchel-dual}.
 
-Actually, the algorithm updates real numbers $\|\bm \theta_m^{t+1}\|$, $\nu_m^{t+1}$ and $\mu_m^{t+1}$ in scalar products instead of
-high-dimensional variables $\mathbf w^{t+1}$ and $\bm \theta_m^{t+1}$.
+Actually, the algorithm only updates scalar values $\|\bm \theta_m^{t+1}\|$, $\nu_m^{t+1}$ and $\mu_m^{t+1}$,
+avoiding high-dimensional calculation among $\mathbf w^{t+1}$ and $\bm \theta_m^{t+1}$.
 The $\|\bm \theta_m^{t+1}\|$ can be calculated in an efficient incremental way by scalar values as following:
 \begin{align*}
 \|\pmb{\theta}_m^{t+1}\|
 &=\|\pmb{\theta}_m^{t}-z^t\|_2^2
-=\|\pmb{\theta}_m^{t}\|_2^2-2\pmb{\theta}_m^t \cdot z^t +\|z^t\|_2^2\\
+=\|\pmb{\theta}_m^{t}\|_2^2-2\pmb{\theta}_m^t \cdot z^t +\|z^t\|_2^2
 %&=\|\pmb{\theta}_m^{t}\|_2^2-2\pmb{\theta}_m^t \cdot (\phi_m(\mathbf{x})-\phi_m(\mathbf{x}'))
 %+ 2\kappa_m(\mathbf{x}, \mathbf{x})^2
 \end{align*}
@@ -951,12 +953,12 @@ And then we can get $\pmb{c}^\ast=\frac{1}{\alpha}\Big(\mathbf{a}-\beta\mathbf{r
 Following similar arguments of Lemma 6 (see in Appendix) and Lemma 7 (see in Appendix), we find that it has a closed-form solution
 \begin{align*}
     c_m=&f ^{-1}(c_m^\ast)=\nabla_m\Big(\frac{1}{2}\|{c}_m^\ast\|_q^2\Big)
-    =\frac{\mathrm{sgn}({c}_m^\ast)|{c}_m^\ast|^{q-1}}{\alpha\|\pmb{c}^\ast\|_q^{q-2}}.
+    =\frac{\mathrm{sgn}({c}_m^\ast)|{c}_m^\ast|^{q-1}}{\|\pmb{c}^\ast\|_q^{q-2}}.
 \end{align*}
 Let
 $
-    \bm \nu=\Big[\|\pmb{\theta}_1\|-\beta\mathbf{r}_1,\ldots,
-    \|\pmb{\theta}_M\|-\beta\mathbf{r}_M\Big],
+    \bm \nu=\Big[\|\pmb{\theta}_1\|-\beta r_1,\ldots,
+    \|\pmb{\theta}_M\|-\beta r_M\Big],
 $
 and use $\mu_m=c_m/\|\pmb{\theta}_m\|$ and $\mathbf w_m=\mu_m\pmb{\theta}_m$, We can get
 \begin{align*}
@@ -981,18 +983,19 @@ Similar argmax has been analysis in Section 7.2 of \cite{Xiao10}.
 
 \subsection{Convergence Rate of Algorithms}
 \subsubsection{Conv-MKL}
-Convergence rate of the proposed \texttt{Conv-MKL} is decided by which $\ell_p$ MC-MKL algorithm it uses.
-In experiments, we following implement \texttt{Conv-MKL} based on UFO-MKL \cite{OrabonaL11}.
-Thus, convergence rate of \texttt{Conv-MKL} is same with UFO-MKL in Section 4.1 of \cite{OrabonaL11}.
+Convergence rate of the proposed \texttt{Conv-MKL} is depended on which $\ell_p$ MC-MKL algorithm it uses.
+In experiments, we implement \texttt{Conv-MKL} based on UFO-MKL \cite{OrabonaL11} in next section.
+Thus, convergence rate of \texttt{Conv-MKL} is same as convergence rate of UFO-MKL
+analysed in Section 4.1 of \cite{OrabonaL11}.
 \subsubsection{SMSD-MKL}
 %In this subsection, we analysis convergence rate guarantee for SMSD-MKL.
 %In multi-class classification, there is one hyperplane for each class
 %and $\phi_m(\cdot, \cdot)$ induces the transformation in $m$-th class.
 Denote by $z^t=\partial\ell(\mathbf w,\phi_{\bm \mu}(\mathbf{x}^t), y^t)$,
-we now state the convergence therem for any loss function that satisfies the following hypothesis
+we now state the convergence theorem for any loss function that satisfies the following hypothesis
 \begin{align}
 \label{loss_function_hypothesis}
-    \|z_m\| \leq L\|\phi(\mathbf w_m, y')\|_2, \forall t =1,\ldots, M, y' \in \mathcal{Y}.
+    \|z_m\| \leq L\|\phi_m(\mathbf{w}, \cdot)\|_2, \forall m=1,\ldots, M, y' \in \mathcal{Y}.
 \end{align}
 The hinge loss for multi-class $\ell(\mathbf w,\phi_{\bm \mu}(\mathbf{x}_i), y_i)=
 \max\limits_{i \not= j}\left|1-\left(\langle\mathbf w_i, \phi_{\bm \mu}(\mathbf{x}_i)\rangle -\langle\mathbf w_j, \phi_{\bm \mu}(\mathbf{x}_j)\rangle\right)\right|_+$ satisfies the hypothesis with $L=\sqrt{2}$.
@@ -1000,22 +1003,21 @@ The hinge loss for multi-class $\ell(\mathbf w,\phi_{\bm \mu}(\mathbf{x}_i), y_i
 \begin{theorem}
 Denote by $$f(\mathbf w)=\Omega(\mathbf w)+\frac{1}{n}\sum_{i=1}^n\ell(\mathbf w,\phi_{\bm \mu}(\mathbf{x}_i),y_i)$$
 and by $\mathbf w^\ast$ the solution that minimize \eqref{optimization-problem}.
-Suppose that $\|\phi_m(\mathbf w^t,\cdot)\|_2 \leq 1$, and the loss function $\ell$ satisfies $\eqref{loss_function_hypothesis}$.
-Let $\delta \in (0,1)$, then with probability at least $1 - \delta$ over the choices of the random samples
+Suppose that $\|\phi_m(\mathbf w^t,\cdot)\|_2 \leq 1$, and the loss function $\ell$ satisfies $\eqref{loss_function_hypothesis}$, 
 we have that after $T$ iterations of the SMSD-MKL algorithm
 \begin{align*}
-    f(\mathbf w^{T+1})-f(\mathbf w^\ast) \leq \frac{eL^2(1+\log T)\log M}{\alpha\delta T},
+    f(\mathbf w^{T+1})-f(\mathbf w^\ast) \leq \frac{eL^2(1+\log T)}{2\alpha T},
 \end{align*}
 where $e$ is the Euler's number.
 \end{theorem}
 \begin{proof}
 Using \eqref{loss_function_hypothesis} and $\|\phi_m(\mathbf w^t, y^t)\|_2 \leq 1$, we have
 \begin{align*}
-    &\|\partial(\mathbf w^t,\phi(\mathbf{x}^t,\cdot), y^t)\|_{2,q} \\
-    &\leq LM^{1/q} \max_{j=1, \ldots, M} \|\phi_m(\mathbf{x}^t, \cdot)\|_2 \leq LF^{1/q}
+    &\|\partial\ell(\mathbf w^t,\phi(\mathbf{x}^t,\cdot), y^t)\|_{2,q} \\
+    &\leq LM^{1/q} \max_{j=1, \ldots, M} \|\phi_m(\mathbf{x}^t, \cdot)\|_2 \leq LM^{1/q}
 \end{align*}
 The function $\Omega(\mathbf w)=\frac{\alpha}{2}\|\mathbf w\|_{2,p}^2 + \beta\mathbf{\mu} \cdot \mathbf{r}$ is
- $\alpha$-strongly convex w.r.t. the norm $\|\cdot\|_{2,q}$. Hence, using according to Theorem 1 in \cite{Shalev-ShwartzSS07},
+ $\alpha$-strongly convex w.r.t. the norm $\|\cdot\|_{2,q}$. Hence, according to Theorem 1 in \cite{Shalev-ShwartzSS07},
  using $\eta=1$ and $g=\Omega$, and using Markov inequality as in \cite{Shalev-ShwartzSS07} we prove the stated result.
 \end{proof}
 
@@ -1069,23 +1071,23 @@ with 7 popular multi-class classification methods:
  One-against-One \cite{knerr1990single}, One-against-the-Rest \cite{bottou1994comparison},
 $\ell_1$-norm linear multi-class SVM (LMC) \cite{CrammerS02},
 Generalized Minimal Norm Problem solver (GMNP) \cite{franc2005optimization},
-the Multiclass MKL (MC-MKL) for $\ell_1$-norm and $\ell_2$-norm \cite{ZienO2007}
+the Multi-class MKL (MC-MKL) for $\ell_1$-norm and $\ell_2$-norm \cite{ZienO2007}
 and mixed-norm MKL solved by stochastic gradient descent (UFO-MKL) \cite{OrabonaL11}.
 Actually, we complete comparison tests via implements in LIBSVM \footnote{Available at https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/}
 (One-against-One and One-against-the-Rest),
-the DOGMA libary \footnote{Available at http://dogma. sourceforge. net} (LMC, GMNP,
-$\ell_1$-nomr and $\ell_2$-norm MC-MKL) and the SHOGUN-6.1.3 \footnote{Available at http://www.shogun-toolbox.org/} (UFO-MKL).
+the DOGMA library \footnote{Available at http://dogma. sourceforge. net} (LMC, GMNP,
+$\ell_1$-norm and $\ell_2$-norm MC-MKL) and the SHOGUN-6.1.3 \footnote{Available at http://www.shogun-toolbox.org/} (UFO-MKL).
 What's more, we implement our proposed \texttt{Conv-MKL} and \texttt{SMSD-MKL} algorithms based on UFO-MKL.
 
-We experiment on 14 publicly avaliable datasets:
+We experiment on 14 publicly available data sets:
 four of them evaluated in \cite{ZienO2007} (plant, nonpl, psortPos, and psortNeg)
 \footnote{Available at http://www.raetschlab.org/suppl/protsubloc}
 and others from LIBSVM Data. %\footnote{Available at https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/}.
 For each data set, we use the Gaussian kernel
 $K(\mathbf{x}, \mathbf{x}')=\exp\Big(-\frac{\|\mathbf{x}-\mathbf{x}'\|_2^2}{2\tau}\Big)$ as our basic kernels,
-where $\tau \in {2^i, i=-10,-9,\ldots,9,10}$. For single Kernel methods (One vs. One, One vs. Rest, GMNP),
+where $\tau \in {2^i, i=-10,-9,\ldots,9,10}$. For single Kernel methods (One vs. One, One vs. Rest and GMNP),
 we choose the kernel which have the highest performance among basic kernels by 10-folds cross-validation.
-Meanwhile, we use all basic kernels in MKL methods (\texttt{Conv-MKL}, \texttt{SMSD-MKL}, $\ell_1$ MC-MKL, $\ell_2$ MC-MKL, UFO-MKL).
+Meanwhile, we use all basic kernels in MKL methods (\texttt{Conv-MKL}, \texttt{SMSD-MKL}, $\ell_1$ MC-MKL, $\ell_2$ MC-MKL and UFO-MKL).
 For our algorithms \texttt{Conv-MKL} and \texttt{SMSD-MKL}, we fix the parameter $\zeta=2$ to curve local Rademancher complexity.
 The regularization parameterized $\alpha \in {2^i, i=-2, \ldots, 12}$ in all algorithms and
 $\beta \in {10^i, i=-4, \ldots, 1}$ in \texttt{SMSD-MKL} are determined by 10-folds cross-validation on training data.
@@ -1102,7 +1104,7 @@ All statement of statistical significance in the remainder refer to a 95\% level
 The average test accuracies are reported in Table \ref{tabel:accuracy}.
 The results show: 1) Our \texttt{Conv-MKL} and \texttt{SMSD-MKL} methods give best results on nearly all data sets
 except \textit{vehicle} and \textit{satimage};
-2) \texttt{SMSD-MKL} is significantly better than \texttt{Conv-MKL} because it wins on 9 data sets and defeats on 3 data sets;
+2) Winning on 9 data sets and defeated on 3 data sets, \texttt{SMSD-MKL} is significantly better than \texttt{Conv-MKL};
 3) Compared with typical MKL methods,
 our methods get better results over almost all data sets except that only UFO-MKL works slightly better than ours on \textit{satige};
 4) The MKL methods usually works better than the compared single kernel methods (One vs. One, One vs. Rest and GMNP),
