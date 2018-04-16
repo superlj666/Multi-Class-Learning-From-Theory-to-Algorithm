@@ -1,0 +1,106 @@
+﻿#Reviewer_1
+Question 1: 
+“Notations…make?”
+Responses:
+Assumptions 1) and 2) are two common restrictions on kernel and loss functions, which are satisfied by the popular Gaussian kernels and the bounded hypothesis (|h(x)|\leq C, \forall x), respectively. We will provide additional detail.
+
+Question 2:
+Notations…introduced?
+Responses:
+The gamma is introduced in lines 144-146, which is seen in the traditional Rademacher complexity based bounds.
+
+Question 3:
+Section 4. Are…Theorem 1?
+Responses:
+The restriction on \zeta is non-negative and bounded.
+
+Question 4:
+Section 4…possible restrictions.
+Responses:
+We will provide a more intuitive discussion, as well as introducing all the constants and terms used
+
+Question 5:
+The rationale…clearer.
+Responses:
+To guarantee the generalization performance, we use the Local Rademacher complexity (LRC) to restrict the hypothesis space, which yields H_1. However, H_1 is hard to handle as it is concave. Thus we use an approximate method to get a convex space H_2. The rationale will be added behind the derivations. 
+
+Question 6:
+Notation…in (13)?
+Responses:
+z_m is the differential of the loss function on w_m, \phi(w_m,y’) is the feature mapping of the m-th kernel. The assumption (13) is satisfied by the margin loss with L= \sqrt{2}, which is important in the proof of the convergence of SMSD-MKL. 
+
+Question 7:
+Experiments…beneficial.
+Responses:
+We normalize every kernel by the LRC, and then use the UFO-MKL algorithm with these normalize kernels to obtain the final classification.
+We will provide additional information about CONV-MKL, sample size and number of classes.
+
+Question 8: 
+Experiments…fixed?
+Responses:
+In fact, at the beginning, we do tests on three data sets to find which \zeta is optimal \in [2^0,…,2^6], and find that \zeta=2 is a good choice. Thus, in our experiments, we fix \zeta=2 for simplification. 
+
+#Reviewer_3
+Question 1:
+This…kernel.
+Responses:
+MKL usually has stronger power of representations, and usually provides better representations of the data. However, it is not strange that the traditional single one outperforms MKL in some data sets due to following facts:
+1)	MKL may have overfitting problem on some data sets due to insufficient size of them. In fact, we noticed that single kernel methods often get better results on small data sets.  
+2)	To simplify problem and do comparison fairly, we used 20 fixed Gaussian kernel for every data set. If the appropriate basis kernels are chosen for each data set, the performance of MKL would be better.
+
+#Reviewer_4
+Question 1:
+“lines…tight.”
+Responses:
+In theoretic, the sharper the generalization bound, the smaller difference between the training error and expected error, then their performance may be more consistent. “A sharper…the test set” was aimed to express the above meaning, we can delete this sentence to avoid confusion.
+
+Question 2:
+Definition…here?
+Responses:
+Yes, you are right, the definitions should be the same. We will correct the typo.
+
+Question 3:
+Definition 2…assumption.
+Responses:
+The hinge loss can be bounded by a constant if one of the following common assumptions satisfied:
+1)	the hypothesis h\in H is bound, i.e., \forall x\in \mathcal{X}, |h(x)| \leq C
+2)	kernel function is bounded, i.e., K(x,x)\leq C
+
+Question 4:
+The…bound.
+Responses:
+Inspired by the theoretical analysis, which implies that it may be reasonable to use the LRC to design algorithms, we provide two novel algorithms. In this sense, the proposed algorithms are dependent on the theoretical analysis. In our future, we will design a new algorithm based on the global bound (In fact, we have already begun). 
+
+Question 5:
+I…not addressed.
+Responses:
+We derived a bound using LRC, as stated in last responses, it is our motivation to present our algorithms, and both algorithms work well. We will compare the scaling predicted by the bound with empirical data in our future work. 
+
+We will proofread the paper and correct the typos.
+
+#Reviewer_5
+Question 1: 
+In…multi-class setting.
+Responses:
+Existing work[1][2] for multi-class classifiers usually builds on the following result on Rademacher complexity:
+R(\max{h_1,…,h_M}:h_j\in H_j, j=1,…,M)\leq \sum_{j=1}^M R(H_j), 
+where H_1,…H_M are M hypothesis sets, R is the Rademacher complexity.
+This result is crucial, but it does not take into account the coupling among different M classes. To obtain sharper bound, we introduce a new structural complexity result on function classes induced by general classes via the maximum operator, while allowing to preserve the correlations among different components meanwhile.
+[1] M. Mohri, A. Rostamizadeh, and A. Talwalkar, Foundations of machine learning. MIT press, 2012
+[2] V. Kuznetsov, M. Mohri, and U. Syed, “Multi-class deep boosting,” NIPS, 2501–2509, 2014
+
+Question 2:
+Arguably…cross-entropy loss.
+Responses:
+Cross-entropy loss is a widely used loss in deep learning, while for other methods, margin loss is still a widely used loss. 
+To obtain theoretical results, we only assume that the loss is \zeta-smooth, did not use lots of information about the margin loss. Thus, we believe that it is not very hard to extend our results to cross-entropy loss. 
+
+Question 3:
+There…ICML’16.
+Responses:
+PAC-Bayesian and stability are indeed two popular tools to achieve generalization error. But, as far as I know, the convergence rate based on stability and PAC-Bayesian is usually at most O(1/\sqrt{n}), slower than that of local Rademacher complexity. We will try to extend our theoretical results to neural networks in future work.
+
+Question 4:
+Minor comments…ICLR’18
+Responses:
+The mentioned paper [K. Zhai and H. Wang, ICLR’18] is not published when we submitted our work, we will read carefully and add the discussion of the relationship between the two papers if possible. 
