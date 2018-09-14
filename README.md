@@ -1,4 +1,4 @@
-# Multi-class Kernel Learning: Fast Rate and Algorithms
+# Multi-Class Learning: From Theory to Algorithm
 ## Supplementary file
 Appendixes mentioned in the paper are attached in MC-supplementary.pdf
 ## Usage of source code
