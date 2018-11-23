@@ -1,4 +1,10 @@
 # Multi-Class Learning: From Theory to Algorithm
+## Links
+[[PDF]](https://superlj666.github.io/files/mc.pdf)
+[[Code]](https://github.com/superlj666/Multi-Class-Learning-From-Theory-to-Algorithm)
+[[Poster]](https://superlj666.github.io/files/mc-lrc-nips-poster.pdf)
+[[Slide]](https://superlj666.github.io/files/mc-lrc-nips-slides.pdf)
+[[3-minute video]](https://youtu.be/mE_RpgWuKK8)
 ## Supplementary file
 Appendixes mentioned in the paper are attached in MC-supplementary.pdf
 ## Usage of source code
