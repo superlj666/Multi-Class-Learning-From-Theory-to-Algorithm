@@ -1,6 +1,5 @@
 # Multi-Class Learning: From Theory to Algorithm
-## Links
-This repository provides the code used to run the experiments of the paper "Multi-Class Learning: From Theory to Algorithm" (http://papers.nips.cc/paper/7431-multi-class-learning-from-theory-to-algorithm), which has been published in NeurIPS 2019.
+This repository provides the code used to run the experiments of the paper "Multi-Class Learning: From Theory to Algorithm" (http://papers.nips.cc/paper/7431-multi-class-learning-from-theory-to-algorithm), which has been published in NeurIPS 2018.
 ## Usage of source code
 Code used in experiments locates in ./code
 ### Enviroment
