@@ -1,12 +1,6 @@
 # Multi-Class Learning: From Theory to Algorithm
 ## Links
-[[PDF]](https://superlj666.github.io/files/mc.pdf)
-[[Code]](https://github.com/superlj666/Multi-Class-Learning-From-Theory-to-Algorithm)
-[[Poster]](https://superlj666.github.io/files/mc-lrc-nips-poster.pdf)
-[[Slide]](https://superlj666.github.io/files/mc-lrc-nips-slides.pdf)
-[[3-minute video]](https://youtu.be/mE_RpgWuKK8)
-## Supplementary file
-Appendixes mentioned in the paper are attached in MC-supplementary.pdf
+This repository provides the code used to run the experiments of the paper "Multi-Class Learning: From Theory to Algorithm" (http://papers.nips.cc/paper/7431-multi-class-learning-from-theory-to-algorithm), which has been published in NeurIPS 2019.
 ## Usage of source code
 Code used in experiments locates in ./code
 ### Enviroment
